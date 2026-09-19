@@ -1,194 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Biya Fashion | Wear Your Style</title>
-  <meta name="description" content="Biya Fashion - T-Shirts and Casual Wear. More than just clothes, it's a lifestyle.">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  
-  <nav style="
-  background:#064d32;
-  padding:18px 20px;
-  text-align:center;
-  position:sticky;
-  top:0;
-  z-index:1000;
-">
-  <a href="#home" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">Home</a>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biya Fashion</title>
 
-  <a href="#tshirts" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">T-Shirts</a>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
 
-  <a href="#about" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">About</a>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8f8f8;
+            color: #222;
+        }
 
-  <a href="#contact" style="color:white; margin:0 12px; text-decoration:none; font-weight:bold;">Contact</a>
-  </nav>
-  <header class="navbar">
-    <a class="brand" href="#home">Biya <span>FASHION</span></a>
-    <nav>
-      <a href="#home">Home</a>
-      <a href="#collection">Collection</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-    </nav>
-    <a class="nav-btn" href="#contact">Shop Now</a>
-  </header>
+        /* NAVIGATION */
+        nav {
+            background: #064d32;
+            padding: 16px 10px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
 
-  <main>
-    <section id="home" class="hero">
-      <div class="hero-copy">
-        <p class="eyebrow">BIYA FASHION</p>
-        <h1>Wear Your <em>Style.</em></h1>
-        <p class="lead">More than just clothes — it's a lifestyle.</p>
-        <div class="hero-actions">
-          <a class="btn primary" href="#collection">Explore Collection</a>
-          <a class="btn secondary" href="#contact">Contact Us</a>
-        </div>
-        <div class="features">
-          <div><b>✦</b><span>Premium<br>Quality</span></div>
-          <div><b>✓</b><span>Comfort<br>Fit</span></div>
-          <div><b>★</b><span>Trendy<br>Styles</span></div>
-        </div>
-      </div>
-      <div class="hero-art">
-        <img src="logo-board.png" alt="Biya Fashion">
-      </div>
-    </section>
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 12px;
+            font-size: 15px;
+        }
 
-    <section id="collection" class="section">
-      <p class="eyebrow">OUR COLLECTION</p>
-      <h2>Style Made for You</h2>
-      <div class="cards">
-        <article class="card">
-          <div class="icon">👕</div>
-          <h3>T-Shirts</h3>
-          <p>Comfortable everyday T-shirts designed with a clean, modern look.</p>
-          <a href="#contact">Enquire →</a>
-        </article>
-        <article class="card">
-          <div class="icon">♧</div>
-          <h3>Casual Wear</h3>
-          <p>Easy-going styles that help you look sharp while staying comfortable.</p>
-          <a href="#contact">Enquire →</a>
-        </article>
-        <article class="card">
-          <div class="icon">★</div>
-          <h3>New Styles</h3>
-          <p>Fresh designs for customers who want to wear their own style.</p>
-          <a href="#contact">Enquire →</a>
-        </article>
-      </div>
-    </section>
+        nav a:hover {
+            color: #d4af37;
+        }
 
-    <section id="about" class="about section">
-      <div>
-        <p class="eyebrow">ABOUT BIYA FASHION</p>
-        <h2>More than just clothes.<br><em>It's a lifestyle.</em></h2>
-      </div>
-      <p>Biya Fashion brings together premium quality, comfortable fits and trendy styles. Our brand is built around simple fashion that feels good and looks confident.</p>
-    </section>
+        /* HOME */
+        #home {
+            text-align: center;
+            padding: 45px 20px 35px;
+            background: white;
+        }
 
-    <section class="brand-showcase section">
-      <div class="showcase-image"><img src="brand-board.png" alt="Biya Fashion brand identity"></div>
-      <div class="showcase-copy">
-        <p class="eyebrow">OUR IDENTITY</p>
-        <h2>Green. Gold. <em>Biya.</em></h2>
-        <p>A distinctive deep-green and gold identity created to give Biya Fashion a premium, memorable presence across clothing, labels and packaging.</p>
-      </div>
-    </section>
+        #home img {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            display: block;
+            margin: 0 auto 25px;
+            border-radius: 10px;
+        }
 
-    <section id="contact" class="contact section">
-      <div>
-        <p class="eyebrow">GET IN TOUCH</p>
-        <h2>Ready to <em>wear your style?</em></h2>
-        <p>Contact Biya Fashion for T-shirt orders and enquiries.</p>
-        <p class="address">📍 Kariyapatti, Virudhunagar - 626106</p>
-        <a class="btn primary" href="https://wa.me/919655625186?text=Hi%20Biya%20Fashion%2C%20I%20would%20like%20to%20know%20more%20about%20your%20T-shirts.">Chat on WhatsApp</a>
-      </div>
-      <div class="contact-box">
-        <a href="https://wa.me/919655625186" class="contact-item"><span>WhatsApp</span><b>+91 96556 25186 →</b></a>
-        <a href="tel:+919655625186" class="contact-item"><span>Phone</span><b>+91 96556 25186 →</b></a>
-        <a href="https://www.instagram.com/biya.fashion_/" class="contact-item"><span>Instagram</span><b>@biya.fashion_ →</b></a>
-      </div>
-    </section>
-  </main>
+        #home h1 {
+            color: #064d32;
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
 
-  <footer>
-    <div class="brand">Biya <span>FASHION</span></div>
-    <p>WEAR YOUR STYLE ✦</p>
-    <small>© 2026 Biya Fashion. All rights reserved.</small>
-  </footer>
-  <section style="padding:60px 20px; text-align:center; background:#f7f0dc;">
-  <h2 style="color:#064d32; font-size:36px;">Contact Biya Fashion</h2>
+        #home p {
+            font-size: 18px;
+            color: #555;
+        }
 
-  <p style="font-size:18px;">
-    👕 T-Shirts & Casual Wear
-  </p>
+        /* SECTIONS */
+        section {
+            padding: 55px 20px;
+            text-align: center;
+        }
 
-  <p style="font-size:17px;">
-    📍 Kariyapatti, Virudhunagar - 626106
-  </p>
+        section h2 {
+            color: #064d32;
+            font-size: 30px;
+            margin-bottom: 15px;
+        }
 
-  <a href="https://wa.me/919655625186"
-     style="display:inline-block; background:#064d32; color:white;
-     padding:15px 30px; border-radius:30px; text-decoration:none;
-     margin:10px;">
-     💬 WhatsApp Us
-  </a>
+        /* T-SHIRTS */
+        #tshirts {
+            background: #f3f3f3;
+        }
 
-  <a href="https://www.instagram.com/biya.fashion_/"
-     target="_blank"
-     style="display:inline-block; background:#e5a900; color:#064d32;
-     padding:15px 30px; border-radius:30px; text-decoration:none;
-     margin:10px;">
-     📸 Instagram
-  </a>
-  </section>
-  <section style="padding:70px 20px; text-align:center; background:#064d32;">
-  <p style="color:#e5a900; letter-spacing:5px; font-weight:bold;">
-    BIYA FASHION
-  </p>
-
-  <h2 style="color:white; font-size:42px; margin:10px 0;">
-    Our T-Shirts
-  </h2>
-
-  <p style="color:#f7f0dc; font-size:18px;">
-    Premium quality T-Shirts made for your everyday style.
-  </p>
-
-  <div style="
-    max-width:420px;
-    margin:35px auto;
-    padding:35px 20px;
-    background:#f7f0dc;
-    border-radius:25px;
-  ">
-    <div style="font-size:70px;">👕</div>
-
-    <h3 style="color:#064d32; font-size:28px;">
-      T-Shirts
-    </h3>
-
-    <p style="color:#555;">
-      Comfortable • Trendy • Premium Quality
-    </p>
-
-    <a href="https://wa.me/919655625186?text=Hi%20Biya%20Fashion,%20I%20want%20to%20order%20T-Shirts."
-       style="
-       display:inline-block;
-       background:#e5a900;
-       color:#064d32;
-       padding:15px 28px;
-       border-radius:30px;
-       text-decoration:none;
-       font-weight:bold;
-       margin-top:15px;">
-       Order on WhatsApp
-    </a>
-  </div>
-  </section>
-</body>
-</html>
+        .product {
+            max-width: 500px
