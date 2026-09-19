@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biya Fashion</title>
+
+    <title>Biya Fashion | Premium T-Shirts</title>
+
+    <meta name="description"
+          content="Biya Fashion - Premium quality T-Shirts. Available in M, L, XL and XXL. Order on WhatsApp.">
 
     <style>
+
         * {
             margin: 0;
             padding: 0;
@@ -14,26 +19,28 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background: #f8f8f8;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f7f7f7;
             color: #222;
         }
 
-        /* NAVIGATION */
+        /* ================= NAVIGATION ================= */
+
         nav {
             background: #064d32;
-            padding: 16px 10px;
+            padding: 17px 10px;
             text-align: center;
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
         }
 
         nav a {
             color: white;
             text-decoration: none;
             font-weight: bold;
-            margin: 0 12px;
+            margin: 0 13px;
             font-size: 15px;
         }
 
@@ -41,11 +48,13 @@
             color: #d4af37;
         }
 
-        /* HOME */
+
+        /* ================= HOME ================= */
+
         #home {
-            text-align: center;
-            padding: 45px 20px 35px;
             background: white;
+            text-align: center;
+            padding: 45px 20px 55px;
         }
 
         #home img {
@@ -54,67 +63,24 @@
             height: auto;
             display: block;
             margin: 0 auto 25px;
-            border-radius: 10px;
+            border-radius: 12px;
         }
 
         #home h1 {
             color: #064d32;
-            font-size: 38px;
+            font-size: 40px;
             margin-bottom: 10px;
         }
 
         #home p {
-            font-size: 18px;
             color: #555;
+            font-size: 19px;
         }
 
-        /* SECTIONS */
-        section {
-            padding: 55px 20px;
-            text-align: center;
-        }
-
-        section h2 {
-            color: #064d32;
-            font-size: 30px;
-            margin-bottom: 15px;
-        }
-
-        /* T-SHIRTS */
-        #tshirts {
-            background: #f3f3f3;
-        }
-
-        .product {
-            max-width: 500px;
-            margin: 25px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        }
-
-        .shirt-icon {
-            font-size: 80px;
-            margin-bottom: 15px;
-        }
-
-        .product h3 {
-            color: #064d32;
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-
-        .product p {
-            color: #666;
-            line-height: 1.6;
-        }
-
-        /* BUTTON */
-        .button {
+        .home-button {
             display: inline-block;
-            margin-top: 20px;
-            padding: 13px 25px;
+            margin-top: 25px;
+            padding: 14px 28px;
             background: #064d32;
             color: white;
             text-decoration: none;
@@ -122,88 +88,279 @@
             font-weight: bold;
         }
 
-        .button:hover {
+        .home-button:hover {
             background: #086b46;
         }
 
-        /* ABOUT */
+
+        /* ================= GENERAL SECTION ================= */
+
+        section {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        section h2 {
+            color: #064d32;
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .section-subtitle {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+
+        /* ================= T-SHIRTS ================= */
+
+        #tshirts {
+            background: #f1f1f1;
+        }
+
+        .product-card {
+            max-width: 480px;
+            margin: 30px auto 0;
+            background: white;
+            padding: 30px 25px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.10);
+        }
+
+        .shirt-icon {
+            font-size: 90px;
+            margin-bottom: 15px;
+        }
+
+        .product-card h3 {
+            color: #064d32;
+            font-size: 26px;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            color: #111;
+            font-size: 28px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .sizes {
+            margin: 20px 0;
+        }
+
+        .sizes span {
+            display: inline-block;
+            border: 2px solid #064d32;
+            color: #064d32;
+            padding: 8px 13px;
+            margin: 4px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .product-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .order-button {
+            display: inline-block;
+            padding: 14px 28px;
+            background: #064d32;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .order-button:hover {
+            background: #086b46;
+        }
+
+
+        /* ================= ABOUT ================= */
+
         #about {
             background: white;
         }
 
-        #about p {
-            max-width: 700px;
-            margin: auto;
-            line-height: 1.8;
-            color: #555;
-            font-size: 17px;
+        .about-box {
+            max-width: 750px;
+            margin: 25px auto 0;
         }
 
-        /* CONTACT */
+        .about-box p {
+            color: #555;
+            font-size: 17px;
+            line-height: 1.8;
+        }
+
+
+        /* ================= WHY BIYA FASHION ================= */
+
+        .features {
+            max-width: 850px;
+            margin: 30px auto 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .feature {
+            background: #f7f7f7;
+            width: 220px;
+            padding: 25px 15px;
+            border-radius: 12px;
+        }
+
+        .feature-icon {
+            font-size: 35px;
+            margin-bottom: 10px;
+        }
+
+        .feature h3 {
+            color: #064d32;
+            margin-bottom: 8px;
+        }
+
+        .feature p {
+            color: #666;
+            font-size: 14px;
+        }
+
+
+        /* ================= CONTACT ================= */
+
         #contact {
-            background: #f3f3f3;
+            background: #f1f1f1;
         }
 
         .contact-box {
             max-width: 600px;
-            margin: auto;
+            margin: 30px auto 0;
             background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            padding: 30px 20px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
         }
 
-        .contact-box p {
-            margin: 15px 0;
-            font-size: 17px;
+        .contact-item {
+            margin: 20px 0;
         }
 
-        .contact-box strong {
+        .contact-item strong {
             color: #064d32;
+            display: block;
+            margin-bottom: 8px;
         }
 
-        /* FOOTER */
+        .contact-button {
+            display: inline-block;
+            margin-top: 5px;
+            padding: 12px 22px;
+            background: #064d32;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .contact-button:hover {
+            background: #086b46;
+        }
+
+
+        /* ================= FOOTER ================= */
+
         footer {
             background: #064d32;
             color: white;
             text-align: center;
-            padding: 25px 15px;
+            padding: 30px 15px;
+        }
+
+        footer h3 {
+            margin-bottom: 8px;
         }
 
         footer p {
-            margin: 5px 0;
+            margin: 6px 0;
+            font-size: 14px;
         }
 
-        /* MOBILE */
+
+        /* ================= MOBILE ================= */
+
         @media (max-width: 600px) {
+
+            nav {
+                padding: 15px 5px;
+            }
+
             nav a {
-                margin: 0 6px;
+                margin: 0 5px;
                 font-size: 13px;
+            }
+
+            #home {
+                padding-top: 30px;
             }
 
             #home h1 {
                 font-size: 30px;
             }
 
+            #home p {
+                font-size: 16px;
+            }
+
+            section {
+                padding: 45px 15px;
+            }
+
             section h2 {
-                font-size: 26px;
+                font-size: 27px;
+            }
+
+            .product-card {
+                padding: 25px 18px;
+            }
+
+            .feature {
+                width: 100%;
+                max-width: 300px;
             }
         }
+
     </style>
 </head>
 
+
 <body>
 
-    <!-- NAVIGATION -->
+
+    <!-- ================= NAVIGATION ================= -->
+
     <nav>
+
         <a href="#home">Home</a>
+
         <a href="#tshirts">T-Shirts</a>
+
         <a href="#about">About</a>
+
         <a href="#contact">Contact</a>
+
     </nav>
 
 
-    <!-- HOME -->
+
+    <!-- ================= HOME ================= -->
+
     <section id="home">
 
         <img src="logo-board.png" alt="Biya Fashion">
@@ -212,32 +369,64 @@
 
         <p>Wear Your Style.</p>
 
+        <a class="home-button" href="#tshirts">
+            View T-Shirts
+        </a>
+
     </section>
 
 
-    <!-- T-SHIRTS -->
+
+    <!-- ================= T-SHIRTS ================= -->
+
     <section id="tshirts">
 
         <h2>Our T-Shirts</h2>
 
-        <p>Premium quality T-Shirts made for your everyday style.</p>
+        <p class="section-subtitle">
+            Premium quality T-Shirts for your everyday style.
+        </p>
 
-        <div class="product">
 
-            <div class="shirt-icon">👕</div>
+        <div class="product-card">
 
-            <h3>Premium T-Shirts</h3>
+            <div class="shirt-icon">
+                👕
+            </div>
 
-            <p>
-                Stylish and comfortable T-Shirts for everyday wear.
-                Contact us on WhatsApp for orders and details.
+            <h3>Premium T-Shirt</h3>
+
+            <div class="price">
+                ₹399
+            </div>
+
+            <p class="product-description">
+                Comfortable and stylish T-Shirt
+                made for everyday wear.
             </p>
 
+
+            <div class="sizes">
+
+                <strong>Available Sizes</strong>
+
+                <br><br>
+
+                <span>M</span>
+                <span>L</span>
+                <span>XL</span>
+                <span>XXL</span>
+
+            </div>
+
+
             <a
-                class="button"
-                href="https://wa.me/919655625186?text=Hi%20Biya%20Fashion,%20I%20want%20to%20order%20a%20T-Shirt."
+                class="order-button"
+                href="https://wa.me/919655625186?text=Hi%20Biya%20Fashion,%20I%20want%20to%20order%20the%20Premium%20T-Shirt%20for%20Rs.399.%20My%20size%20is%20"
                 target="_blank">
+
                 Order on WhatsApp
+
             </a>
 
         </div>
@@ -245,66 +434,164 @@
     </section>
 
 
-    <!-- ABOUT -->
+
+    <!-- ================= ABOUT ================= -->
+
     <section id="about">
 
         <h2>About Biya Fashion</h2>
 
-        <p>
-            Welcome to Biya Fashion.
-            We provide stylish and comfortable T-Shirts
-            designed for your everyday fashion.
-            Quality, comfort and style are our priority.
-        </p>
-
-    </section>
-
-
-    <!-- CONTACT -->
-    <section id="contact">
-
-        <h2>Contact Us</h2>
-
-        <div class="contact-box">
+        <div class="about-box">
 
             <p>
-                <strong>WhatsApp:</strong><br>
-                <a
-                    class="button"
-                    href="https://wa.me/919655625186"
-                    target="_blank">
-                    Chat on WhatsApp
-                </a>
+                Welcome to Biya Fashion.
+                We bring you stylish and comfortable
+                T-Shirts for your everyday lifestyle.
+                Our focus is on quality, comfort and style.
             </p>
 
-            <p>
-                <strong>Instagram:</strong><br>
-                <a
-                    class="button"
-                    href="https://www.instagram.com/biya.fashion_/"
-                    target="_blank">
-                    Follow on Instagram
-                </a>
-            </p>
+        </div>
 
-            <p>
-                <strong>Address:</strong><br>
-                Kariyapatti, Virudhunagar - 626106
-            </p>
+
+        <!-- FEATURES -->
+
+        <div class="features">
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    👕
+                </div>
+
+                <h3>Quality</h3>
+
+                <p>
+                    Quality clothing for everyday use.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    ✨
+                </div>
+
+                <h3>Style</h3>
+
+                <p>
+                    Simple and stylish designs.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    ❤️
+                </div>
+
+                <h3>Comfort</h3>
+
+                <p>
+                    Comfortable wear for your daily life.
+                </p>
+
+            </div>
 
         </div>
 
     </section>
 
 
-    <!-- FOOTER -->
+
+    <!-- ================= CONTACT ================= -->
+
+    <section id="contact">
+
+        <h2>Contact Us</h2>
+
+        <p class="section-subtitle">
+            For orders and enquiries, contact us.
+        </p>
+
+
+        <div class="contact-box">
+
+
+            <!-- WHATSAPP -->
+
+            <div class="contact-item">
+
+                <strong>WhatsApp</strong>
+
+                <a
+                    class="contact-button"
+                    href="https://wa.me/919655625186"
+                    target="_blank">
+
+                    💬 Chat on WhatsApp
+
+                </a>
+
+            </div>
+
+
+            <!-- INSTAGRAM -->
+
+            <div class="contact-item">
+
+                <strong>Instagram</strong>
+
+                <a
+                    class="contact-button"
+                    href="https://www.instagram.com/biya.fashion_/"
+                    target="_blank">
+
+                    📸 Follow on Instagram
+
+                </a>
+
+            </div>
+
+
+            <!-- ADDRESS -->
+
+            <div class="contact-item">
+
+                <strong>Our Address</strong>
+
+                <p>
+                    📍 Kariyapatti,
+                    Virudhunagar - 626106
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= FOOTER ================= -->
+
     <footer>
 
-        <p><strong>Biya Fashion</strong></p>
+        <h3>Biya Fashion</h3>
 
-        <p>© 2026 Biya Fashion. All Rights Reserved.</p>
+        <p>
+            Wear Your Style.
+        </p>
+
+        <p>
+            © 2026 Biya Fashion. All Rights Reserved.
+        </p>
 
     </footer>
+
 
 </body>
 </html>
