@@ -86,4 +86,225 @@
         }
 
         .product {
-            max-width: 500px
+            max-width: 500px;
+            margin: 25px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .shirt-icon {
+            font-size: 80px;
+            margin-bottom: 15px;
+        }
+
+        .product h3 {
+            color: #064d32;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .product p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* BUTTON */
+        .button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 13px 25px;
+            background: #064d32;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .button:hover {
+            background: #086b46;
+        }
+
+        /* ABOUT */
+        #about {
+            background: white;
+        }
+
+        #about p {
+            max-width: 700px;
+            margin: auto;
+            line-height: 1.8;
+            color: #555;
+            font-size: 17px;
+        }
+
+        /* CONTACT */
+        #contact {
+            background: #f3f3f3;
+        }
+
+        .contact-box {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .contact-box p {
+            margin: 15px 0;
+            font-size: 17px;
+        }
+
+        .contact-box strong {
+            color: #064d32;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #064d32;
+            color: white;
+            text-align: center;
+            padding: 25px 15px;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        /* MOBILE */
+        @media (max-width: 600px) {
+            nav a {
+                margin: 0 6px;
+                font-size: 13px;
+            }
+
+            #home h1 {
+                font-size: 30px;
+            }
+
+            section h2 {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#tshirts">T-Shirts</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+
+    <!-- HOME -->
+    <section id="home">
+
+        <img src="logo-board.png" alt="Biya Fashion">
+
+        <h1>Biya Fashion</h1>
+
+        <p>Wear Your Style.</p>
+
+    </section>
+
+
+    <!-- T-SHIRTS -->
+    <section id="tshirts">
+
+        <h2>Our T-Shirts</h2>
+
+        <p>Premium quality T-Shirts made for your everyday style.</p>
+
+        <div class="product">
+
+            <div class="shirt-icon">👕</div>
+
+            <h3>Premium T-Shirts</h3>
+
+            <p>
+                Stylish and comfortable T-Shirts for everyday wear.
+                Contact us on WhatsApp for orders and details.
+            </p>
+
+            <a
+                class="button"
+                href="https://wa.me/919655625186?text=Hi%20Biya%20Fashion,%20I%20want%20to%20order%20a%20T-Shirt."
+                target="_blank">
+                Order on WhatsApp
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- ABOUT -->
+    <section id="about">
+
+        <h2>About Biya Fashion</h2>
+
+        <p>
+            Welcome to Biya Fashion.
+            We provide stylish and comfortable T-Shirts
+            designed for your everyday fashion.
+            Quality, comfort and style are our priority.
+        </p>
+
+    </section>
+
+
+    <!-- CONTACT -->
+    <section id="contact">
+
+        <h2>Contact Us</h2>
+
+        <div class="contact-box">
+
+            <p>
+                <strong>WhatsApp:</strong><br>
+                <a
+                    class="button"
+                    href="https://wa.me/919655625186"
+                    target="_blank">
+                    Chat on WhatsApp
+                </a>
+            </p>
+
+            <p>
+                <strong>Instagram:</strong><br>
+                <a
+                    class="button"
+                    href="https://www.instagram.com/biya.fashion_/"
+                    target="_blank">
+                    Follow on Instagram
+                </a>
+            </p>
+
+            <p>
+                <strong>Address:</strong><br>
+                Kariyapatti, Virudhunagar - 626106
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        <p><strong>Biya Fashion</strong></p>
+
+        <p>© 2026 Biya Fashion. All Rights Reserved.</p>
+
+    </footer>
+
+</body>
+</html>
