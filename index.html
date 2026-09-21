@@ -509,6 +509,163 @@ opacity:1;
 }
 }
 
+
+/* =========================
+   FIREBASE REVIEWS
+========================= */
+
+.review-summary{
+text-align:center;
+background:linear-gradient(135deg,#064d32,#087044);
+color:white;
+}
+
+.review-summary h3{
+font-size:28px;
+margin:5px 0;
+}
+
+.average-stars{
+font-size:28px;
+letter-spacing:3px;
+color:#ffd54a;
+}
+
+.review-count{
+margin:5px 0 0;
+opacity:.9;
+}
+
+.review-form label{
+display:block;
+font-weight:bold;
+margin:15px 0 7px;
+color:#064d32;
+}
+
+.review-input{
+width:100%;
+padding:13px;
+border:1px solid #ddd;
+border-radius:8px;
+font-size:15px;
+font-family:Arial,sans-serif;
+outline:none;
+}
+
+.review-input:focus{
+border-color:#064d32;
+box-shadow:0 0 0 2px rgba(6,77,50,.1);
+}
+
+textarea.review-input{
+min-height:120px;
+resize:vertical;
+}
+
+.star-select{
+display:flex;
+gap:5px;
+margin:8px 0 5px;
+}
+
+.star-btn{
+border:0;
+background:none;
+font-size:35px;
+color:#ccc;
+cursor:pointer;
+padding:2px;
+line-height:1;
+}
+
+.star-btn.active{
+color:#f4c430;
+}
+
+.submit-review{
+border:0;
+background:#064d32;
+color:white;
+padding:13px 24px;
+border-radius:8px;
+font-weight:bold;
+font-size:15px;
+cursor:pointer;
+margin-top:15px;
+}
+
+.submit-review:disabled{
+opacity:.6;
+cursor:not-allowed;
+}
+
+.review-message{
+margin-top:12px;
+font-weight:bold;
+text-align:center;
+}
+
+.review-message.success{
+color:#064d32;
+}
+
+.review-message.error{
+color:#b00020;
+}
+
+.reviews-list{
+margin-top:20px;
+}
+
+.review-item{
+background:white;
+padding:20px;
+border-radius:14px;
+margin:14px 0;
+box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+.review-top{
+display:flex;
+justify-content:space-between;
+gap:10px;
+align-items:center;
+flex-wrap:wrap;
+}
+
+.review-name{
+font-weight:bold;
+color:#064d32;
+font-size:17px;
+}
+
+.review-stars{
+color:#f4c430;
+font-size:19px;
+letter-spacing:1px;
+}
+
+.review-text{
+margin:12px 0 0;
+line-height:1.6;
+color:#444;
+word-wrap:break-word;
+}
+
+.no-reviews{
+text-align:center;
+color:#666;
+padding:15px;
+}
+
+.review-note{
+font-size:13px;
+color:#777;
+text-align:center;
+margin-top:10px;
+}
+
 @media(max-width:600px){
 
 nav a{
@@ -535,6 +692,10 @@ font-size:31px;
 
 #count{
 font-size:90px;
+}
+
+.star-btn{
+font-size:32px;
 }
 
 }
@@ -939,25 +1100,109 @@ Payment details will be shared through WhatsApp.
 <section id="reviews">
 
 <h2>
-Reviews
+Customer Reviews ⭐
 </h2>
 
-<div class="card" style="text-align:center;">
+<div class="card review-summary">
+
+<div class="average-stars" id="averageStars">
+☆☆☆☆☆
+</div>
+
+<h3 id="averageRating">
+No ratings yet
+</h3>
+
+<p class="review-count" id="reviewCount">
+0 reviews
+</p>
+
+</div>
+
+
+<div class="card review-form">
 
 <h3>
-⭐ Your Review Could Be Here
+⭐ Share Your Experience
 </h3>
 
 <p>
-Share your experience with Biya Fashion.
+Your review helps us improve and helps other customers.
 </p>
 
-<a
-class="btn"
-href="https://wa.me/919655625186?text=Hi%20Biya%20Fashion%2C%20I%20want%20to%20share%20my%20review."
-target="_blank">
-Share Your Review
-</a>
+<form id="reviewForm">
+
+<label for="reviewName">
+Your Name
+</label>
+
+<input
+id="reviewName"
+class="review-input"
+type="text"
+maxlength="50"
+placeholder="Enter your name"
+required
+>
+
+<label>
+Your Rating
+</label>
+
+<div class="star-select" id="starSelect">
+
+<button type="button" class="star-btn" data-rating="1">★</button>
+<button type="button" class="star-btn" data-rating="2">★</button>
+<button type="button" class="star-btn" data-rating="3">★</button>
+<button type="button" class="star-btn" data-rating="4">★</button>
+<button type="button" class="star-btn" data-rating="5">★</button>
+
+</div>
+
+<input
+type="hidden"
+id="selectedRating"
+value="0"
+>
+
+<label for="reviewText">
+Your Review
+</label>
+
+<textarea
+id="reviewText"
+class="review-input"
+maxlength="500"
+placeholder="Write your experience..."
+required
+></textarea>
+
+<button
+type="submit"
+class="submit-review"
+id="submitReview">
+Submit Review
+</button>
+
+<div
+id="reviewMessage"
+class="review-message">
+</div>
+
+</form>
+
+<p class="review-note">
+Reviews are checked before appearing publicly.
+</p>
+
+</div>
+
+
+<div id="reviewsList" class="reviews-list">
+
+<div class="card no-reviews">
+Loading reviews...
+</div>
 
 </div>
 
@@ -1084,10 +1329,12 @@ aria-label="WhatsApp">
 </a>
 
 
+<!-- GRAND OPENING SCRIPT -->
+
 <script>
 
 /* =========================================
-   ONLY THESE 5 PEOPLE GET GRAND OPENING
+   GRAND OPENING GUESTS
 ========================================= */
 
 const guests = {
@@ -1103,6 +1350,10 @@ sabiya: "Biyaa Thangoo💚",
 janani: "Mrs. Janani Akka",
 
 janofer: "Janofer",
+
+dharshini: "Mr. Karthikeyan & Mrs. Hari Dharshini",
+   
+swetha: "Swetharency Jashua",
 
 yogesh: "Mr. Yogesh"
 
@@ -1131,10 +1382,7 @@ const grand =
 document.getElementById("grand");
 
 
-/* =========================================
-   IMPORTANT:
-   NO VALID GUEST = NO OPENING
-========================================= */
+/* NO VALID GUEST = NO OPENING */
 
 if(!Object.prototype.hasOwnProperty.call(guests,key)){
 
@@ -1145,9 +1393,7 @@ document.body.style.overflow="auto";
 }
 
 
-/* =========================================
-   VALID GUEST = GRAND OPENING
-========================================= */
+/* VALID GUEST = GRAND OPENING */
 
 else{
 
@@ -1238,5 +1484,39 @@ countdown();
 
 </script>
 
-</body>
-</html>
+
+<!-- FIREBASE REVIEWS -->
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+addDoc,
+query,
+where,
+limit,
+onSnapshot,
+Timestamp
+}
+from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+
+/* =========================================
+   FIREBASE CONFIG
+========================================= */
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyC-634GAh3264C5s7_EHlQe3je74CIOAyE",
+
+authDomain: "biya-fashion.firebaseapp.com",
+
+projectId: "biya-fashion",
+
+storageBucket: "biya-fashion.firebasestorage.app",
+
+messa
