@@ -2,75 +2,288 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
 <title>Biya Fashion | Premium T-Shirts in Kariyapatti</title>
+
 <meta name="description" content="Biya Fashion offers premium quality and stylish T-Shirts in Kariyapatti, Virudhunagar. T-Shirts from ₹399.">
+<meta name="keywords" content="Biya Fashion, T-Shirts Kariyapatti, T-Shirts Virudhunagar, Premium T-Shirts">
+<meta name="author" content="Biya Fashion">
+<meta name="robots" content="index,follow">
 <meta name="theme-color" content="#064d32">
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth}
-body{font-family:Arial,sans-serif;background:#f7f7f7;color:#222;line-height:1.6}
-nav{position:sticky;top:0;z-index:10;background:#064d32;padding:14px;text-align:center}
-nav a{color:white;text-decoration:none;margin:0 8px;font-size:14px}
-section{padding:45px 18px;text-align:center}
-.hero{background:white;padding:35px 15px}
-.hero img{max-width:280px;width:90%;border-radius:12px}
-h1,h2{color:#064d32}
-.btn{display:inline-block;background:#064d32;color:white;padding:12px 22px;border-radius:25px;text-decoration:none;margin-top:15px}
-.card{background:white;padding:20px;margin:15px auto;max-width:500px;border-radius:15px;box-shadow:0 3px 12px #0001}
-.grid{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
-.grid div{background:white;padding:15px;border-radius:10px;min-width:110px}
-footer{background:#064d32;color:white;text-align:center;padding:25px}
-.wa{position:fixed;right:18px;bottom:18px;background:#25d366;color:white;padding:15px;border-radius:50%;text-decoration:none;font-size:22px;z-index:20}
+<link rel="canonical" href="https://biyafashion.github.io/Biya-Fashion-/">
 
-/* GRAND OPENING */
-#opening{
-position:fixed;inset:0;background:#064d32;color:white;
-z-index:9999;display:flex;align-items:center;justify-content:center;
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+scroll-behavior:smooth
+}
+
+body{
+font-family:Arial,Helvetica,sans-serif;
+background:#f7f7f7;
+color:#222;
+line-height:1.6
+}
+
+nav{
+position:sticky;
+top:0;
+z-index:100;
+background:#064d32;
+padding:14px 8px;
 text-align:center
 }
-.openbox{width:90%;max-width:450px}
-.openlogo{width:130px;border-radius:15px;margin-bottom:15px}
-.special{font-size:20px;color:#d4af37;margin-top:10px}
-.guest{font-size:28px;font-weight:bold;margin:8px 0 25px}
-#start{border:0;background:#d4af37;color:#064d32;padding:14px 38px;
-border-radius:30px;font-size:18px;font-weight:bold;cursor:pointer}
-#count{display:none;font-size:90px;font-weight:bold}
-#grand{display:none}
-#grand h1{color:#d4af37;font-size:35px}
-.hide{animation:hide 1.2s forwards}
-@keyframes hide{to{opacity:0;visibility:hidden}}
+
+nav a{
+color:#fff;
+text-decoration:none;
+margin:0 7px;
+font-size:14px
+}
+
+section{
+padding:45px 18px;
+text-align:center
+}
+
+.hero{
+background:#fff;
+padding:35px 15px
+}
+
+.hero img{
+width:90%;
+max-width:300px;
+border-radius:12px
+}
+
+h1,h2{
+color:#064d32
+}
+
+.btn{
+display:inline-block;
+background:#064d32;
+color:#fff;
+padding:12px 22px;
+border-radius:25px;
+text-decoration:none;
+margin-top:15px
+}
+
+.card{
+background:#fff;
+padding:20px;
+margin:15px auto;
+max-width:520px;
+border-radius:15px;
+box-shadow:0 3px 12px #0001
+}
+
+.grid{
+display:flex;
+justify-content:center;
+gap:12px;
+flex-wrap:wrap
+}
+
+.grid div{
+background:#fff;
+padding:15px;
+border-radius:10px;
+min-width:110px
+}
+
+hr{
+border:0;
+border-top:1px solid #ddd;
+margin:12px 0
+}
+
+footer{
+background:#064d32;
+color:#fff;
+text-align:center;
+padding:28px 15px
+}
+
+/* WHATSAPP */
+.whatsapp{
+position:fixed;
+right:18px;
+bottom:18px;
+width:55px;
+height:55px;
+background:#25d366;
+color:#fff;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:25px;
+text-decoration:none;
+z-index:500
+}
+
+/* ================= GRAND OPENING ================= */
+
+#opening{
+position:fixed;
+inset:0;
+z-index:9999;
+background:#064d32;
+color:#fff;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+overflow:hidden
+}
+
+.openbox{
+width:90%;
+max-width:450px;
+padding:20px
+}
+
+.openlogo{
+width:135px;
+max-width:70%;
+border-radius:15px;
+margin-bottom:15px
+}
+
+.openbrand{
+font-size:28px;
+font-weight:bold;
+letter-spacing:2px
+}
+
+.special{
+font-size:20px;
+color:#d4af37;
+margin-top:15px
+}
+
+.guest{
+font-size:27px;
+font-weight:bold;
+margin:8px 0 25px
+}
+
+#start{
+border:0;
+background:#d4af37;
+color:#064d32;
+padding:14px 40px;
+border-radius:30px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer
+}
+
+#count{
+display:none;
+font-size:90px;
+font-weight:bold
+}
+
+#grand{
+display:none
+}
+
+#grand h1{
+color:#d4af37;
+font-size:35px
+}
+
+#grand p{
+font-size:20px;
+margin-top:5px
+}
+
+.fade{
+animation:fade 1.3s forwards
+}
+
+@keyframes fade{
+to{
+opacity:0;
+visibility:hidden
+}
+}
+
 @media(max-width:600px){
-nav a{font-size:12px;margin:0 4px}
-.guest{font-size:24px}
-#grand h1{font-size:28px}
+
+nav a{
+font-size:12px;
+margin:0 4px
+}
+
+.guest{
+font-size:24px
+}
+
+#grand h1{
+font-size:28px
+}
+
+.openbrand{
+font-size:24px
+}
 }
 </style>
 </head>
 
 <body>
 
-<!-- GRAND OPENING -->
+<!-- ================= GRAND OPENING ================= -->
+
 <div id="opening">
-  <div class="openbox">
-    <img src="logo-board.png" class="openlogo" alt="Biya Fashion">
-    <h2 style="color:white">BIYA FASHION</h2>
-    <div class="special">My Special One💙</div>
-    <div class="guest" id="guest">Guest</div>
 
-    <button id="start">START</button>
+<div class="openbox">
 
-    <div id="count">3</div>
+<img src="logo-board.png"
+     class="openlogo"
+     alt="Biya Fashion">
 
-    <div id="grand">
-      <h1>✨ GRAND OPENING ✨</h1>
-      <p>BIYA FASHION</p>
-    </div>
-  </div>
+<div class="openbrand">
+BIYA FASHION
 </div>
 
-<!-- NORMAL WEBSITE -->
+<div class="special">
+My Special One💙
+</div>
+
+<div class="guest" id="guest">
+Guest
+</div>
+
+<button id="start">
+START
+</button>
+
+<div id="count">
+3
+</div>
+
+<div id="grand">
+<h1>✨ GRAND OPENING ✨</h1>
+<p>BIYA FASHION</p>
+</div>
+
+</div>
+</div>
+
+
+<!-- ================= NAVIGATION ================= -->
+
 <nav>
+
 <a href="#home">Home</a>
 <a href="#tshirts">T-Shirts</a>
 <a href="#size">Size</a>
@@ -79,125 +292,423 @@ nav a{font-size:12px;margin:0 4px}
 <a href="#faq">FAQ</a>
 <a href="#thanks">Thanks</a>
 <a href="#contact">Contact</a>
+
 </nav>
 
+
+<!-- ================= HOME ================= -->
+
 <section id="home" class="hero">
-<img src="logo-board.png" alt="Biya Fashion">
+
+<img src="logo-board.png"
+     alt="Biya Fashion">
+
 <h1>Biya Fashion</h1>
-<p>Premium T-Shirts • Style • Comfort • Quality</p>
-<a class="btn" href="#tshirts">View T-Shirts</a>
+
+<p>
+Premium T-Shirts • Style • Comfort • Quality
+</p>
+
+<a class="btn" href="#tshirts">
+View T-Shirts
+</a>
+
 </section>
+
+
+<!-- ================= T-SHIRTS ================= -->
 
 <section id="tshirts">
+
 <h2>Our T-Shirts</h2>
-<p>Premium quality T-Shirts for your everyday style.</p>
+
+<p>
+Premium quality T-Shirts for your everyday style.
+</p>
 
 <div class="card">
-<div style="font-size:55px">👕</div>
-<h3>Premium T-Shirt</h3>
-<h2>₹399</h2>
-<p>Stylish and comfortable T-Shirt for everyday wear.</p>
-<p><b>Sizes:</b> M • L • XL • XXL</p>
-<p><b>Payment:</b> Online Payment</p>
-<p><b>Delivery Charges:</b> Will be shared on WhatsApp</p>
-<a class="btn" href="https://wa.me/919655625186?text=Hi%20Biya%20Fashion%2C%20I%20want%20to%20order%20Premium%20T-Shirt%20%E2%82%B9399">Order on WhatsApp</a>
+
+<div style="font-size:55px">
+👕
 </div>
+
+<h3>Premium T-Shirt</h3>
+
+<h2>₹399</h2>
+
+<p>
+Stylish and comfortable T-Shirt for everyday wear.
+</p>
+
+<p>
+<b>Sizes:</b> M • L • XL • XXL
+</p>
+
+<p>
+<b>Payment:</b> Online Payment
+</p>
+
+<p>
+<b>Delivery Charges:</b>
+Will be shared on WhatsApp
+</p>
+
+<a class="btn"
+href="https://wa.me/919655625186?text=Hi%20Biya%20Fashion%2C%20I%20want%20to%20order%20Premium%20T-Shirt">
+
+Chat on WhatsApp
+
+</a>
+
+</div>
+
 </section>
+
+
+<!-- ================= SIZE ================= -->
 
 <section id="size">
+
 <h2>Size Guide</h2>
+
 <div class="grid">
-<div><b>M</b><br>38–40"<br>27"</div>
-<div><b>L</b><br>40–42"<br>28"</div>
-<div><b>XL</b><br>42–44"<br>29"</div>
-<div><b>XXL</b><br>44–46"<br>30"</div>
+
+<div>
+<b>M</b><br>
+38–40"<br>
+27"
 </div>
-<p style="margin-top:15px">Measurements are approximate.</p>
+
+<div>
+<b>L</b><br>
+40–42"<br>
+28"
+</div>
+
+<div>
+<b>XL</b><br>
+42–44"<br>
+29"
+</div>
+
+<div>
+<b>XXL</b><br>
+44–46"<br>
+30"
+</div>
+
+</div>
+
+<p style="margin-top:15px">
+Measurements are approximate.
+</p>
+
 </section>
+
+
+<!-- ================= ABOUT ================= -->
 
 <section id="about">
+
 <h2>About Biya Fashion</h2>
+
 <h3>Style • Comfort • Quality</h3>
+
 <div class="card">
-<p>Welcome to Biya Fashion. We bring you stylish and comfortable T-Shirts for your everyday lifestyle. Our focus is on quality, comfort and style.</p>
-<p>📍 Kariyapatti, Virudhunagar, Tamil Nadu</p>
-<p>📱 Easy WhatsApp Ordering</p>
+
+<p>
+Welcome to Biya Fashion. We bring you stylish and comfortable T-Shirts for your everyday lifestyle. Our focus is on quality, comfort and style.
+</p>
+
+<p>
+📍 Kariyapatti, Virudhunagar, Tamil Nadu
+</p>
+
+<p>
+📱 Easy WhatsApp Ordering
+</p>
+
 </div>
+
 <div class="grid">
-<div>✨<br>Quality</div>
-<div>👕<br>Style</div>
-<div>💚<br>Comfort</div>
+
+<div>
+✨<br>
+<b>Quality</b>
 </div>
+
+<div>
+👕<br>
+<b>Style</b>
+</div>
+
+<div>
+💚<br>
+<b>Comfort</b>
+</div>
+
+</div>
+
 </section>
+
+
+<!-- ================= INFORMATION ================= -->
 
 <section id="info">
+
 <h2>Information</h2>
+
 <div class="grid">
-<div>💳<br><b>Online Payment</b></div>
-<div>🚚<br><b>Delivery</b></div>
-<div>📱<br><b>Easy Ordering</b></div>
+
+<div>
+💳<br>
+<b>Online Payment</b>
 </div>
+
+<div>
+🚚<br>
+<b>Delivery</b>
+</div>
+
+<div>
+📱<br>
+<b>Easy Ordering</b>
+</div>
+
+</div>
+
 </section>
+
+
+<!-- ================= NEW ARRIVALS ================= -->
 
 <section id="new">
+
 <h2>New Arrivals</h2>
+
 <div class="card">
+
 <h3>Coming Soon</h3>
-<p>Follow us on Instagram for new collections.</p>
-<a class="btn" href="https://www.instagram.com/biya.fashion_/">Instagram</a>
+
+<p>
+Follow us on Instagram for new collections.
+</p>
+
+<a class="btn"
+href="https://www.instagram.com/biya.fashion_/"
+target="_blank"
+rel="noopener">
+
+Follow on Instagram
+
+</a>
+
 </div>
+
 </section>
+
+
+<!-- ================= FAQ ================= -->
 
 <section id="faq">
+
 <h2>FAQ</h2>
+
 <div class="card">
-<p><b>Price?</b><br>₹399</p><hr>
-<p><b>Sizes?</b><br>M / L / XL / XXL</p><hr>
-<p><b>How to order?</b><br>Order through WhatsApp.</p><hr>
-<p><b>Colours?</b><br>Available colours can be checked on WhatsApp.</p><hr>
-<p><b>Delivery charges?</b><br>Shared on WhatsApp.</p><hr>
-<p><b>Payment?</b><br>Online payment through WhatsApp.</p>
+
+<p>
+<b>Price?</b><br>
+₹399
+</p>
+
+<hr>
+
+<p>
+<b>Sizes?</b><br>
+M / L / XL / XXL
+</p>
+
+<hr>
+
+<p>
+<b>How to order?</b><br>
+Order through WhatsApp.
+</p>
+
+<hr>
+
+<p>
+<b>Colours?</b><br>
+Available colours can be checked on WhatsApp.
+</p>
+
+<hr>
+
+<p>
+<b>Delivery charges?</b><br>
+Shared on WhatsApp.
+</p>
+
+<hr>
+
+<p>
+<b>Payment?</b><br>
+Online payment through WhatsApp.
+</p>
+
 </div>
+
 </section>
+
+
+<!-- ================= REVIEWS ================= -->
 
 <section id="reviews">
+
 <h2>Reviews</h2>
+
 <div class="card">
-<h3>⭐ Your Review Could Be Here</h3>
-<a class="btn" href="https://wa.me/919655625186?text=Hi%20Biya%20Fashion%2C%20I%20want%20to%20share%20my%20review.">Give Feedback</a>
+
+<h3>
+⭐ Your Review Could Be Here
+</h3>
+
+<a class="btn"
+href="https://wa.me/919655625186?text=Hi%20Biya%20Fashion%2C%20I%20want%20to%20share%20my%20review."
+target="_blank"
+rel="noopener">
+
+Share Your Review
+
+</a>
+
 </div>
+
 </section>
+
+
+<!-- ================= SPECIAL THANKS ================= -->
 
 <section id="thanks">
-<h2>SPECIAL THANKS 💚</h2>
+
+<h2>
+SPECIAL THANKS 💚
+</h2>
+
 <div class="card">
-<p>A Heartfelt Thank You to My Beloved Brother, <b>Thangapandii 💙</b>, for Being a Great Inspiration Behind My Business Journey. Your Constant Support, Encouragement, and Belief in Me Mean More Than Words Can Express.</p>
+
+<p>
+A Heartfelt Thank You to My Beloved Brother,
+<b>Thangapandii 💙</b>,
+for Being a Great Inspiration Behind My Business Journey.
+Your Constant Support, Encouragement, and Belief in Me Mean More Than Words Can Express.
+</p>
+
 <br>
-<b>— BIYA FASHION 💚</b>
+
+<b>
+— BIYA FASHION 💚
+</b>
+
 </div>
+
 </section>
+
+
+<!-- ================= CONTACT ================= -->
 
 <section id="contact">
+
 <h2>Contact</h2>
+
 <div class="card">
-<p>📱 WhatsApp: +91 9655625186</p>
-<p>📸 Instagram: @biya.fashion_</p>
-<p>📍 Kariyapatti, Virudhunagar - 626106</p>
-<a class="btn" href="https://www.google.com/maps/search/?api=1&query=Kariyapatti%2C+Virudhunagar%2C+Tamil+Nadu">Google Maps</a>
+
+<p>
+📱 WhatsApp
+</p>
+
+<a class="btn"
+href="https://wa.me/919655625186"
+target="_blank"
+rel="noopener">
+
+Chat on WhatsApp
+
+</a>
+
+<p style="margin-top:18px">
+📸 Instagram
+</p>
+
+<a class="btn"
+href="https://www.instagram.com/biya.fashion_/"
+target="_blank"
+rel="noopener">
+
+Follow on Instagram
+
+</a>
+
+<p style="margin-top:18px">
+📍 Kariyapatti, Virudhunagar - 626106
+</p>
+
+<a class="btn"
+href="https://www.google.com/maps/search/?api=1&query=Kariyapatti%2C%20Virudhunagar%2C%20Tamil%20Nadu"
+target="_blank"
+rel="noopener">
+
+Open Google Maps
+
+</a>
+
 </div>
+
 </section>
 
+
+<!-- ================= FOOTER ================= -->
+
 <footer>
+
 <h3>Biya Fashion</h3>
-<p>Wear Your Style.</p>
-<p>Premium T-Shirts in Kariyapatti, Virudhunagar</p>
-<p>Kariyapatti, Virudhunagar - 626106</p>
-<p>© 2026 Biya Fashion. All Rights Reserved.</p>
+
+<p>
+Wear Your Style.
+</p>
+
+<p>
+Premium T-Shirts in Kariyapatti, Virudhunagar
+</p>
+
+<p>
+Kariyapatti, Virudhunagar - 626106
+</p>
+
+<p>
+© 2026 Biya Fashion. All Rights Reserved.
+</p>
+
 </footer>
 
-<a class="wa" href="https://wa.me/919655625186">💬</a>
+
+<!-- ================= FLOATING WHATSAPP ================= -->
+
+<a class="whatsapp"
+href="https://wa.me/919655625186"
+target="_blank"
+rel="noopener"
+aria-label="Chat on WhatsApp">
+
+💬
+
+</a>
+
+
+<!-- ================= GRAND OPENING SCRIPT ================= -->
 
 <script>
+
 const guests={
 karthika:"Miss. Karthika",
 sanjay:"Mrs. Sanjay Snekha",
@@ -205,46 +716,78 @@ thangapandii:"Mr. Thangapandii",
 sabiya:"Miss. Sabiya Banu"
 };
 
-const key=new URLSearchParams(location.search).get("guest");
-const screen=document.getElementById("opening");
+const params=new URLSearchParams(window.location.search);
+const key=params.get("guest");
+
+const opening=document.getElementById("opening");
 const guest=document.getElementById("guest");
 const start=document.getElementById("start");
 const count=document.getElementById("count");
 const grand=document.getElementById("grand");
 
 if(!guests[key]){
-screen.style.display="none";
+
+opening.style.display="none";
+
 }else{
+
 guest.textContent=guests[key];
 
-start.onclick=function(){
+document.body.style.overflow="hidden";
+
+start.addEventListener("click",function(){
+
 start.style.display="none";
+
 document.querySelector(".special").style.display="none";
-guest.style.display="none";
 document.querySelector(".openlogo").style.display="none";
-document.querySelector(".openbox h2").style.display="none";
+document.querySelector(".openbrand").style.display="none";
+guest.style.display="none";
+
 count.style.display="block";
 
 let n=3;
+
 count.textContent=n;
 
-const timer=setInterval(()=>{
+const timer=setInterval(function(){
+
 n--;
+
 if(n>0){
+
 count.textContent=n;
+
 }else{
+
 clearInterval(timer);
+
 count.style.display="none";
+
 grand.style.display="block";
 
-setTimeout(()=>{
-screen.classList.add("hide");
+setTimeout(function(){
+
+opening.classList.add("fade");
+
 document.body.style.overflow="auto";
+
+setTimeout(function(){
+
+opening.style.display="none";
+
+},1300);
+
 },2500);
+
 }
+
 },1000);
-};
+
+});
+
 }
+
 </script>
 
 </body>
