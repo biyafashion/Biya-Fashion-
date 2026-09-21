@@ -3,468 +3,1301 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Biya Fashion | Grand Opening</title>
+
+<title>Biya Fashion | Premium T-Shirts in Kariyapatti, Virudhunagar</title>
+
+<meta name="description"
+content="Biya Fashion - Premium T-Shirts and Casual Wear in Kariyapatti, Virudhunagar. T-Shirts from ₹399. WhatsApp ordering available.">
 
 <style>
-* {
-  box-sizing: border-box;
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
+html{
+    scroll-behavior:smooth;
 }
 
-/* =========================
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    color:#222;
+    background:#fff;
+    overflow:hidden;
+}
+
+/* =====================================================
    GRAND OPENING SCREEN
-========================= */
+===================================================== */
 
-#openingScreen {
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
-  background:
-    radial-gradient(circle at center, #0b704b 0%, #064d32 40%, #021f14 100%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  color: white;
+#openingScreen{
+    position:fixed;
+    inset:0;
+    z-index:999999;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    background:
+        radial-gradient(circle at center,
+        #0c754d 0%,
+        #064d32 38%,
+        #021d12 100%);
+    color:#fff;
+    overflow:hidden;
 }
 
-.openingContent {
-  width: 90%;
-  max-width: 500px;
-  text-align: center;
-  position: relative;
-  z-index: 5;
+.openingContent{
+    position:relative;
+    z-index:10;
+    width:90%;
+    max-width:550px;
 }
 
-/* Gold circles */
-
-.circle {
-  position: absolute;
-  border: 1px solid rgba(212,175,55,0.45);
-  border-radius: 50%;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  animation: rotateCircle 8s linear infinite;
+.openingLogo{
+    width:145px;
+    height:145px;
+    object-fit:contain;
+    margin-bottom:18px;
+    filter:drop-shadow(0 0 22px rgba(212,175,55,.6));
+    animation:logoIn 1.2s ease;
 }
 
-.circle.one {
-  width: 320px;
-  height: 320px;
+.openingSmall{
+    color:#d4af37;
+    font-size:13px;
+    letter-spacing:5px;
+    font-weight:bold;
+    margin-bottom:18px;
 }
 
-.circle.two {
-  width: 430px;
-  height: 430px;
-  animation-direction: reverse;
-  animation-duration: 12s;
+.specialOne{
+    font-size:30px;
+    font-weight:bold;
+    letter-spacing:1px;
+    margin-bottom:10px;
 }
 
-.circle.three {
-  width: 540px;
-  height: 540px;
-  animation-duration: 18s;
+.guestName{
+    color:#d4af37;
+    font-size:23px;
+    font-weight:bold;
+    margin-bottom:35px;
 }
 
-@keyframes rotateCircle {
-  from {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  to {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
+#startButton{
+    border:0;
+    background:linear-gradient(135deg,#d4af37,#f5d77d);
+    color:#073c28;
+    font-size:17px;
+    font-weight:bold;
+    letter-spacing:3px;
+    padding:15px 55px;
+    border-radius:50px;
+    cursor:pointer;
+    box-shadow:0 10px 35px rgba(0,0,0,.4);
+    transition:.3s;
 }
 
-/* Logo */
-
-.openingLogo {
-  width: 130px;
-  height: 130px;
-  object-fit: contain;
-  margin-bottom: 20px;
-  filter: drop-shadow(0 0 20px rgba(212,175,55,0.5));
-  animation: logoAppear 1.2s ease;
+#startButton:hover{
+    transform:scale(1.07);
 }
 
-@keyframes logoAppear {
-  from {
-    opacity: 0;
-    transform: scale(0.5);
-  }
-
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+#countdown{
+    display:none;
+    font-size:120px;
+    font-weight:bold;
+    color:#d4af37;
+    text-shadow:
+        0 0 15px rgba(212,175,55,.7),
+        0 0 40px rgba(212,175,55,.35);
 }
 
-/* Text */
-
-.smallText {
-  font-size: 14px;
-  letter-spacing: 4px;
-  color: #d4af37;
-  margin-bottom: 12px;
-  font-weight: bold;
+.countAnimation{
+    animation:countZoom .9s ease;
 }
 
-.specialText {
-  font-size: 27px;
-  font-weight: bold;
-  color: white;
-  margin-bottom: 8px;
-  text-transform: uppercase;
+#grandOpening{
+    display:none;
 }
 
-.guestName {
-  font-size: 22px;
-  color: #d4af37;
-  font-weight: bold;
-  margin-bottom: 35px;
+#grandOpening h1{
+    font-size:40px;
+    color:#d4af37;
+    margin-bottom:15px;
+    text-shadow:0 0 25px rgba(212,175,55,.6);
 }
 
-/* Start button */
-
-#startButton {
-  border: none;
-  outline: none;
-  background: linear-gradient(135deg, #d4af37, #f3d477);
-  color: #063b28;
-  padding: 15px 50px;
-  border-radius: 50px;
-  font-size: 17px;
-  font-weight: bold;
-  letter-spacing: 2px;
-  cursor: pointer;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.35);
-  transition: 0.3s;
+#grandOpening p{
+    font-size:20px;
+    letter-spacing:4px;
 }
 
-#startButton:hover {
-  transform: scale(1.06);
+/* Decorative circles */
+
+.openCircle{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    border:1px solid rgba(212,175,55,.35);
+    border-radius:50%;
+    pointer-events:none;
 }
 
-/* Countdown */
-
-#countdown {
-  display: none;
-  font-size: 110px;
-  font-weight: bold;
-  color: #d4af37;
-  text-shadow: 0 0 30px rgba(212,175,55,0.7);
+.circle1{
+    width:330px;
+    height:330px;
+    animation:spin 10s linear infinite;
 }
 
-.countAnimation {
-  animation: countZoom 0.9s ease;
+.circle2{
+    width:450px;
+    height:450px;
+    animation:spinReverse 14s linear infinite;
 }
 
-@keyframes countZoom {
-  0% {
-    opacity: 0;
-    transform: scale(1.8);
-  }
-
-  50% {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  100% {
-    opacity: 0.9;
-    transform: scale(0.9);
-  }
+.circle3{
+    width:580px;
+    height:580px;
+    animation:spin 20s linear infinite;
 }
 
-/* Grand opening text */
-
-#grandOpening {
-  display: none;
+@keyframes logoIn{
+    from{
+        opacity:0;
+        transform:scale(.5);
+    }
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
 }
 
-#grandOpening h1 {
-  font-size: 40px;
-  color: #d4af37;
-  margin: 0 0 12px;
-  text-shadow: 0 0 25px rgba(212,175,55,0.6);
+@keyframes countZoom{
+    0%{
+        opacity:0;
+        transform:scale(1.7);
+    }
+    50%{
+        opacity:1;
+        transform:scale(1);
+    }
+    100%{
+        opacity:.9;
+        transform:scale(.9);
+    }
 }
 
-#grandOpening p {
-  font-size: 20px;
-  letter-spacing: 3px;
-  margin: 0;
+@keyframes spin{
+    from{
+        transform:translate(-50%,-50%) rotate(0deg);
+    }
+    to{
+        transform:translate(-50%,-50%) rotate(360deg);
+    }
 }
 
-/* Opening fade */
-
-.fadeOut {
-  animation: fadeAway 1.5s ease forwards;
+@keyframes spinReverse{
+    from{
+        transform:translate(-50%,-50%) rotate(360deg);
+    }
+    to{
+        transform:translate(-50%,-50%) rotate(0deg);
+    }
 }
 
-@keyframes fadeAway {
-  from {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0;
-    visibility: hidden;
-  }
+.openFadeOut{
+    animation:fadeOut 1.4s ease forwards;
 }
 
-/* =========================
-   SAMPLE BIYA FASHION WEBSITE
-========================= */
-
-#website {
-  min-height: 100vh;
-  background: #fff;
-  color: #222;
+@keyframes fadeOut{
+    from{
+        opacity:1;
+    }
+    to{
+        opacity:0;
+        visibility:hidden;
+    }
 }
 
-.navbar {
-  background: #064d32;
-  color: white;
-  padding: 18px;
-  text-align: center;
-  font-size: 25px;
-  font-weight: bold;
+/* =====================================================
+   MAIN WEBSITE
+===================================================== */
+
+#mainWebsite{
+    display:block;
 }
 
-.hero {
-  padding: 70px 20px;
-  text-align: center;
-  background: #f8f5ed;
+/* NAVBAR */
+
+.navbar{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:#064d32;
+    color:white;
+    padding:14px 6%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    box-shadow:0 2px 15px rgba(0,0,0,.15);
 }
 
-.hero h1 {
-  color: #064d32;
-  font-size: 42px;
+.logoArea{
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 
-.hero p {
-  font-size: 18px;
+.logoArea img{
+    width:48px;
+    height:48px;
+    object-fit:contain;
 }
 
-.shopButton {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 14px 30px;
-  background: #064d32;
-  color: white;
-  text-decoration: none;
-  border-radius: 30px;
+.logoText{
+    font-size:24px;
+    font-weight:bold;
+    color:#d4af37;
 }
+
+.navLinks{
+    display:flex;
+    gap:20px;
+}
+
+.navLinks a{
+    color:white;
+    text-decoration:none;
+    font-size:14px;
+}
+
+.navLinks a:hover{
+    color:#d4af37;
+}
+
+/* HERO */
+
+.hero{
+    min-height:85vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:60px 20px;
+    background:
+        linear-gradient(rgba(6,77,50,.93),rgba(2,39,25,.96)),
+        url("logo-board.png");
+    background-size:cover;
+    background-position:center;
+    color:white;
+}
+
+.heroContent{
+    max-width:800px;
+}
+
+.hero h1{
+    font-size:55px;
+    color:#d4af37;
+    margin-bottom:15px;
+}
+
+.hero h2{
+    font-size:26px;
+    margin-bottom:15px;
+}
+
+.hero p{
+    font-size:18px;
+    line-height:1.7;
+}
+
+.price{
+    display:inline-block;
+    margin-top:20px;
+    font-size:24px;
+    color:#d4af37;
+    font-weight:bold;
+}
+
+.heroButtons{
+    margin-top:30px;
+}
+
+.btn{
+    display:inline-block;
+    padding:14px 28px;
+    margin:6px;
+    border-radius:30px;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.btnGold{
+    background:#d4af37;
+    color:#064d32;
+}
+
+.btnGreen{
+    border:1px solid #d4af37;
+    color:white;
+}
+
+/* SECTION */
+
+section{
+    padding:70px 7%;
+}
+
+.sectionTitle{
+    text-align:center;
+    color:#064d32;
+    font-size:32px;
+    margin-bottom:40px;
+}
+
+.sectionTitle span{
+    color:#d4af37;
+}
+
+/* PRODUCTS */
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:25px;
+    max-width:1100px;
+    margin:auto;
+}
+
+.productCard{
+    border-radius:15px;
+    padding:25px;
+    background:white;
+    box-shadow:0 5px 25px rgba(0,0,0,.1);
+    text-align:center;
+    border-top:4px solid #064d32;
+}
+
+.productIcon{
+    width:100%;
+    height:170px;
+    background:#f3f3f3;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-radius:10px;
+    margin-bottom:18px;
+    font-size:65px;
+}
+
+.productCard h3{
+    color:#064d32;
+    margin-bottom:10px;
+}
+
+.productPrice{
+    color:#d4af37;
+    font-size:20px;
+    font-weight:bold;
+}
+
+/* ABOUT */
+
+.about{
+    background:#f7f5ef;
+}
+
+.aboutText{
+    max-width:850px;
+    margin:auto;
+    text-align:center;
+    line-height:1.9;
+    font-size:17px;
+}
+
+/* SIZE GUIDE */
+
+.sizeTable{
+    max-width:700px;
+    margin:auto;
+    border-collapse:collapse;
+    width:100%;
+}
+
+.sizeTable th,
+.sizeTable td{
+    border:1px solid #ddd;
+    padding:15px;
+    text-align:center;
+}
+
+.sizeTable th{
+    background:#064d32;
+    color:white;
+}
+
+/* INFO */
+
+.infoGrid{
+    max-width:1000px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+}
+
+.infoCard{
+    padding:25px;
+    text-align:center;
+    border-radius:15px;
+    background:#f7f5ef;
+}
+
+.infoCard h3{
+    color:#064d32;
+    margin-bottom:10px;
+}
+
+/* NEW ARRIVALS */
+
+.arrivals{
+    background:#064d32;
+    color:white;
+    text-align:center;
+}
+
+.arrivals h2{
+    color:#d4af37;
+    margin-bottom:15px;
+}
+
+.arrivals p{
+    line-height:1.8;
+}
+
+/* FAQ */
+
+.faq{
+    max-width:850px;
+    margin:auto;
+}
+
+details{
+    margin-bottom:12px;
+    padding:18px;
+    background:#f5f5f5;
+    border-radius:10px;
+}
+
+summary{
+    cursor:pointer;
+    font-weight:bold;
+    color:#064d32;
+}
+
+/* REVIEWS */
+
+.reviews{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:20px;
+    max-width:1000px;
+    margin:auto;
+}
+
+.review{
+    background:#f7f5ef;
+    padding:25px;
+    border-radius:15px;
+    text-align:center;
+}
+
+.stars{
+    color:#d4af37;
+    font-size:20px;
+    margin-bottom:10px;
+}
+
+/* SPECIAL THANKS */
+
+.thanks{
+    text-align:center;
+    background:#f7f5ef;
+}
+
+.thanks strong{
+    color:#064d32;
+    font-size:22px;
+}
+
+/* CONTACT */
+
+.contact{
+    background:#064d32;
+    color:white;
+    text-align:center;
+}
+
+.contact h2{
+    color:#d4af37;
+    margin-bottom:20px;
+}
+
+.contact p{
+    margin:10px 0;
+}
+
+.contact a{
+    color:#d4af37;
+    text-decoration:none;
+}
+
+/* FOOTER */
+
+footer{
+    background:#021f14;
+    color:white;
+    text-align:center;
+    padding:25px;
+    line-height:1.8;
+}
+
+footer span{
+    color:#d4af37;
+}
+
+/* WHATSAPP */
+
+.whatsapp{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    background:#25D366;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-decoration:none;
+    font-size:28px;
+    z-index:5000;
+    box-shadow:0 5px 20px rgba(0,0,0,.3);
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+    .navLinks{
+        display:none;
+    }
+
+    .hero h1{
+        font-size:40px;
+    }
+
+    .hero h2{
+        font-size:21px;
+    }
+
+    .specialOne{
+        font-size:25px;
+    }
+
+    .guestName{
+        font-size:20px;
+    }
+
+    #countdown{
+        font-size:100px;
+    }
+
+    #grandOpening h1{
+        font-size:30px;
+    }
+
+    .circle3{
+        width:430px;
+        height:430px;
+    }
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- =========================
-     GRAND OPENING
-========================= -->
+
+<!-- =====================================================
+     GRAND OPENING SCREEN
+===================================================== -->
 
 <div id="openingScreen">
 
-  <div class="circle one"></div>
-  <div class="circle two"></div>
-  <div class="circle three"></div>
+    <div class="openCircle circle1"></div>
+    <div class="openCircle circle2"></div>
+    <div class="openCircle circle3"></div>
 
-  <div class="openingContent">
+    <div class="openingContent">
 
-    <img
-      src="logo-board.png"
-      class="openingLogo"
-      alt="Biya Fashion Logo"
-    >
+        <img
+            src="logo-board.png"
+            class="openingLogo"
+            alt="Biya Fashion"
+            onerror="this.style.display='none';"
+        >
 
-    <div class="smallText">
-      BIYA FASHION
+        <div class="openingSmall">
+            BIYA FASHION
+        </div>
+
+        <div class="specialOne">
+            MY SPECIAL ONE 💙
+        </div>
+
+        <div
+            class="guestName"
+            id="guestName">
+            Miss. Karthika
+        </div>
+
+        <button
+            id="startButton"
+            type="button">
+            START
+        </button>
+
+        <div id="countdown"></div>
+
+        <div id="grandOpening">
+
+            <h1>
+                ✨ GRAND OPENING ✨
+            </h1>
+
+            <p>
+                BIYA FASHION
+            </p>
+
+        </div>
+
     </div>
-
-    <div class="specialText">
-      MY SPECIAL ONE 💙
-    </div>
-
-    <div class="guestName" id="guestName">
-      Miss. Karthika
-    </div>
-
-    <button id="startButton">
-      START
-    </button>
-
-    <div id="countdown"></div>
-
-    <div id="grandOpening">
-      <h1>✨ GRAND OPENING ✨</h1>
-      <p>BIYA FASHION</p>
-    </div>
-
-  </div>
 
 </div>
 
 
-<!-- =========================
-     WEBSITE
-========================= -->
+<!-- =====================================================
+     MAIN WEBSITE
+===================================================== -->
 
-<div id="website">
+<div id="mainWebsite">
 
-  <div class="navbar">
-    BIYA FASHION
-  </div>
 
-  <section class="hero">
+<!-- NAVIGATION -->
 
-    <h1>Welcome to Biya Fashion</h1>
+<nav class="navbar">
+
+    <div class="logoArea">
+
+        <img
+            src="logo-board.png"
+            alt="Biya Fashion Logo"
+        >
+
+        <div class="logoText">
+            BIYA FASHION
+        </div>
+
+    </div>
+
+    <div class="navLinks">
+
+        <a href="#home">Home</a>
+        <a href="#tshirts">T-Shirts</a>
+        <a href="#size">Size Guide</a>
+        <a href="#about">About</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+
+    </div>
+
+</nav>
+
+
+<!-- HOME -->
+
+<section
+    class="hero"
+    id="home">
+
+    <div class="heroContent">
+
+        <h1>
+            BIYA FASHION
+        </h1>
+
+        <h2>
+            Premium T-Shirts & Casual Wear
+        </h2>
+
+        <p>
+            Simple style. Comfortable fits.
+            Everyday fashion for everyone.
+        </p>
+
+        <div class="price">
+            T-Shirts from ₹399
+        </div>
+
+        <div class="heroButtons">
+
+            <a
+                href="https://wa.me/919655625186"
+                class="btn btnGold">
+                Order on WhatsApp
+            </a>
+
+            <a
+                href="https://www.instagram.com/biya.fashion_/"
+                target="_blank"
+                class="btn btnGreen">
+                Instagram
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- T-SHIRTS -->
+
+<section id="tshirts">
+
+    <h2 class="sectionTitle">
+        Our <span>T-Shirts</span>
+    </h2>
+
+    <div class="products">
+
+        <div class="productCard">
+
+            <div class="productIcon">
+                👕
+            </div>
+
+            <h3>
+                Premium T-Shirt
+            </h3>
+
+            <p>
+                Comfortable everyday wear.
+            </p>
+
+            <div class="productPrice">
+                ₹399+
+            </div>
+
+        </div>
+
+
+        <div class="productCard">
+
+            <div class="productIcon">
+                👕
+            </div>
+
+            <h3>
+                Casual T-Shirt
+            </h3>
+
+            <p>
+                Clean and stylish casual look.
+            </p>
+
+            <div class="productPrice">
+                ₹399+
+            </div>
+
+        </div>
+
+
+        <div class="productCard">
+
+            <div class="productIcon">
+                👕
+            </div>
+
+            <h3>
+                New Arrivals
+            </h3>
+
+            <p>
+                Fresh styles added regularly.
+            </p>
+
+            <div class="productPrice">
+                Check WhatsApp
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- SIZE GUIDE -->
+
+<section id="size" class="about">
+
+    <h2 class="sectionTitle">
+        Size <span>Guide</span>
+    </h2>
+
+    <table class="sizeTable">
+
+        <tr>
+            <th>Size</th>
+            <th>Availability</th>
+        </tr>
+
+        <tr>
+            <td>M</td>
+            <td>Available</td>
+        </tr>
+
+        <tr>
+            <td>L</td>
+            <td>Available</td>
+        </tr>
+
+        <tr>
+            <td>XL</td>
+            <td>Available</td>
+        </tr>
+
+        <tr>
+            <td>XXL</td>
+            <td>Available</td>
+        </tr>
+
+    </table>
+
+</section>
+
+
+<!-- ABOUT -->
+
+<section id="about">
+
+    <h2 class="sectionTitle">
+        About <span>Biya Fashion</span>
+    </h2>
+
+    <div class="aboutText">
+
+        <p>
+            Welcome to Biya Fashion.
+            We bring comfortable and stylish
+            T-Shirts and casual wear to
+            Kariyapatti, Virudhunagar.
+        </p>
+
+        <br>
+
+        <p>
+            Our focus is simple —
+            good style, comfortable fitting
+            and everyday fashion at a reasonable price.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- INFORMATION -->
+
+<section>
+
+    <h2 class="sectionTitle">
+        Store <span>Information</span>
+    </h2>
+
+    <div class="infoGrid">
+
+        <div class="infoCard">
+
+            <h3>
+                📍 Location
+            </h3>
+
+            <p>
+                Kariyapatti,
+                Virudhunagar,
+                Tamil Nadu
+            </p>
+
+        </div>
+
+
+        <div class="infoCard">
+
+            <h3>
+                📏 Sizes
+            </h3>
+
+            <p>
+                M • L • XL • XXL
+            </p>
+
+        </div>
+
+
+        <div class="infoCard">
+
+            <h3>
+                💰 Starting Price
+            </h3>
+
+            <p>
+                From ₹399
+            </p>
+
+        </div>
+
+
+        <div class="infoCard">
+
+            <h3>
+                📱 Orders
+            </h3>
+
+            <p>
+                WhatsApp ordering available
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- NEW ARRIVALS -->
+
+<section class="arrivals">
+
+    <h2>
+        ✨ New Arrivals ✨
+    </h2>
 
     <p>
-      Premium T-Shirts & Casual Wear
+        New T-Shirt and casual wear
+        collections are coming soon.
     </p>
 
     <p>
-      Starting from ₹399
+        Follow our Instagram for updates.
     </p>
+
+</section>
+
+
+<!-- FAQ -->
+
+<section id="faq">
+
+    <h2 class="sectionTitle">
+        Frequently Asked <span>Questions</span>
+    </h2>
+
+    <div class="faq">
+
+        <details>
+
+            <summary>
+                What products do you sell?
+            </summary>
+
+            <p>
+                We currently focus on T-Shirts
+                and casual wear.
+            </p>
+
+        </details>
+
+
+        <details>
+
+            <summary>
+                What sizes are available?
+            </summary>
+
+            <p>
+                M, L, XL and XXL.
+            </p>
+
+        </details>
+
+
+        <details>
+
+            <summary>
+                How can I order?
+            </summary>
+
+            <p>
+                Contact us through WhatsApp
+                and our team will help you.
+            </p>
+
+        </details>
+
+
+        <details>
+
+            <summary>
+                Where are you located?
+            </summary>
+
+            <p>
+                Kariyapatti,
+                Virudhunagar,
+                Tamil Nadu.
+            </p>
+
+        </details>
+
+    </div>
+
+</section>
+
+
+<!-- REVIEWS -->
+
+<section class="about">
+
+    <h2 class="sectionTitle">
+        Customer <span>Reviews</span>
+    </h2>
+
+    <div class="reviews">
+
+        <div class="review">
+
+            <div class="stars">
+                ★★★★★
+            </div>
+
+            <p>
+                Comfortable and stylish.
+            </p>
+
+        </div>
+
+
+        <div class="review">
+
+            <div class="stars">
+                ★★★★★
+            </div>
+
+            <p>
+                Good collection for everyday wear.
+            </p>
+
+        </div>
+
+
+        <div class="review">
+
+            <div class="stars">
+                ★★★★★
+            </div>
+
+            <p>
+                Nice quality and fitting.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- SPECIAL THANKS -->
+
+<section class="thanks">
+
+    <h2 class="sectionTitle">
+        Special <span>Thanks</span>
+    </h2>
+
+    <p>
+        Special thanks to
+        <br><br>
+
+        <strong>
+            Thangapandii
+        </strong>
+
+        <br><br>
+
+        for the inspiration and support
+        behind Biya Fashion.
+    </p>
+
+</section>
+
+
+<!-- CONTACT -->
+
+<section
+    class="contact"
+    id="contact">
+
+    <h2>
+        Contact Biya Fashion
+    </h2>
+
+    <p>
+        📍 Kariyapatti, Virudhunagar,
+        Tamil Nadu
+    </p>
+
+    <p>
+        📱
+        <a href="tel:+919655625186">
+            +91 9655625186
+        </a>
+    </p>
+
+    <p>
+        💬
+        <a
+            href="https://wa.me/919655625186"
+            target="_blank">
+            WhatsApp Us
+        </a>
+    </p>
+
+    <p>
+        📸
+        <a
+            href="https://www.instagram.com/biya.fashion_/"
+            target="_blank">
+            @biya.fashion_
+        </a>
+    </p>
+
+    <br>
 
     <a
-      class="shopButton"
-      href="https://wa.me/919655625186"
-    >
-      Order on WhatsApp
+        href="https://www.google.com/maps/search/?api=1&query=Kariyapatti,Virudhunagar,Tamil+Nadu"
+        target="_blank"
+        class="btn btnGold">
+        Open Google Maps
     </a>
 
-  </section>
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    © 2026
+    <span>
+        Biya Fashion
+    </span>
+
+    <br>
+
+    Premium T-Shirts & Casual Wear
+
+</footer>
+
 
 </div>
 
+
+<!-- WHATSAPP -->
+
+<a
+    href="https://wa.me/919655625186"
+    class="whatsapp"
+    target="_blank"
+    aria-label="WhatsApp">
+
+    ☎
+
+</a>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
 
 <script>
 
-/* ==================================
-   GUEST NAME FROM URL
-================================== */
+/* =====================================================
+   GUEST SETTINGS
+===================================================== */
 
 const guests = {
 
-  karthika: "Miss. Karthika",
+    karthika: "Miss. Karthika",
 
-  sanjay: "Mrs. Sanjay Snekha",
+    sanjay: "Mrs. Sanjay Snekha",
 
-  thangapandii: "Mr. Thangapandii",
+    thangapandii: "Mr. Thangapandii",
 
-  sabiya: "Miss. Sabiya Banu"
+    sabiya: "Miss. Sabiya Banu"
 
 };
 
-const params = new URLSearchParams(window.location.search);
 
-const guestKey = params.get("guest");
+/* =====================================================
+   GET GUEST FROM URL
+===================================================== */
 
-const guestName = guests[guestKey] || "Miss. Karthika";
+const urlParams =
+    new URLSearchParams(window.location.search);
 
-document.getElementById("guestName").textContent = guestName;
-
-
-/* ==================================
-   START BUTTON
-================================== */
-
-const startButton = document.getElementById("startButton");
-const countdown = document.getElementById("countdown");
-const grandOpening = document.getElementById("grandOpening");
-const openingScreen = document.getElementById("openingScreen");
-
-startButton.addEventListener("click", function () {
-
-  /* Hide START button */
-
-  startButton.style.display = "none";
-
-  /* Hide guest text */
-
-  document.querySelector(".specialText").style.display = "none";
-  document.querySelector(".guestName").style.display = "none";
-  document.querySelector(".smallText").style.display = "none";
-  document.querySelector(".openingLogo").style.display = "none";
-
-  /* Show countdown */
-
-  countdown.style.display = "block";
-
-  let numbers = ["3", "2", "1"];
-  let index = 0;
-
-  function showNumber() {
-
-    countdown.textContent = numbers[index];
-
-    countdown.classList.remove("countAnimation");
-
-    /* Restart animation */
-
-    void countdown.offsetWidth;
-
-    countdown.classList.add("countAnimation");
-
-    index++;
-
-    if (index < numbers.length) {
-
-      setTimeout(showNumber, 1000);
-
-    } else {
-
-      setTimeout(showGrandOpening, 1000);
-
-    }
-  }
-
-  showNumber();
-
-});
+const guestKey =
+    urlParams.get("guest");
 
 
-/* ==================================
-   GRAND OPENING
-================================== */
+const guestNameElement =
+    document.getElementById("guestName");
 
-function showGrandOpening() {
 
-  countdown.style.display = "none";
+/*
+   If a valid guest link is used,
+   show that person's name.
+*/
 
-  grandOpening.style.display = "block";
+if(
+    guestKey &&
+    guests[guestKey]
+){
 
-  grandOpening.style.animation =
-    "logoAppear 1.5s ease";
-
-  /* Wait and open website */
-
-  setTimeout(function () {
-
-    openingScreen.classList.add("fadeOut");
-
-    document.body.style.overflow = "auto";
-
-    setTimeout(function () {
-      openingScreen.style.display = "none";
-    }, 1500);
-
-  }, 2200);
+    guestNameElement.textContent =
+        guests[guestKey];
 
 }
 
 
-/* Prevent scrolling during opening */
-
-document.body.style.overflow = "hidden";
-
-</script>
-
-</body>
-</html>
+/* =====================================================
+   OPENING 
