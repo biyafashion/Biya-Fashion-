@@ -1,1341 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Biya Fashion | Premium T-Shirts in Kariyapatti, Virudhunagar</title>
-
-<meta name="description" content="Biya Fashion offers premium quality and stylish T-Shirts in Kariyapatti, Virudhunagar. T-Shirts from ₹399. Sizes M, L, XL and XXL. Order through WhatsApp.">
-
-<meta name="keywords" content="Biya Fashion, Biya Fashion Kariyapatti, T-Shirts Kariyapatti, T-Shirts Virudhunagar, Premium T-Shirts, T-Shirt Shop Kariyapatti, Men's T-Shirts">
-
-<meta name="author" content="Biya Fashion">
-
-<meta name="robots" content="index, follow">
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Biya Fashion | Premium T-Shirts in Kariyapatti</title>
+<meta name="description" content="Biya Fashion offers premium quality and stylish T-Shirts in Kariyapatti, Virudhunagar. T-Shirts from ₹399.">
 <meta name="theme-color" content="#064d32">
 
-<meta property="og:title" content="Biya Fashion | Premium T-Shirts">
-<meta property="og:description" content="Premium quality and stylish T-Shirts from Biya Fashion. ₹399. Order through WhatsApp.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://biyafashion.github.io/Biya-Fashion-/">
-<meta property="og:image" content="https://biyafashion.github.io/Biya-Fashion-/logo-board.png">
-
-<link rel="canonical" href="https://biyafashion.github.io/Biya-Fashion-/">
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "ClothingStore",
-  "name": "Biya Fashion",
-  "url": "https://biyafashion.github.io/Biya-Fashion-/",
-  "logo": "https://biyafashion.github.io/Biya-Fashion-/logo-board.png",
-  "description": "Biya Fashion offers premium quality and stylish T-Shirts.",
-  "telephone": "+91 9655625186",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Kariyapatti",
-    "addressRegion": "Tamil Nadu",
-    "postalCode": "626106",
-    "addressCountry": "IN"
-  },
-  "sameAs": [
-    "https://www.instagram.com/biya.fashion_/"
-  ]
-}
-</script>
-
 <style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    scroll-behavior:smooth;
-}
-
-body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f7f7f7;
-    color:#222;
-    line-height:1.6;
-}
-
-/* ================= GRAND OPENING ================= */
-
-#grand-opening-screen{
-    position:fixed;
-    inset:0;
-    width:100%;
-    height:100%;
-    background:
-        radial-gradient(
-            circle at center,
-            #0b7048 0%,
-            #064d32 42%,
-            #021f14 100%
-        );
-    z-index:999999;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    overflow:hidden;
-    color:white;
-}
-
-.opening-circle{
-    position:absolute;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%);
-    border:1px solid rgba(212,175,55,.35);
-    border-radius:50%;
-    pointer-events:none;
-}
-
-.opening-circle.one{
-    width:320px;
-    height:320px;
-    animation:openingRotate 10s linear infinite;
-}
-
-.opening-circle.two{
-    width:450px;
-    height:450px;
-    animation:openingRotateReverse 15s linear infinite;
-}
-
-.opening-circle.three{
-    width:600px;
-    height:600px;
-    animation:openingRotate 22s linear infinite;
-}
-
-@keyframes openingRotate{
-    from{
-        transform:translate(-50%,-50%) rotate(0deg);
-    }
-    to{
-        transform:translate(-50%,-50%) rotate(360deg);
-    }
-}
-
-@keyframes openingRotateReverse{
-    from{
-        transform:translate(-50%,-50%) rotate(360deg);
-    }
-    to{
-        transform:translate(-50%,-50%) rotate(0deg);
-    }
-}
-
-.opening-content{
-    position:relative;
-    z-index:5;
-    width:90%;
-    max-width:500px;
-}
-
-.opening-logo{
-    width:135px;
-    height:135px;
-    object-fit:contain;
-    margin-bottom:18px;
-    filter:drop-shadow(0 0 20px rgba(212,175,55,.55));
-    animation:openingLogoIn 1.2s ease;
-}
-
-@keyframes openingLogoIn{
-    from{
-        opacity:0;
-        transform:scale(.5);
-    }
-    to{
-        opacity:1;
-        transform:scale(1);
-    }
-}
-
-.opening-brand{
-    color:#d4af37;
-    font-size:13px;
-    font-weight:bold;
-    letter-spacing:5px;
-    margin-bottom:18px;
-}
-
-.opening-special{
-    color:white;
-    font-size:29px;
-    font-weight:bold;
-    margin-bottom:8px;
-}
-
-.opening-guest{
-    color:#d4af37;
-    font-size:22px;
-    font-weight:bold;
-    margin-bottom:32px;
-}
-
-#opening-start{
-    border:none;
-    outline:none;
-    cursor:pointer;
-    background:linear-gradient(135deg,#d4af37,#f4d77b);
-    color:#064d32;
-    font-size:17px;
-    font-weight:bold;
-    letter-spacing:3px;
-    padding:15px 52px;
-    border-radius:50px;
-    box-shadow:0 8px 30px rgba(0,0,0,.35);
-    transition:.3s;
-    -webkit-tap-highlight-color:transparent;
-}
-
-#opening-start:hover{
-    transform:scale(1.06);
-}
-
-#opening-start:active{
-    transform:scale(.96);
-}
-
-#opening-start:disabled{
-    opacity:.7;
-    cursor:default;
-}
-
-#opening-countdown{
-    display:none;
-    font-size:115px;
-    line-height:1;
-    font-weight:bold;
-    color:#d4af37;
-    text-shadow:
-        0 0 15px rgba(212,175,55,.7),
-        0 0 40px rgba(212,175,55,.35);
-}
-
-.count-number-animation{
-    animation:countNumber .9s ease;
-}
-
-@keyframes countNumber{
-    0%{
-        opacity:0;
-        transform:scale(1.7);
-    }
-    50%{
-        opacity:1;
-        transform:scale(1);
-    }
-    100%{
-        opacity:.9;
-        transform:scale(.92);
-    }
-}
-
-#opening-grand-text{
-    display:none;
-}
-
-#opening-grand-text h1{
-    color:#d4af37;
-    font-size:38px;
-    margin-bottom:10px;
-    text-shadow:0 0 25px rgba(212,175,55,.65);
-    animation:grandTextIn 1.2s ease;
-}
-
-#opening-grand-text p{
-    color:white;
-    font-size:19px;
-    letter-spacing:4px;
-}
-
-@keyframes grandTextIn{
-    from{
-        opacity:0;
-        transform:scale(.7);
-    }
-    to{
-        opacity:1;
-        transform:scale(1);
-    }
-}
-
-.opening-fade-out{
-    animation:openingFadeOut 1.5s ease forwards;
-}
-
-@keyframes openingFadeOut{
-    from{
-        opacity:1;
-    }
-    to{
-        opacity:0;
-        visibility:hidden;
-    }
-}
-
-/* ================= NAVIGATION ================= */
-
-nav{
-    background:#064d32;
-    padding:17px 8px;
-    text-align:center;
-    position:sticky;
-    top:0;
-    z-index:1000;
-    box-shadow:0 2px 10px rgba(0,0,0,.15);
-}
-
-nav a{
-    color:white;
-    text-decoration:none;
-    font-weight:bold;
-    margin:0 10px;
-    font-size:14px;
-}
-
-nav a:hover{
-    color:#d4af37;
-}
-
-/* ================= HOME ================= */
-
-#home{
-    background:white;
-    text-align:center;
-    padding:40px 20px 55px;
-}
-
-#home img{
-    width:100%;
-    max-width:600px;
-    height:auto;
-    display:block;
-    margin:0 auto 25px;
-    border-radius:12px;
-}
-
-#home h1{
-    color:#064d32;
-    font-size:40px;
-    margin-bottom:8px;
-}
-
-#home p{
-    color:#555;
-    font-size:19px;
-}
-
-.main-button{
-    display:inline-block;
-    margin-top:25px;
-    padding:14px 28px;
-    background:#064d32;
-    color:white;
-    text-decoration:none;
-    border-radius:8px;
-    font-weight:bold;
-}
-
-/* ================= COMMON ================= */
-
-section{
-    padding:60px 20px;
-    text-align:center;
-}
-
-section h2{
-    color:#064d32;
-    font-size:32px;
-    margin-bottom:10px;
-}
-
-.subtitle{
-    color:#666;
-    margin-bottom:30px;
-}
-
-/* ================= PRODUCT ================= */
-
-#tshirts{
-    background:#f1f1f1;
-}
-
-.product-card{
-    max-width:500px;
-    margin:auto;
-    background:white;
-    padding:30px 25px;
-    border-radius:16px;
-    box-shadow:0 5px 20px rgba(0,0,0,.10);
-}
-
-.shirt-icon{
-    font-size:90px;
-    margin-bottom:10px;
-}
-
-.product-card h3{
-    color:#064d32;
-    font-size:26px;
-}
-
-.price{
-    font-size:30px;
-    font-weight:bold;
-    margin:12px 0;
-}
-
-.product-text{
-    color:#666;
-}
-
-.sizes{
-    margin:20px 0;
-}
-
-.sizes span{
-    display:inline-block;
-    border:2px solid #064d32;
-    color:#064d32;
-    padding:7px 13px;
-    margin:4px;
-    border-radius:6px;
-    font-weight:bold;
-}
-
-.info-box{
-    background:#f7f7f7;
-    padding:15px;
-    border-radius:10px;
-    margin:20px 0;
-}
-
-.info-box p{
-    margin:6px 0;
-}
-
-.order-button{
-    display:inline-block;
-    padding:14px 28px;
-    background:#064d32;
-    color:white;
-    text-decoration:none;
-    border-radius:8px;
-    font-weight:bold;
-}
-
-/* ================= SIZE GUIDE ================= */
-
-#size-guide{
-    background:white;
-}
-
-.size-table{
-    max-width:600px;
-    margin:auto;
-    border-collapse:collapse;
-    width:100%;
-    background:white;
-    box-shadow:0 3px 15px rgba(0,0,0,.08);
-    border-radius:10px;
-    overflow:hidden;
-}
-
-.size-table th,
-.size-table td{
-    padding:14px;
-    border:1px solid #ddd;
-    text-align:center;
-}
-
-.size-table th{
-    background:#064d32;
-    color:white;
-}
-
-.size-note{
-    margin-top:18px;
-    color:#666;
-    font-size:14px;
-}
-
-/* ================= ABOUT ================= */
-
-#about{
-    background:white;
-}
-
-.about-content{
-    max-width:750px;
-    margin:auto;
-    color:#555;
-    font-size:17px;
-}
-
-/* ================= FEATURES ================= */
-
-.features{
-    display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:20px;
-    margin-top:30px;
-}
-
-.feature{
-    background:#f7f7f7;
-    width:220px;
-    padding:25px 15px;
-    border-radius:12px;
-}
-
-.feature-icon{
-    font-size:35px;
-}
-
-.feature h3{
-    color:#064d32;
-    margin:8px 0;
-}
-
-.feature p{
-    color:#666;
-    font-size:14px;
-}
-
-/* ================= INFORMATION ================= */
-
-#information{
-    background:#f1f1f1;
-}
-
-.info-cards{
-    max-width:800px;
-    margin:auto;
-    display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:20px;
-}
-
-.info-card{
-    background:white;
-    width:230px;
-    padding:25px 15px;
-    border-radius:12px;
-    box-shadow:0 3px 12px rgba(0,0,0,.07);
-}
-
-.info-card .icon{
-    font-size:35px;
-}
-
-.info-card h3{
-    color:#064d32;
-    margin:8px 0;
-}
-
-.info-card p{
-    color:#666;
-    font-size:14px;
-}
-
-/* ================= NEW ARRIVALS ================= */
-
-#new-arrivals{
-    background:white;
-}
-
-.arrival-card{
-    max-width:500px;
-    margin:auto;
-    background:#f7f7f7;
-    padding:30px;
-    border-radius:16px;
-}
-
-.arrival-icon{
-    font-size:65px;
-}
-
-.arrival-card h3{
-    color:#064d32;
-    margin:10px 0;
-}
-
-/* ================= FAQ ================= */
-
-#faq{
-    background:#f1f1f1;
-}
-
-.faq-box{
-    max-width:750px;
-    margin:auto;
-    text-align:left;
-}
-
-details{
-    background:white;
-    margin:10px 0;
-    padding:16px;
-    border-radius:8px;
-}
-
-summary{
-    color:#064d32;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-/* ================= REVIEWS ================= */
-
-#reviews{
-    background:white;
-}
-
-.review-box{
-    max-width:650px;
-    margin:auto;
-    background:#f7f7f7;
-    padding:30px 20px;
-    border-radius:16px;
-}
-
-.review-box h3{
-    color:#064d32;
-    margin-bottom:10px;
-}
-
-.review-box p{
-    color:#666;
-}
-
-/* ================= SPECIAL THANKS ================= */
-
-#special-thanks{
-    background:#f1f1f1;
-}
-
-.thanks-box{
-    max-width:750px;
-    margin:auto;
-    background:white;
-    padding:35px 25px;
-    border-radius:16px;
-    box-shadow:0 5px 20px rgba(0,0,0,.08);
-}
-
-.thanks-box h2{
-    color:#064d32;
-    margin-bottom:20px;
-}
-
-.thanks-box p{
-    color:#555;
-    font-size:17px;
-}
-
-.thanks-name{
-    color:#064d32;
-    font-weight:bold;
-}
-
-.thanks-footer{
-    margin-top:20px;
-    color:#064d32 !important;
-    font-weight:bold;
-}
-
-/* ================= CONTACT ================= */
-
-#contact{
-    background:#f1f1f1;
-}
-
-.contact-box{
-    max-width:600px;
-    margin:auto;
-    background:white;
-    padding:30px 20px;
-    border-radius:16px;
-    box-shadow:0 5px 20px rgba(0,0,0,.08);
-}
-
-.contact-item{
-    margin:20px 0;
-}
-
-.contact-item strong{
-    display:block;
-    color:#064d32;
-    margin-bottom:8px;
-}
-
-.contact-button{
-    display:inline-block;
-    padding:12px 22px;
-    background:#064d32;
-    color:white;
-    text-decoration:none;
-    border-radius:8px;
-    font-weight:bold;
-}
-
-.address{
-    color:#555;
-}
-
-/* ================= FOOTER ================= */
-
-footer{
-    background:#064d32;
-    color:white;
-    text-align:center;
-    padding:30px 15px;
-}
-
-footer h3{
-    margin-bottom:5px;
-}
-
-footer p{
-    font-size:14px;
-    margin:5px 0;
-}
-
-/* ================= WHATSAPP ================= */
-
-.whatsapp-float{
-    position:fixed;
-    right:20px;
-    bottom:20px;
-    width:58px;
-    height:58px;
-    background:#25D366;
-    color:white;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-decoration:none;
-    font-size:29px;
-    box-shadow:0 4px 15px rgba(0,0,0,.25);
-    z-index:9999;
-}
-
-/* ================= MOBILE ================= */
-
+*{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth}
+body{font-family:Arial,sans-serif;background:#f7f7f7;color:#222;line-height:1.6}
+nav{position:sticky;top:0;z-index:10;background:#064d32;padding:14px;text-align:center}
+nav a{color:white;text-decoration:none;margin:0 8px;font-size:14px}
+section{padding:45px 18px;text-align:center}
+.hero{background:white;padding:35px 15px}
+.hero img{max-width:280px;width:90%;border-radius:12px}
+h1,h2{color:#064d32}
+.btn{display:inline-block;background:#064d32;color:white;padding:12px 22px;border-radius:25px;text-decoration:none;margin-top:15px}
+.card{background:white;padding:20px;margin:15px auto;max-width:500px;border-radius:15px;box-shadow:0 3px 12px #0001}
+.grid{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.grid div{background:white;padding:15px;border-radius:10px;min-width:110px}
+footer{background:#064d32;color:white;text-align:center;padding:25px}
+.wa{position:fixed;right:18px;bottom:18px;background:#25d366;color:white;padding:15px;border-radius:50%;text-decoration:none;font-size:22px;z-index:20}
+
+/* GRAND OPENING */
+#opening{
+position:fixed;inset:0;background:#064d32;color:white;
+z-index:9999;display:flex;align-items:center;justify-content:center;
+text-align:center
+}
+.openbox{width:90%;max-width:450px}
+.openlogo{width:130px;border-radius:15px;margin-bottom:15px}
+.special{font-size:20px;color:#d4af37;margin-top:10px}
+.guest{font-size:28px;font-weight:bold;margin:8px 0 25px}
+#start{border:0;background:#d4af37;color:#064d32;padding:14px 38px;
+border-radius:30px;font-size:18px;font-weight:bold;cursor:pointer}
+#count{display:none;font-size:90px;font-weight:bold}
+#grand{display:none}
+#grand h1{color:#d4af37;font-size:35px}
+.hide{animation:hide 1.2s forwards}
+@keyframes hide{to{opacity:0;visibility:hidden}}
 @media(max-width:600px){
-
-    nav{
-        padding:15px 4px;
-    }
-
-    nav a{
-        margin:0 4px;
-        font-size:12px;
-    }
-
-    #home h1{
-        font-size:30px;
-    }
-
-    #home p{
-        font-size:16px;
-    }
-
-    section{
-        padding:45px 15px;
-    }
-
-    section h2{
-        font-size:27px;
-    }
-
-    .product-card{
-        padding:25px 18px;
-    }
-
-    .feature,
-    .info-card{
-        width:100%;
-        max-width:300px;
-    }
-
-    .size-table th,
-    .size-table td{
-        padding:10px 5px;
-        font-size:14px;
-    }
-
-    .whatsapp-float{
-        right:15px;
-        bottom:15px;
-    }
-
-    .opening-logo{
-        width:115px;
-        height:115px;
-    }
-
-    .opening-special{
-        font-size:24px;
-    }
-
-    .opening-guest{
-        font-size:19px;
-    }
-
-    #opening-countdown{
-        font-size:95px;
-    }
-
-    #opening-grand-text h1{
-        font-size:29px;
-    }
-
-    .opening-circle.three{
-        width:430px;
-        height:430px;
-    }
+nav a{font-size:12px;margin:0 4px}
+.guest{font-size:24px}
+#grand h1{font-size:28px}
 }
-
 </style>
-
 </head>
 
 <body>
 
-<!-- ================= GRAND OPENING ================= -->
+<!-- GRAND OPENING -->
+<div id="opening">
+  <div class="openbox">
+    <img src="logo-board.png" class="openlogo" alt="Biya Fashion">
+    <h2 style="color:white">BIYA FASHION</h2>
+    <div class="special">My Special One💙</div>
+    <div class="guest" id="guest">Guest</div>
 
-<div id="grand-opening-screen">
+    <button id="start">START</button>
 
-    <div class="opening-circle one"></div>
-    <div class="opening-circle two"></div>
-    <div class="opening-circle three"></div>
+    <div id="count">3</div>
 
-    <div class="opening-content">
-
-        <img
-            src="logo-board.png"
-            class="opening-logo"
-            alt="Biya Fashion"
-        >
-
-        <div class="opening-brand">
-            BIYA FASHION
-        </div>
-
-        <div class="opening-special">
-            My Special One💙
-        </div>
-
-        <div class="opening-guest" id="openingGuest">
-            Miss. Karthika
-        </div>
-
-        <button id="opening-start" type="button">
-            START
-        </button>
-
-        <div id="opening-countdown"></div>
-
-        <div id="opening-grand-text">
-
-            <h1>
-                ✨ GRAND OPENING ✨
-            </h1>
-
-            <p>
-                BIYA FASHION
-            </p>
-
-        </div>
-
+    <div id="grand">
+      <h1>✨ GRAND OPENING ✨</h1>
+      <p>BIYA FASHION</p>
     </div>
-
+  </div>
 </div>
 
-<!-- ================= NAVIGATION ================= -->
-
+<!-- NORMAL WEBSITE -->
 <nav>
-
 <a href="#home">Home</a>
 <a href="#tshirts">T-Shirts</a>
-<a href="#size-guide">Size</a>
+<a href="#size">Size</a>
 <a href="#about">About</a>
-<a href="#information">Info</a>
+<a href="#info">Info</a>
 <a href="#faq">FAQ</a>
-<a href="#special-thanks">Thanks</a>
+<a href="#thanks">Thanks</a>
 <a href="#contact">Contact</a>
-
 </nav>
 
-<!-- ================= HOME ================= -->
-
-<section id="home">
-
-<img
-    src="logo-board.png"
-    alt="Biya Fashion Premium T-Shirts"
->
-
-<h1>
-Biya Fashion
-</h1>
-
-<p>
-Premium T-Shirts • Style • Comfort • Quality
-</p>
-
-<a
-    class="main-button"
-    href="#tshirts">
-
-View T-Shirts
-
-</a>
-
+<section id="home" class="hero">
+<img src="logo-board.png" alt="Biya Fashion">
+<h1>Biya Fashion</h1>
+<p>Premium T-Shirts • Style • Comfort • Quality</p>
+<a class="btn" href="#tshirts">View T-Shirts</a>
 </section>
-
-<!-- ================= T-SHIRTS ================= -->
 
 <section id="tshirts">
+<h2>Our T-Shirts</h2>
+<p>Premium quality T-Shirts for your everyday style.</p>
 
-<h2>
-Our T-Shirts
-</h2>
-
-<p class="subtitle">
-Premium quality T-Shirts for your everyday style.
-</p>
-
-<div class="product-card">
-
-<div class="shirt-icon">
-👕
+<div class="card">
+<div style="font-size:55px">👕</div>
+<h3>Premium T-Shirt</h3>
+<h2>₹399</h2>
+<p>Stylish and comfortable T-Shirt for everyday wear.</p>
+<p><b>Sizes:</b> M • L • XL • XXL</p>
+<p><b>Payment:</b> Online Payment</p>
+<p><b>Delivery Charges:</b> Will be shared on WhatsApp</p>
+<a class="btn" href="https://wa.me/919655625186?text=Hi%20Biya%20Fashion%2C%20I%20want%20to%20order%20Premium%20T-Shirt%20%E2%82%B9399">Order on WhatsApp</a>
 </div>
-
-<h3>
-Premium T-Shirt
-</h3>
-
-<div class="price">
-₹399
-</div>
-
-<p class="product-text">
-Stylish and comfortable T-Shirt for everyday wear.
-</p>
-
-<div class="sizes">
-
-<strong>
-Available Sizes
-</strong>
-
-<br><br>
-
-<span>M</span>
-<span>L</span>
-<span>XL</span>
-<span>XXL</span>
-
-</div>
-
-<div class="info-box">
-
-<p>
-<strong>Price:</strong> ₹399
-</p>
-
-<p>
-<strong>Payment:</strong> Online Payment
-</p>
-
-<p>
-<strong>Delivery Charges:</strong><br>
-Will be shared on WhatsApp
-</p>
-
-</div>
-
-<a
-class="order-button"
-href="https://wa.me/919655625186?text=Hi%20Biya%20Fashion,%20I%20want%20to%20order%20a%20T-Shirt%20for%20Rs.399.%20Please%20share%20available%20colours%20and%20delivery%20details."
-target="_blank">
-
-💬 Order on WhatsApp
-
-</a>
-
-</div>
-
 </section>
 
-<!-- ================= SIZE GUIDE ================= -->
-
-<section id="size-guide">
-
-<h2>
-Size Guide
-</h2>
-
-<p class="subtitle">
-Choose the right size before ordering.
-</p>
-
-<table class="size-table">
-
-<tr>
-<th>Size</th>
-<th>Chest</th>
-<th>Length</th>
-</tr>
-
-<tr>
-<td>M</td>
-<td>38–40"</td>
-<td>27"</td>
-</tr>
-
-<tr>
-<td>L</td>
-<td>40–42"</td>
-<td>28"</td>
-</tr>
-
-<tr>
-<td>XL</td>
-<td>42–44"</td>
-<td>29"</td>
-</tr>
-
-<tr>
-<td>XXL</td>
-<td>44–46"</td>
-<td>30"</td>
-</tr>
-
-</table>
-
-<p class="size-note">
-Measurements are approximate. Please confirm the exact size with us on WhatsApp before ordering.
-</p>
-
+<section id="size">
+<h2>Size Guide</h2>
+<div class="grid">
+<div><b>M</b><br>38–40"<br>27"</div>
+<div><b>L</b><br>40–42"<br>28"</div>
+<div><b>XL</b><br>42–44"<br>29"</div>
+<div><b>XXL</b><br>44–46"<br>30"</div>
+</div>
+<p style="margin-top:15px">Measurements are approximate.</p>
 </section>
-
-<!-- ================= ABOUT ================= -->
 
 <section id="about">
-
-<h2>
-About Biya Fashion
-</h2>
-
-<p class="subtitle">
-Style • Comfort • Quality
-</p>
-
-<div class="about-content">
-
-<p>
-Welcome to <strong>Biya Fashion</strong>.
-We bring you stylish and comfortable T-Shirts
-for your everyday lifestyle.
-Our focus is on quality, comfort and style.
-</p>
-
-<p style="margin-top:15px;">
-Located in <strong>Kariyapatti, Virudhunagar, Tamil Nadu</strong>,
-Biya Fashion makes it easy to order your favourite T-Shirts
-through WhatsApp.
-</p>
-
+<h2>About Biya Fashion</h2>
+<h3>Style • Comfort • Quality</h3>
+<div class="card">
+<p>Welcome to Biya Fashion. We bring you stylish and comfortable T-Shirts for your everyday lifestyle. Our focus is on quality, comfort and style.</p>
+<p>📍 Kariyapatti, Virudhunagar, Tamil Nadu</p>
+<p>📱 Easy WhatsApp Ordering</p>
 </div>
-
-<div class="features">
-
-<div class="feature">
-
-<div class="feature-icon">
-👕
+<div class="grid">
+<div>✨<br>Quality</div>
+<div>👕<br>Style</div>
+<div>💚<br>Comfort</div>
 </div>
-
-<h3>
-Quality
-</h3>
-
-<p>
-Quality clothing for everyday use.
-</p>
-
-</div>
-
-<div class="feature">
-
-<div class="feature-icon">
-✨
-</div>
-
-<h3>
-Style
-</h3>
-
-<p>
-Simple and stylish everyday fashion.
-</p>
-
-</div>
-
-<div class="feature">
-
-<div class="feature-icon">
-❤️
-</div>
-
-<h3>
-Comfort
-</h3>
-
-<p>
-Comfortable wear for your daily life.
-</p>
-
-</div>
-
-</div>
-
 </section>
 
-<!-- ================= INFORMATION ================= -->
-
-<section id="information">
-
-<h2>
-Information
-</h2>
-
-<p class="subtitle">
-Everything you need to know before ordering.
-</p>
-
-<div class="info-cards">
-
-<div class="info-card">
-
-<div class="icon">
-💳
+<section id="info">
+<h2>Information</h2>
+<div class="grid">
+<div>💳<br><b>Online Payment</b></div>
+<div>🚚<br><b>Delivery</b></div>
+<div>📱<br><b>Easy Ordering</b></div>
 </div>
-
-<h3>
-Online Payment
-</h3>
-
-<p>
-Easy and secure online payment.
-</p>
-
-</div>
-
-<div class="info-card">
-
-<div class="icon">
-🚚
-</div>
-
-<h3>
-Delivery
-</h3>
-
-<p>
-Delivery charges will be shared on WhatsApp.
-</p>
-
-</div>
-
-<div class="info-card">
-
-<div class="icon">
-💬
-</div>
-
-<h3>
-Easy Ordering
-</h3>
-
-<p>
-Order easily through WhatsApp.
-</p>
-
-</div>
-
-</div>
-
 </section>
 
-<!-- ================= NEW ARRIVALS ================= -->
-
-<section id="new-arrivals">
-
-<h2>
-New Arrivals
-</h2>
-
-<p class="subtitle">
-Fresh styles are coming soon.
-</p>
-
-<div class="arrival-card">
-
-<div class="arrival-icon">
-🛍️
+<section id="new">
+<h2>New Arrivals</h2>
+<div class="card">
+<h3>Coming Soon</h3>
+<p>Follow us on Instagram for new collections.</p>
+<a class="btn" href="https://www.instagram.com/biya.fashion_/">Instagram</a>
 </div>
-
-<h3>
-Coming Soon
-</h3>
-
-<p>
-New T-Shirt collections will be added soon.
-</p>
-
-<br>
-
-<a
-class="main-button"
-href="https://www.instagram.com/biya.fashion_/"
-target="_blank">
-
-📸 Follow on Instagram
-
-</a>
-
-</div>
-
 </section>
-
-<!-- ================= FAQ ================= -->
 
 <section id="faq">
-
-<h2>
-Frequently Asked Questions
-</h2>
-
-<p class="subtitle">
-Quick answers to common questions.
-</p>
-
-<div class="faq-box">
-
-<details>
-
-<summary>
-What is the price of the T-Shirt?
-</summary>
-
-<p>
-Our Premium T-Shirt price is ₹399.
-</p>
-
-</details>
-
-<details>
-
-<summary>
-What sizes are available?
-</summary>
-
-<p>
-Sizes available are M, L, XL and XXL.
-</p>
-
-</details>
-
-<details>
-
-<summary>
-How can I order?
-</summary>
-
-<p>
-You can order directly through WhatsApp.
-</p>
-
-</details>
-
-<details>
-
-<summary>
-What colours are available?
-</summary>
-
-<p>
-Available colours can be confirmed through WhatsApp.
-</p>
-
-</details>
-
-<details>
-
-<summary>
-How much is the delivery charge?
-</summary>
-
-<p>
-Delivery charges will be shared on WhatsApp.
-</p>
-
-</details>
-
-<details>
-
-<summary>
-How can I make payment?
-</summary>
-
-<p>
-Online payment details will be shared through WhatsApp.
-</p>
-
-</details>
-
+<h2>FAQ</h2>
+<div class="card">
+<p><b>Price?</b><br>₹399</p><hr>
+<p><b>Sizes?</b><br>M / L / XL / XXL</p><hr>
+<p><b>How to order?</b><br>Order through WhatsApp.</p><hr>
+<p><b>Colours?</b><br>Available colours can be checked on WhatsApp.</p><hr>
+<p><b>Delivery charges?</b><br>Shared on WhatsApp.</p><hr>
+<p><b>Payment?</b><br>Online payment through WhatsApp.</p>
 </div>
-
 </section>
 
-<!-- ================= REVIEWS ================= -->
-
 <section id="reviews">
+<h2>Reviews</h2>
+<div class="card">
+<h3>⭐ Your Review Could Be Here</h3>
+<a class="btn" href="https://wa.me/919655625186?text=Hi%20Biya%20Fashion%2C%20I%20want%20to%20share%20my%20review.">Give Feedback</a>
+</div>
+</section>
 
-<h2>
-Customer Reviews
-</h2>
+<section id="thanks">
+<h2>SPECIAL THANKS 💚</h2>
+<div class="card">
+<p>A Heartfelt Thank You to My Beloved Brother, <b>Thangapandii 💙</b>, for Being a Great Inspiration Behind My Business Journey. Your Constant Support, Encouragement, and Belief in Me Mean More Than Words Can Express.</p>
+<br>
+<b>— BIYA FASHION 💚</b>
+</div>
+</section>
 
-<p class="subtitle">
-Your feedback means a lot to us.
-</p>
+<section id="contact">
+<h2>Contact</h2>
+<div class="card">
+<p>📱 WhatsApp: +91 9655625186</p>
+<p>📸 Instagram: @biya.fashion_</p>
+<p>📍 Kariyapatti, Virudhunagar - 626106</p>
+<a class="btn" href="https://www.google.com/maps/search/?api=1&query=Kariyapatti%2C+Virudhunagar%2C+Tamil+Nadu">Google Maps</a>
+</div>
+</section>
 
-<div class="review-box">
+<footer>
+<h3>Biya Fashion</h3>
+<p>Wear Your Style.</p>
+<p>Premium T-Shirts in Kariyapatti, Virudhunagar</p>
+<p>Kariyapatti, Virudhunagar - 626106</p>
+<p>© 2026 Biya Fashion. All Rights Reserved.</p>
+</footer>
 
-<h3>
-⭐ Your Review Could Be Here
-</h3>
+<a class="wa" href="https://wa.me/919655625186">💬</a>
 
-<p>
-After purchasing from Biya Fashion,
-please share you
+<script>
+const guests={
+karthika:"Miss. Karthika",
+sanjay:"Mrs. Sanjay Snekha",
+thangapandii:"Mr. Thangapandii",
+sabiya:"Miss. Sabiya Banu"
+};
+
+const key=new URLSearchParams(location.search).get("guest");
+const screen=document.getElementById("opening");
+const guest=document.getElementById("guest");
+const start=document.getElementById("start");
+const count=document.getElementById("count");
+const grand=document.getElementById("grand");
+
+if(!guests[key]){
+screen.style.display="none";
+}else{
+guest.textContent=guests[key];
+
+start.onclick=function(){
+start.style.display="none";
+document.querySelector(".special").style.display="none";
+guest.style.display="none";
+document.querySelector(".openlogo").style.display="none";
+document.querySelector(".openbox h2").style.display="none";
+count.style.display="block";
+
+let n=3;
+count.textContent=n;
+
+const timer=setInterval(()=>{
+n--;
+if(n>0){
+count.textContent=n;
+}else{
+clearInterval(timer);
+count.style.display="none";
+grand.style.display="block";
+
+setTimeout(()=>{
+screen.classList.add("hide");
+document.body.style.overflow="auto";
+},2500);
+}
+},1000);
+};
+}
+</script>
+
+</body>
+</html>
