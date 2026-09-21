@@ -1521,3 +1521,251 @@ messagingSenderId: "1023320857838",
 appId: "1:1023320857838:web:273250af8cadd80ecca7ff",
 measurementId: "G-C9KLX0KQ8R"
 };
+<script>
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let selectedRating = 0;
+
+/* STAR RATING */
+document.querySelectorAll(".star-btn").forEach((star) => {
+
+  star.addEventListener("click", () => {
+
+    selectedRating = Number(star.dataset.rating);
+
+    document
+      .querySelectorAll(".star-btn")
+      .forEach((s) => {
+        s.classList.toggle(
+          "active",
+          Number(s.dataset.rating) <= selectedRating
+        );
+      });
+
+    document.getElementById("selectedRating").value = selectedRating;
+  });
+
+});
+
+
+/* CREATE STARS */
+function makeStars(rating){
+
+  let stars = "";
+
+  for(let i = 1; i <= 5; i++){
+    stars += i <= rating ? "★" : "☆";
+  }
+
+  return stars;
+}
+
+
+/* LOAD APPROVED REVIEWS */
+const reviewsQuery = query(
+  collection(db, "reviews"),
+  where("approved", "==", true),
+  limit(50)
+);
+
+onSnapshot(
+  reviewsQuery,
+
+  (snapshot) => {
+
+    const list = document.getElementById("reviewsList");
+
+    let total = snapshot.size;
+    let sum = 0;
+
+    list.innerHTML = "";
+
+    if(total === 0){
+
+      list.innerHTML = `
+        <div class="card no-reviews">
+          No reviews yet.
+        </div>
+      `;
+
+      document.getElementById("averageStars").textContent = "☆☆☆☆☆";
+      document.getElementById("averageRating").textContent = "No ratings yet";
+      document.getElementById("reviewCount").textContent = "0 reviews";
+
+      return;
+    }
+
+
+    snapshot.forEach((doc) => {
+
+      const data = doc.data();
+
+      sum += Number(data.rating);
+
+      const item = document.createElement("div");
+
+      item.className = "review-item";
+
+      item.innerHTML = `
+        <div class="review-top">
+          <div class="review-name">
+            ${escapeHTML(data.name)}
+          </div>
+
+          <div class="review-stars">
+            ${makeStars(Number(data.rating))}
+          </div>
+        </div>
+
+        <div class="review-text">
+          ${escapeHTML(data.review)}
+        </div>
+      `;
+
+      list.appendChild(item);
+
+    });
+
+
+    const average = sum / total;
+
+    document.getElementById("averageStars").textContent =
+      makeStars(Math.round(average));
+
+    document.getElementById("averageRating").textContent =
+      average.toFixed(1) + " / 5";
+
+    document.getElementById("reviewCount").textContent =
+      total + (total === 1 ? " review" : " reviews");
+
+  },
+
+  (error) => {
+
+    console.error("Reviews error:", error);
+
+    document.getElementById("reviewsList").innerHTML = `
+      <div class="card no-reviews">
+        Unable to load reviews.
+      </div>
+    `;
+
+  }
+);
+
+
+/* SAFE TEXT */
+function escapeHTML(text){
+
+  const div = document.createElement("div");
+
+  div.textContent = text;
+
+  return div.innerHTML;
+}
+
+
+/* SUBMIT REVIEW */
+document
+  .getElementById("reviewForm")
+  .addEventListener("submit", async (e) => {
+
+    e.preventDefault();
+
+    const name =
+      document.getElementById("reviewName").value.trim();
+
+    const review =
+      document.getElementById("reviewText").value.trim();
+
+    const message =
+      document.getElementById("reviewMessage");
+
+    const submitButton =
+      document.getElementById("submitReview");
+
+
+    if(!name){
+
+      message.textContent = "Please enter your name.";
+      message.className = "review-message error";
+      return;
+
+    }
+
+
+    if(selectedRating === 0){
+
+      message.textContent = "Please select a star rating ⭐";
+      message.className = "review-message error";
+      return;
+
+    }
+
+
+    if(!review){
+
+      message.textContent = "Please write your review.";
+      message.className = "review-message error";
+      return;
+
+    }
+
+
+    submitButton.disabled = true;
+    submitButton.textContent = "Submitting...";
+
+
+    try{
+
+      await addDoc(
+        collection(db, "reviews"),
+        {
+          name: name,
+          review: review,
+          rating: selectedRating,
+          approved: false,
+          createdAt: Timestamp.now()
+        }
+      );
+
+
+      message.textContent =
+        "Thank you! 💚 Your review was submitted and will appear after approval.";
+
+      message.className = "review-message success";
+
+
+      document.getElementById("reviewForm").reset();
+
+
+      selectedRating = 0;
+
+      document
+        .querySelectorAll(".star-btn")
+        .forEach((s) => {
+          s.classList.remove("active");
+        });
+
+
+    }catch(error){
+
+      console.error(error);
+
+      message.textContent =
+        "Something went wrong. Please try again.";
+
+      message.className = "review-message error";
+
+    }
+
+
+    submitButton.disabled = false;
+    submitButton.textContent = "Submit Review";
+
+  });
+</script>
+
+</body>
+</html>
