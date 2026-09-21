@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <title>Biya Fashion | Premium T-Shirts in Kariyapatti</title>
-
 <meta name="description" content="Biya Fashion offers premium quality and stylish T-Shirts in Kariyapatti, Virudhunagar. T-Shirts from ₹399.">
 <meta name="keywords" content="Biya Fashion, T-Shirts Kariyapatti, T-Shirts Virudhunagar, Premium T-Shirts">
 <meta name="author" content="Biya Fashion">
@@ -13,6 +12,11 @@
 <meta name="theme-color" content="#064d32">
 
 <link rel="canonical" href="https://biyafashion.github.io/Biya-Fashion-/">
+
+<!-- Premium Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 *{
@@ -28,6 +32,8 @@ background:#f7f7f7;
 color:#222;
 line-height:1.6
 }
+
+/* ================= NORMAL WEBSITE ================= */
 
 nav{
 position:sticky;
@@ -111,7 +117,6 @@ text-align:center;
 padding:28px 15px
 }
 
-/* WHATSAPP */
 .whatsapp{
 position:fixed;
 right:18px;
@@ -130,183 +135,239 @@ z-index:500
 }
 
 
-/* =====================================================
-   PREMIUM GRAND OPENING
-===================================================== */
+/* =========================================================
+   LUXURY GRAND OPENING
+========================================================= */
 
 #opening{
 position:fixed;
 inset:0;
-z-index:9999;
-background:
-radial-gradient(circle at 50% 40%,#0b7049 0%,#064d32 38%,#021f14 100%);
-color:#fff;
+z-index:99999;
 display:flex;
 align-items:center;
 justify-content:center;
 text-align:center;
 overflow:hidden;
-opacity:1;
-transition:opacity 1.4s ease,visibility 1.4s ease
+background:
+radial-gradient(circle at 50% 45%,#0d6b46 0%,#064d32 35%,#021a10 100%);
+color:white;
+transition:opacity 1.5s ease,transform 1.5s ease,visibility 1.5s
 }
 
-/* Moving golden light */
+/* GOLD BORDER */
 
-#opening:before,
-#opening:after{
+#opening:before{
 content:"";
 position:absolute;
-width:280px;
-height:280px;
+inset:18px;
+border:1px solid rgba(212,175,55,.55);
+box-shadow:
+inset 0 0 35px rgba(212,175,55,.08),
+0 0 35px rgba(212,175,55,.12);
+pointer-events:none;
+animation:borderPulse 3s infinite
+}
+
+@keyframes borderPulse{
+0%,100%{opacity:.45}
+50%{opacity:1}
+}
+
+
+/* LIGHT ORBS */
+
+.light{
+position:absolute;
 border-radius:50%;
-filter:blur(70px);
-opacity:.22;
+pointer-events:none;
+filter:blur(2px)
+}
+
+.light.one{
+width:350px;
+height:350px;
+background:radial-gradient(circle,#d4af37 0%,transparent 65%);
+opacity:.14;
+top:-180px;
+left:-150px;
+animation:orb1 8s infinite alternate ease-in-out
+}
+
+.light.two{
+width:400px;
+height:400px;
+background:radial-gradient(circle,#20b879 0%,transparent 65%);
+opacity:.13;
+right:-200px;
+bottom:-180px;
+animation:orb2 9s infinite alternate ease-in-out
+}
+
+@keyframes orb1{
+to{transform:translate(220px,220px) scale(1.4)}
+}
+
+@keyframes orb2{
+to{transform:translate(-180px,-180px) scale(1.3)}
+}
+
+
+/* PARTICLES */
+
+.particles{
+position:absolute;
+inset:0;
 pointer-events:none
 }
 
-#opening:before{
-background:#d4af37;
-top:-100px;
-left:-80px;
-animation:lightMove 6s infinite alternate ease-in-out
-}
-
-#opening:after{
-background:#00a86b;
-right:-100px;
-bottom:-100px;
-animation:lightMove 7s infinite alternate-reverse ease-in-out
-}
-
-@keyframes lightMove{
-from{transform:translate(0,0) scale(1)}
-to{transform:translate(90px,70px) scale(1.35)}
-}
-
-
-/* Golden particles */
-
-.openbox:before,
-.openbox:after{
-content:"✦  ✧  ✦  ✧  ✦";
+.particles span{
 position:absolute;
-left:0;
-right:0;
-color:#d4af37;
-font-size:18px;
-letter-spacing:30px;
-opacity:.35;
-animation:stars 5s linear infinite
+width:3px;
+height:3px;
+background:#d4af37;
+border-radius:50%;
+box-shadow:0 0 8px #d4af37;
+animation:floatParticle linear infinite
 }
 
-.openbox:before{
-top:12%;
+.particles span:nth-child(1){left:10%;top:80%;animation-duration:5s}
+.particles span:nth-child(2){left:18%;top:30%;animation-duration:7s}
+.particles span:nth-child(3){left:28%;top:70%;animation-duration:6s}
+.particles span:nth-child(4){left:40%;top:20%;animation-duration:8s}
+.particles span:nth-child(5){left:52%;top:80%;animation-duration:5s}
+.particles span:nth-child(6){left:64%;top:30%;animation-duration:7s}
+.particles span:nth-child(7){left:76%;top:65%;animation-duration:6s}
+.particles span:nth-child(8){left:88%;top:25%;animation-duration:8s}
+.particles span:nth-child(9){left:94%;top:80%;animation-duration:5s}
+.particles span:nth-child(10){left:5%;top:50%;animation-duration:7s}
+
+@keyframes floatParticle{
+0%{transform:translateY(40px) scale(.4);opacity:0}
+30%{opacity:1}
+70%{opacity:.8}
+100%{transform:translateY(-180px) scale(1.4);opacity:0}
 }
 
-.openbox:after{
-bottom:12%;
-animation-delay:2s
-}
 
-@keyframes stars{
-0%{transform:translateY(15px);opacity:0}
-30%{opacity:.4}
-70%{opacity:.2}
-100%{transform:translateY(-15px);opacity:0}
-}
-
+/* OPENING CONTENT */
 
 .openbox{
 position:relative;
-z-index:2;
+z-index:5;
 width:92%;
-max-width:500px;
-padding:25px 20px
+max-width:550px;
+padding:25px
 }
 
 
-/* Logo */
+/* LOGO */
 
 .openlogo{
-width:145px;
-max-width:65%;
-border-radius:18px;
-margin-bottom:18px;
+width:155px;
+height:auto;
+border-radius:20px;
 opacity:0;
-transform:scale(.7) translateY(20px);
-animation:logoIn 1.2s .2s forwards ease-out;
+transform:scale(.5);
+filter:brightness(.8);
 box-shadow:
-0 0 0 2px #d4af37,
-0 0 30px #d4af3766
+0 0 0 1px #d4af37,
+0 0 20px #d4af37,
+0 0 60px rgba(212,175,55,.35);
+animation:logoReveal 1.4s cubic-bezier(.17,.67,.25,1.3) forwards
 }
 
-@keyframes logoIn{
-to{
+@keyframes logoReveal{
+0%{
+opacity:0;
+transform:scale(.45) rotate(-8deg);
+filter:brightness(.5) blur(8px)
+}
+70%{
+transform:scale(1.08) rotate(2deg)
+}
+100%{
 opacity:1;
-transform:scale(1) translateY(0)
+transform:scale(1) rotate(0);
+filter:brightness(1) blur(0)
 }
 }
 
 
-/* Brand */
+/* BRAND */
 
 .openbrand{
-font-family:Georgia,serif;
-font-size:30px;
-font-weight:bold;
-letter-spacing:5px;
+font-family:"Cinzel",serif;
+font-size:31px;
+font-weight:700;
+letter-spacing:9px;
+margin-top:22px;
 color:#fff;
 opacity:0;
-animation:textIn 1s 1s forwards
+animation:brandReveal 1.2s .7s forwards
 }
 
-@keyframes textIn{
-from{
+@keyframes brandReveal{
+0%{
 opacity:0;
-transform:translateY(15px);
-letter-spacing:12px
+letter-spacing:20px;
+filter:blur(12px)
 }
-to{
+100%{
 opacity:1;
-transform:translateY(0);
-letter-spacing:5px
+letter-spacing:9px;
+filter:blur(0)
 }
 }
 
 
-/* Special */
+/* SPECIAL TEXT */
 
 .special{
-font-family:Georgia,serif;
-font-size:21px;
-font-style:italic;
-color:#d4af37;
-margin-top:22px;
+font-family:"Cinzel",serif;
+font-size:20px;
+font-weight:600;
+letter-spacing:2px;
+color:#e8c85a;
+margin-top:28px;
 opacity:0;
-animation:textIn 1s 1.6s forwards
+transform:translateY(20px);
+animation:specialReveal 1s 1.4s forwards
+}
+
+@keyframes specialReveal{
+to{
+opacity:1;
+transform:translateY(0)
+}
 }
 
 
-/* Guest */
+/* GUEST */
 
 .guest{
-font-family:Georgia,serif;
-font-size:29px;
-font-weight:bold;
-margin:8px 0 28px;
-color:#fff;
-text-shadow:0 0 18px #ffffff55;
+font-family:"Cinzel",serif;
+font-size:31px;
+font-weight:700;
+margin:10px 0 32px;
+color:white;
+text-shadow:0 0 25px rgba(255,255,255,.3);
 opacity:0;
-animation:guestIn 1s 2s forwards
+transform:scale(1.2);
+filter:blur(12px);
+animation:guestReveal 1.3s 1.8s forwards
 }
 
-@keyframes guestIn{
-from{
+@keyframes guestReveal{
+0%{
 opacity:0;
-transform:scale(.8);
-filter:blur(8px)
+transform:scale(1.2);
+filter:blur(12px)
 }
-to{
+60%{
+opacity:1;
+filter:blur(2px)
+}
+100%{
 opacity:1;
 transform:scale(1);
 filter:blur(0)
@@ -314,77 +375,109 @@ filter:blur(0)
 }
 
 
-/* Start button */
+/* START */
 
 #start{
 position:relative;
-border:1px solid #f0d675;
-background:linear-gradient(135deg,#f3d76b,#c59b25);
-color:#063c28;
-padding:14px 46px;
-border-radius:40px;
-font-size:18px;
-font-weight:bold;
-letter-spacing:2px;
+overflow:hidden;
+font-family:"Montserrat",sans-serif;
+font-weight:700;
+letter-spacing:3px;
+font-size:17px;
+color:#063a27;
+background:linear-gradient(135deg,#fff0a8,#d4af37,#fff0a8);
+background-size:200% 100%;
+border:1px solid #f6dd77;
+border-radius:50px;
+padding:15px 52px;
 cursor:pointer;
-box-shadow:
-0 0 15px #d4af3766,
-0 0 35px #d4af3733;
 opacity:0;
-animation:buttonIn 1s 2.5s forwards,buttonGlow 2s 3.5s infinite;
+transform:translateY(20px);
+animation:startReveal 1s 2.5s forwards,startShine 3s 3.5s infinite linear;
+box-shadow:
+0 0 20px rgba(212,175,55,.5),
+0 0 60px rgba(212,175,55,.2);
 transition:.3s
+}
+
+#start:after{
+content:"";
+position:absolute;
+top:0;
+left:-100%;
+width:60%;
+height:100%;
+background:linear-gradient(90deg,transparent,rgba(255,255,255,.8),transparent);
+transform:skewX(-20deg);
+animation:buttonSweep 2.5s 3.5s infinite
 }
 
 #start:hover{
 transform:scale(1.08)
 }
 
-@keyframes buttonIn{
-from{
-opacity:0;
-transform:translateY(20px)
-}
+@keyframes startReveal{
 to{
 opacity:1;
 transform:translateY(0)
 }
 }
 
-@keyframes buttonGlow{
-0%,100%{
-box-shadow:0 0 15px #d4af3766,0 0 35px #d4af3733
+@keyframes startShine{
+0%,100%{box-shadow:0 0 20px #d4af3788,0 0 60px #d4af3733}
+50%{box-shadow:0 0 35px #d4af37,0 0 90px #d4af3755}
 }
-50%{
-box-shadow:0 0 25px #d4af37aa,0 0 55px #d4af3755
-}
+
+@keyframes buttonSweep{
+0%{left:-100%}
+45%,100%{left:150%}
 }
 
 
-/* Countdown */
+/* COUNTDOWN */
 
 #count{
 display:none;
-font-family:Georgia,serif;
-font-size:110px;
-font-weight:bold;
-color:#d4af37;
+position:relative;
+font-family:"Cinzel",serif;
+font-size:125px;
+font-weight:700;
+line-height:1;
+color:#f1d45e;
 text-shadow:
-0 0 15px #d4af37,
-0 0 45px #d4af3777;
-line-height:1
+0 0 10px #d4af37,
+0 0 35px #d4af37,
+0 0 80px rgba(212,175,55,.5)
 }
 
-.countAnim{
-animation:countZoom .85s ease-out
+#count:before{
+content:"";
+position:absolute;
+width:190px;
+height:190px;
+left:50%;
+top:50%;
+transform:translate(-50%,-50%);
+border:2px solid rgba(212,175,55,.45);
+border-top-color:#fff1a6;
+border-radius:50%;
+animation:countRing 1s linear infinite
 }
 
-@keyframes countZoom{
+.countAnimation{
+animation:numberBoom .9s cubic-bezier(.17,.67,.25,1.3)
+}
+
+@keyframes numberBoom{
 0%{
 opacity:0;
-transform:scale(2.2)
+transform:scale(2.8);
+filter:blur(12px)
 }
 45%{
-opacity:1
+opacity:1;
+transform:scale(.9);
+filter:blur(0)
 }
 100%{
 opacity:1;
@@ -392,72 +485,113 @@ transform:scale(1)
 }
 }
 
+@keyframes countRing{
+to{transform:translate(-50%,-50%) rotate(360deg)}
+}
 
-/* Grand Opening */
+
+/* GRAND OPENING */
 
 #grand{
-display:none
+display:none;
+position:relative
 }
 
 #grand h1{
-font-family:Georgia,serif;
-color:#d4af37;
-font-size:39px;
-letter-spacing:2px;
-text-shadow:
-0 0 12px #d4af37,
-0 0 35px #d4af3755;
-animation:grandIn 1.5s ease-out
+font-family:"Cinzel",serif;
+font-size:43px;
+font-weight:800;
+letter-spacing:4px;
+line-height:1.3;
+background:linear-gradient(
+90deg,
+#b98b1d,
+#fff2a6,
+#d4af37,
+#fff2a6,
+#b98b1d
+);
+background-size:300% auto;
+-webkit-background-clip:text;
+background-clip:text;
+color:transparent;
+animation:
+grandZoom 1.2s cubic-bezier(.17,.67,.25,1.3),
+goldMove 3s linear infinite;
+text-shadow:none
 }
 
 #grand p{
-font-size:21px;
-letter-spacing:6px;
-margin-top:8px;
-color:#fff;
-animation:brandReveal 1.5s .3s both
+font-family:"Montserrat",sans-serif;
+font-size:19px;
+font-weight:600;
+letter-spacing:9px;
+margin-top:15px;
+color:white;
+opacity:0;
+animation:subReveal 1s .7s forwards
 }
 
-@keyframes grandIn{
-from{
-opacity:0;
-transform:scale(.5);
-filter:blur(10px)
+.grandLine{
+width:0;
+height:1px;
+background:#d4af37;
+margin:20px auto 0;
+box-shadow:0 0 12px #d4af37;
+animation:lineGrow 1.2s .5s forwards
 }
-to{
+
+@keyframes grandZoom{
+0%{
+opacity:0;
+transform:scale(.2);
+filter:blur(15px)
+}
+65%{
+transform:scale(1.12)
+}
+100%{
 opacity:1;
 transform:scale(1);
 filter:blur(0)
 }
 }
 
-@keyframes brandReveal{
+@keyframes goldMove{
+to{background-position:300% center}
+}
+
+@keyframes subReveal{
 from{
 opacity:0;
-letter-spacing:15px
+letter-spacing:18px
 }
 to{
 opacity:1;
-letter-spacing:6px
+letter-spacing:9px
 }
 }
 
+@keyframes lineGrow{
+to{width:230px}
+}
 
-/* Opening fade */
 
-.openingDone{
+/* FINAL EXIT */
+
+.openingExit{
 opacity:0!important;
+transform:scale(1.15)!important;
 visibility:hidden!important
 }
 
 
-/* Mobile */
+/* MOBILE */
 
 @media(max-width:600px){
 
-nav a{
-font-size:12px;
-margin:0 4px
+#opening:before{
+inset:12px
 }
 
 .openlogo{
@@ -466,28 +600,39 @@ width:125px
 
 .openbrand{
 font-size:24px;
-letter-spacing:4px
+letter-spacing:5px
 }
 
 .special{
-font-size:18px
+font-size:17px
 }
 
 .guest{
 font-size:25px
 }
 
+#start{
+font-size:15px;
+padding:14px 40px
+}
+
 #count{
 font-size:90px
 }
 
+#count:before{
+width:150px;
+height:150px
+}
+
 #grand h1{
-font-size:29px
+font-size:29px;
+letter-spacing:2px
 }
 
 #grand p{
-font-size:17px;
-letter-spacing:4px
+font-size:15px;
+letter-spacing:5px
 }
 
 }
@@ -498,10 +643,18 @@ letter-spacing:4px
 
 
 <!-- =====================================================
-     GRAND OPENING
+     GRAND OPENING SCREEN
 ===================================================== -->
 
 <div id="opening">
+
+<div class="light one"></div>
+<div class="light two"></div>
+
+<div class="particles">
+<span></span><span></span><span></span><span></span><span></span>
+<span></span><span></span><span></span><span></span><span></span>
+</div>
 
 <div class="openbox">
 
@@ -531,8 +684,17 @@ START
 </div>
 
 <div id="grand">
-<h1>✨ GRAND OPENING ✨</h1>
-<p>BIYA FASHION</p>
+
+<h1>
+✨ GRAND OPENING ✨
+</h1>
+
+<div class="grandLine"></div>
+
+<p>
+BIYA FASHION
+</p>
+
 </div>
 
 </div>
@@ -544,7 +706,6 @@ START
 ===================================================== -->
 
 <nav>
-
 <a href="#home">Home</a>
 <a href="#tshirts">T-Shirts</a>
 <a href="#size">Size</a>
@@ -553,7 +714,6 @@ START
 <a href="#faq">FAQ</a>
 <a href="#thanks">Thanks</a>
 <a href="#contact">Contact</a>
-
 </nav>
 
 
@@ -563,9 +723,7 @@ START
 
 <section id="home" class="hero">
 
-<img
-src="logo-board.png"
-alt="Biya Fashion">
+<img src="logo-board.png" alt="Biya Fashion">
 
 <h1>Biya Fashion</h1>
 
@@ -624,9 +782,7 @@ class="btn"
 href="https://wa.me/919655625186?text=Hi%20Biya%20Fashion%2C%20I%20want%20to%20order%20Premium%20T-Shirt"
 target="_blank"
 rel="noopener">
-
 Chat on WhatsApp
-
 </a>
 
 </div>
@@ -776,9 +932,7 @@ class="btn"
 href="https://www.instagram.com/biya.fashion_/"
 target="_blank"
 rel="noopener">
-
 Follow on Instagram
-
 </a>
 
 </div>
@@ -860,9 +1014,7 @@ class="btn"
 href="https://wa.me/919655625186?text=Hi%20Biya%20Fashion%2C%20I%20want%20to%20share%20my%20review."
 target="_blank"
 rel="noopener">
-
 Share Your Review
-
 </a>
 
 </div>
@@ -910,18 +1062,14 @@ Your Constant Support, Encouragement, and Belief in Me Mean More Than Words Can 
 
 <div class="card">
 
-<p>
-📱 WhatsApp
-</p>
+<p>📱 WhatsApp</p>
 
 <a
 class="btn"
 href="https://wa.me/919655625186"
 target="_blank"
 rel="noopener">
-
 Chat on WhatsApp
-
 </a>
 
 <p style="margin-top:18px">
@@ -933,9 +1081,7 @@ class="btn"
 href="https://www.instagram.com/biya.fashion_/"
 target="_blank"
 rel="noopener">
-
 Follow on Instagram
-
 </a>
 
 <p style="margin-top:18px">
@@ -947,9 +1093,7 @@ class="btn"
 href="https://www.google.com/maps/search/?api=1&query=Kariyapatti%2C%20Virudhunagar%2C%20Tamil%20Nadu"
 target="_blank"
 rel="noopener">
-
 Open Google Maps
-
 </a>
 
 </div>
@@ -994,9 +1138,7 @@ href="https://wa.me/919655625186"
 target="_blank"
 rel="noopener"
 aria-label="Chat on WhatsApp">
-
 💬
-
 </a>
 
 
@@ -1044,35 +1186,27 @@ count.style.display="block";
 
 let number=3;
 
-function showNumber(){
+function countdown(){
 
 count.textContent=number;
 
-count.classList.remove("countAnim");
+count.classList.remove("countAnimation");
 
 void count.offsetWidth;
 
-count.classList.add("countAnim");
+count.classList.add("countAnimation");
 
-if(number===3){
-
-setTimeout(function(){
-number=2;
-showNumber();
-},1000);
-
-}
-
-else if(number===2){
+if(number>1){
 
 setTimeout(function(){
-number=1;
-showNumber();
+
+number--;
+
+countdown();
+
 },1000);
 
-}
-
-else{
+}else{
 
 setTimeout(function(){
 
@@ -1082,7 +1216,7 @@ grand.style.display="block";
 
 setTimeout(function(){
 
-opening.classList.add("openingDone");
+opening.classList.add("openingExit");
 
 document.body.style.overflow="auto";
 
@@ -1092,7 +1226,7 @@ opening.style.display="none";
 
 },1500);
 
-},2800);
+},3200);
 
 },1000);
 
@@ -1100,7 +1234,7 @@ opening.style.display="none";
 
 }
 
-showNumber();
+countdown();
 
 };
 
