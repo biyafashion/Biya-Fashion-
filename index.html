@@ -129,93 +129,329 @@ text-decoration:none;
 z-index:500
 }
 
-/* ================= GRAND OPENING ================= */
+
+/* =====================================================
+   PREMIUM GRAND OPENING
+===================================================== */
 
 #opening{
 position:fixed;
 inset:0;
 z-index:9999;
-background:#064d32;
+background:
+radial-gradient(circle at 50% 40%,#0b7049 0%,#064d32 38%,#021f14 100%);
 color:#fff;
 display:flex;
 align-items:center;
 justify-content:center;
 text-align:center;
-overflow:hidden
+overflow:hidden;
+opacity:1;
+transition:opacity 1.4s ease,visibility 1.4s ease
 }
+
+/* Moving golden light */
+
+#opening:before,
+#opening:after{
+content:"";
+position:absolute;
+width:280px;
+height:280px;
+border-radius:50%;
+filter:blur(70px);
+opacity:.22;
+pointer-events:none
+}
+
+#opening:before{
+background:#d4af37;
+top:-100px;
+left:-80px;
+animation:lightMove 6s infinite alternate ease-in-out
+}
+
+#opening:after{
+background:#00a86b;
+right:-100px;
+bottom:-100px;
+animation:lightMove 7s infinite alternate-reverse ease-in-out
+}
+
+@keyframes lightMove{
+from{transform:translate(0,0) scale(1)}
+to{transform:translate(90px,70px) scale(1.35)}
+}
+
+
+/* Golden particles */
+
+.openbox:before,
+.openbox:after{
+content:"✦  ✧  ✦  ✧  ✦";
+position:absolute;
+left:0;
+right:0;
+color:#d4af37;
+font-size:18px;
+letter-spacing:30px;
+opacity:.35;
+animation:stars 5s linear infinite
+}
+
+.openbox:before{
+top:12%;
+}
+
+.openbox:after{
+bottom:12%;
+animation-delay:2s
+}
+
+@keyframes stars{
+0%{transform:translateY(15px);opacity:0}
+30%{opacity:.4}
+70%{opacity:.2}
+100%{transform:translateY(-15px);opacity:0}
+}
+
 
 .openbox{
-width:90%;
-max-width:450px;
-padding:20px
+position:relative;
+z-index:2;
+width:92%;
+max-width:500px;
+padding:25px 20px
 }
+
+
+/* Logo */
 
 .openlogo{
-width:135px;
-max-width:70%;
-border-radius:15px;
-margin-bottom:15px
+width:145px;
+max-width:65%;
+border-radius:18px;
+margin-bottom:18px;
+opacity:0;
+transform:scale(.7) translateY(20px);
+animation:logoIn 1.2s .2s forwards ease-out;
+box-shadow:
+0 0 0 2px #d4af37,
+0 0 30px #d4af3766
 }
+
+@keyframes logoIn{
+to{
+opacity:1;
+transform:scale(1) translateY(0)
+}
+}
+
+
+/* Brand */
 
 .openbrand{
-font-size:28px;
+font-family:Georgia,serif;
+font-size:30px;
 font-weight:bold;
-letter-spacing:2px
+letter-spacing:5px;
+color:#fff;
+opacity:0;
+animation:textIn 1s 1s forwards
 }
+
+@keyframes textIn{
+from{
+opacity:0;
+transform:translateY(15px);
+letter-spacing:12px
+}
+to{
+opacity:1;
+transform:translateY(0);
+letter-spacing:5px
+}
+}
+
+
+/* Special */
 
 .special{
-font-size:20px;
+font-family:Georgia,serif;
+font-size:21px;
+font-style:italic;
 color:#d4af37;
-margin-top:15px
+margin-top:22px;
+opacity:0;
+animation:textIn 1s 1.6s forwards
 }
+
+
+/* Guest */
 
 .guest{
-font-size:27px;
+font-family:Georgia,serif;
+font-size:29px;
 font-weight:bold;
-margin:8px 0 25px
+margin:8px 0 28px;
+color:#fff;
+text-shadow:0 0 18px #ffffff55;
+opacity:0;
+animation:guestIn 1s 2s forwards
 }
 
+@keyframes guestIn{
+from{
+opacity:0;
+transform:scale(.8);
+filter:blur(8px)
+}
+to{
+opacity:1;
+transform:scale(1);
+filter:blur(0)
+}
+}
+
+
+/* Start button */
+
 #start{
-border:0;
-background:#d4af37;
-color:#064d32;
-padding:14px 40px;
-border-radius:30px;
+position:relative;
+border:1px solid #f0d675;
+background:linear-gradient(135deg,#f3d76b,#c59b25);
+color:#063c28;
+padding:14px 46px;
+border-radius:40px;
 font-size:18px;
 font-weight:bold;
-cursor:pointer
+letter-spacing:2px;
+cursor:pointer;
+box-shadow:
+0 0 15px #d4af3766,
+0 0 35px #d4af3733;
+opacity:0;
+animation:buttonIn 1s 2.5s forwards,buttonGlow 2s 3.5s infinite;
+transition:.3s
 }
+
+#start:hover{
+transform:scale(1.08)
+}
+
+@keyframes buttonIn{
+from{
+opacity:0;
+transform:translateY(20px)
+}
+to{
+opacity:1;
+transform:translateY(0)
+}
+}
+
+@keyframes buttonGlow{
+0%,100%{
+box-shadow:0 0 15px #d4af3766,0 0 35px #d4af3733
+}
+50%{
+box-shadow:0 0 25px #d4af37aa,0 0 55px #d4af3755
+}
+}
+
+
+/* Countdown */
 
 #count{
 display:none;
-font-size:90px;
-font-weight:bold
+font-family:Georgia,serif;
+font-size:110px;
+font-weight:bold;
+color:#d4af37;
+text-shadow:
+0 0 15px #d4af37,
+0 0 45px #d4af3777;
+line-height:1
 }
+
+.countAnim{
+animation:countZoom .85s ease-out
+}
+
+@keyframes countZoom{
+0%{
+opacity:0;
+transform:scale(2.2)
+}
+45%{
+opacity:1
+}
+100%{
+opacity:1;
+transform:scale(1)
+}
+}
+
+
+/* Grand Opening */
 
 #grand{
 display:none
 }
 
 #grand h1{
+font-family:Georgia,serif;
 color:#d4af37;
-font-size:35px
+font-size:39px;
+letter-spacing:2px;
+text-shadow:
+0 0 12px #d4af37,
+0 0 35px #d4af3755;
+animation:grandIn 1.5s ease-out
 }
 
 #grand p{
-font-size:20px;
-margin-top:5px
+font-size:21px;
+letter-spacing:6px;
+margin-top:8px;
+color:#fff;
+animation:brandReveal 1.5s .3s both
 }
 
-.fade{
-animation:fade 1.3s forwards
-}
-
-@keyframes fade{
-to{
+@keyframes grandIn{
+from{
 opacity:0;
-visibility:hidden
+transform:scale(.5);
+filter:blur(10px)
+}
+to{
+opacity:1;
+transform:scale(1);
+filter:blur(0)
 }
 }
+
+@keyframes brandReveal{
+from{
+opacity:0;
+letter-spacing:15px
+}
+to{
+opacity:1;
+letter-spacing:6px
+}
+}
+
+
+/* Opening fade */
+
+.openingDone{
+opacity:0!important;
+visibility:hidden!important
+}
+
+
+/* Mobile */
 
 @media(max-width:600px){
 
@@ -224,32 +460,55 @@ font-size:12px;
 margin:0 4px
 }
 
-.guest{
-font-size:24px
-}
-
-#grand h1{
-font-size:28px
+.openlogo{
+width:125px
 }
 
 .openbrand{
-font-size:24px
+font-size:24px;
+letter-spacing:4px
 }
+
+.special{
+font-size:18px
+}
+
+.guest{
+font-size:25px
+}
+
+#count{
+font-size:90px
+}
+
+#grand h1{
+font-size:29px
+}
+
+#grand p{
+font-size:17px;
+letter-spacing:4px
+}
+
 }
 </style>
 </head>
 
 <body>
 
-<!-- ================= GRAND OPENING ================= -->
+
+<!-- =====================================================
+     GRAND OPENING
+===================================================== -->
 
 <div id="opening">
 
 <div class="openbox">
 
-<img src="logo-board.png"
-     class="openlogo"
-     alt="Biya Fashion">
+<img
+src="logo-board.png"
+class="openlogo"
+alt="Biya Fashion">
 
 <div class="openbrand">
 BIYA FASHION
@@ -280,7 +539,9 @@ START
 </div>
 
 
-<!-- ================= NAVIGATION ================= -->
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
 
 <nav>
 
@@ -296,12 +557,15 @@ START
 </nav>
 
 
-<!-- ================= HOME ================= -->
+<!-- =====================================================
+     HOME
+===================================================== -->
 
 <section id="home" class="hero">
 
-<img src="logo-board.png"
-     alt="Biya Fashion">
+<img
+src="logo-board.png"
+alt="Biya Fashion">
 
 <h1>Biya Fashion</h1>
 
@@ -316,7 +580,9 @@ View T-Shirts
 </section>
 
 
-<!-- ================= T-SHIRTS ================= -->
+<!-- =====================================================
+     T-SHIRTS
+===================================================== -->
 
 <section id="tshirts">
 
@@ -353,8 +619,11 @@ Stylish and comfortable T-Shirt for everyday wear.
 Will be shared on WhatsApp
 </p>
 
-<a class="btn"
-href="https://wa.me/919655625186?text=Hi%20Biya%20Fashion%2C%20I%20want%20to%20order%20Premium%20T-Shirt">
+<a
+class="btn"
+href="https://wa.me/919655625186?text=Hi%20Biya%20Fashion%2C%20I%20want%20to%20order%20Premium%20T-Shirt"
+target="_blank"
+rel="noopener">
 
 Chat on WhatsApp
 
@@ -365,7 +634,9 @@ Chat on WhatsApp
 </section>
 
 
-<!-- ================= SIZE ================= -->
+<!-- =====================================================
+     SIZE
+===================================================== -->
 
 <section id="size">
 
@@ -406,7 +677,9 @@ Measurements are approximate.
 </section>
 
 
-<!-- ================= ABOUT ================= -->
+<!-- =====================================================
+     ABOUT
+===================================================== -->
 
 <section id="about">
 
@@ -452,7 +725,9 @@ Welcome to Biya Fashion. We bring you stylish and comfortable T-Shirts for your 
 </section>
 
 
-<!-- ================= INFORMATION ================= -->
+<!-- =====================================================
+     INFORMATION
+===================================================== -->
 
 <section id="info">
 
@@ -480,7 +755,9 @@ Welcome to Biya Fashion. We bring you stylish and comfortable T-Shirts for your 
 </section>
 
 
-<!-- ================= NEW ARRIVALS ================= -->
+<!-- =====================================================
+     NEW ARRIVALS
+===================================================== -->
 
 <section id="new">
 
@@ -494,7 +771,8 @@ Welcome to Biya Fashion. We bring you stylish and comfortable T-Shirts for your 
 Follow us on Instagram for new collections.
 </p>
 
-<a class="btn"
+<a
+class="btn"
 href="https://www.instagram.com/biya.fashion_/"
 target="_blank"
 rel="noopener">
@@ -508,7 +786,9 @@ Follow on Instagram
 </section>
 
 
-<!-- ================= FAQ ================= -->
+<!-- =====================================================
+     FAQ
+===================================================== -->
 
 <section id="faq">
 
@@ -561,7 +841,9 @@ Online payment through WhatsApp.
 </section>
 
 
-<!-- ================= REVIEWS ================= -->
+<!-- =====================================================
+     REVIEWS
+===================================================== -->
 
 <section id="reviews">
 
@@ -573,7 +855,8 @@ Online payment through WhatsApp.
 ⭐ Your Review Could Be Here
 </h3>
 
-<a class="btn"
+<a
+class="btn"
 href="https://wa.me/919655625186?text=Hi%20Biya%20Fashion%2C%20I%20want%20to%20share%20my%20review."
 target="_blank"
 rel="noopener">
@@ -587,7 +870,9 @@ Share Your Review
 </section>
 
 
-<!-- ================= SPECIAL THANKS ================= -->
+<!-- =====================================================
+     SPECIAL THANKS
+===================================================== -->
 
 <section id="thanks">
 
@@ -615,7 +900,9 @@ Your Constant Support, Encouragement, and Belief in Me Mean More Than Words Can 
 </section>
 
 
-<!-- ================= CONTACT ================= -->
+<!-- =====================================================
+     CONTACT
+===================================================== -->
 
 <section id="contact">
 
@@ -627,7 +914,8 @@ Your Constant Support, Encouragement, and Belief in Me Mean More Than Words Can 
 📱 WhatsApp
 </p>
 
-<a class="btn"
+<a
+class="btn"
 href="https://wa.me/919655625186"
 target="_blank"
 rel="noopener">
@@ -640,7 +928,8 @@ Chat on WhatsApp
 📸 Instagram
 </p>
 
-<a class="btn"
+<a
+class="btn"
 href="https://www.instagram.com/biya.fashion_/"
 target="_blank"
 rel="noopener">
@@ -653,7 +942,8 @@ Follow on Instagram
 📍 Kariyapatti, Virudhunagar - 626106
 </p>
 
-<a class="btn"
+<a
+class="btn"
 href="https://www.google.com/maps/search/?api=1&query=Kariyapatti%2C%20Virudhunagar%2C%20Tamil%20Nadu"
 target="_blank"
 rel="noopener">
@@ -667,7 +957,9 @@ Open Google Maps
 </section>
 
 
-<!-- ================= FOOTER ================= -->
+<!-- =====================================================
+     FOOTER
+===================================================== -->
 
 <footer>
 
@@ -692,9 +984,12 @@ Kariyapatti, Virudhunagar - 626106
 </footer>
 
 
-<!-- ================= FLOATING WHATSAPP ================= -->
+<!-- =====================================================
+     FLOATING WHATSAPP
+===================================================== -->
 
-<a class="whatsapp"
+<a
+class="whatsapp"
 href="https://wa.me/919655625186"
 target="_blank"
 rel="noopener"
@@ -705,7 +1000,9 @@ aria-label="Chat on WhatsApp">
 </a>
 
 
-<!-- ================= GRAND OPENING SCRIPT ================= -->
+<!-- =====================================================
+     GRAND OPENING SCRIPT
+===================================================== -->
 
 <script>
 
@@ -716,8 +1013,7 @@ thangapandii:"Mr. Thangapandii",
 sabiya:"Miss. Sabiya Banu"
 };
 
-const params=new URLSearchParams(window.location.search);
-const key=params.get("guest");
+const key=new URLSearchParams(window.location.search).get("guest");
 
 const opening=document.getElementById("opening");
 const guest=document.getElementById("guest");
@@ -735,7 +1031,7 @@ guest.textContent=guests[key];
 
 document.body.style.overflow="hidden";
 
-start.addEventListener("click",function(){
+start.onclick=function(){
 
 start.style.display="none";
 
@@ -746,21 +1042,39 @@ guest.style.display="none";
 
 count.style.display="block";
 
-let n=3;
+let number=3;
 
-count.textContent=n;
+function showNumber(){
 
-const timer=setInterval(function(){
+count.textContent=number;
 
-n--;
+count.classList.remove("countAnim");
 
-if(n>0){
+void count.offsetWidth;
 
-count.textContent=n;
+count.classList.add("countAnim");
 
-}else{
+if(number===3){
 
-clearInterval(timer);
+setTimeout(function(){
+number=2;
+showNumber();
+},1000);
+
+}
+
+else if(number===2){
+
+setTimeout(function(){
+number=1;
+showNumber();
+},1000);
+
+}
+
+else{
+
+setTimeout(function(){
 
 count.style.display="none";
 
@@ -768,7 +1082,7 @@ grand.style.display="block";
 
 setTimeout(function(){
 
-opening.classList.add("fade");
+opening.classList.add("openingDone");
 
 document.body.style.overflow="auto";
 
@@ -776,15 +1090,19 @@ setTimeout(function(){
 
 opening.style.display="none";
 
-},1300);
+},1500);
 
-},2500);
-
-}
+},2800);
 
 },1000);
 
-});
+}
+
+}
+
+showNumber();
+
+};
 
 }
 
