@@ -189,13 +189,14 @@ letter-spacing:.5px;
 
 
 /* =========================
-   REVIEWS
+   CUSTOMER REVIEWS
 ========================= */
 
 .review-stars{
 display:flex;
 justify-content:center;
-gap:5px;
+align-items:center;
+gap:8px;
 margin:10px 0 18px;
 }
 
@@ -207,7 +208,8 @@ color:#bbb;
 cursor:pointer;
 padding:2px;
 line-height:1;
-transition:.15s;
+transition:color .15s, transform .15s;
+-webkit-tap-highlight-color:transparent;
 }
 
 .review-star:hover{
@@ -215,8 +217,12 @@ color:#d4af37;
 transform:scale(1.08);
 }
 
+.review-star:focus{
+outline:none;
+}
+
 .review-star.active{
-color:#d4af37;
+color:#d4af37 !important;
 }
 
 .review-input{
@@ -228,6 +234,7 @@ font-family:Arial,sans-serif;
 font-size:15px;
 margin-bottom:12px;
 outline:none;
+box-sizing:border-box;
 }
 
 .review-input:focus{
@@ -297,14 +304,6 @@ font-size:16px;
 .public-review-stars{
 color:#d4af37;
 font-size:20px;
-margin:4px 0;
-}
-
-.public-review-text{
-margin:5px 0 0;
-color:#444;
-line-height:1.5;
-}
 
 
 /* =========================
@@ -1338,6 +1337,12 @@ janofer: "Janofer",
 
 saibunisha: "Saibunisha",
 
+dharma: "Mr. Dharmendran & Mrs. Priya",
+
+sunfar: "Mr. Mohamed Sunfar & Mrs. Megarunnisha",
+
+miraj: "Mr. Mohamed Miraj & Mrs. Minhafathima",
+   
 sangeetha: "Mrs. Sangeetha",
 
 venkatesh: "Mr. Venkatesh Mama & Mrs. Priya Akka",
@@ -1536,12 +1541,12 @@ starButtons.forEach(function(star){
 star.addEventListener("click",function(){
 
 selectedRating =
-Number(this.dataset.rating);
+Number(this.getAttribute("data-rating"));
 
 starButtons.forEach(function(button){
 
 const rating =
-Number(button.dataset.rating);
+Number(button.getAttribute("data-rating"));
 
 if(rating <= selectedRating){
 
