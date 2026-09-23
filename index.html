@@ -153,50 +153,13 @@ z-index:2000;
 
 
 /* =========================
-   OPENING DATE INFO
-========================= */
-
-.opening-date-info{
-text-align:center;
-margin:25px auto;
-padding:20px 15px;
-max-width:600px;
-background:#ffffff;
-border-radius:12px;
-box-shadow:0 3px 12px rgba(0,0,0,.08);
-}
-
-.opening-online{
-font-size:16px;
-font-weight:bold;
-color:#064d32;
-letter-spacing:.5px;
-}
-
-.opening-date{
-font-size:30px;
-font-weight:bold;
-color:#d4af37;
-margin:8px 0;
-}
-
-.opening-offline{
-font-size:16px;
-font-weight:bold;
-color:#064d32;
-letter-spacing:.5px;
-}
-
-
-/* =========================
-   CUSTOMER REVIEWS
+   REVIEWS
 ========================= */
 
 .review-stars{
 display:flex;
 justify-content:center;
-align-items:center;
-gap:8px;
+gap:5px;
 margin:10px 0 18px;
 }
 
@@ -208,8 +171,7 @@ color:#bbb;
 cursor:pointer;
 padding:2px;
 line-height:1;
-transition:color .15s, transform .15s;
--webkit-tap-highlight-color:transparent;
+transition:.15s;
 }
 
 .review-star:hover{
@@ -217,12 +179,8 @@ color:#d4af37;
 transform:scale(1.08);
 }
 
-.review-star:focus{
-outline:none;
-}
-
 .review-star.active{
-color:#d4af37 !important;
+color:#d4af37;
 }
 
 .review-input{
@@ -234,7 +192,6 @@ font-family:Arial,sans-serif;
 font-size:15px;
 margin-bottom:12px;
 outline:none;
-box-sizing:border-box;
 }
 
 .review-input:focus{
@@ -304,6 +261,14 @@ font-size:16px;
 .public-review-stars{
 color:#d4af37;
 font-size:20px;
+margin:4px 0;
+}
+
+.public-review-text{
+margin:5px 0 0;
+color:#444;
+line-height:1.5;
+}
 
 
 /* =========================
@@ -680,175 +645,20 @@ font-size:20px;
 letter-spacing:5px;
 }
 
-/* =========================
-   GRAND OPENING
-========================= */
-
-#opening{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100vh;
-background:#064d32;
-display:none;
-align-items:center;
-justify-content:center;
-flex-direction:column;
-z-index:99999;
-overflow:hidden;
-color:white;
-text-align:center;
-}
-
-#opening::before{
-content:"";
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:
-radial-gradient(circle at 20% 30%,rgba(212,175,55,.18),transparent 30%),
-radial-gradient(circle at 80% 70%,rgba(255,255,255,.08),transparent 30%);
-pointer-events:none;
-}
-
-.openlogo{
-width:220px;
-max-width:70%;
-margin-bottom:20px;
-position:relative;
-z-index:2;
-}
-
-.openbrand{
-font-family:Cinzel,serif;
-font-size:32px;
-font-weight:bold;
-color:#d4af37;
-position:relative;
-z-index:2;
-}
-
-.special{
-font-size:24px;
-font-weight:bold;
-color:#fff;
-margin:15px 0;
-position:relative;
-z-index:2;
-}
-
-#guest{
-font-size:22px;
-font-weight:bold;
-color:#fff;
-margin:10px 20px 25px;
-position:relative;
-z-index:2;
-}
-
-#start{
-background:#d4af37;
-color:#064d32;
-border:none;
-padding:14px 35px;
-border-radius:8px;
-font-size:18px;
-font-weight:bold;
-cursor:pointer;
-position:relative;
-z-index:2;
-}
-
-#count{
-display:none;
-font-size:90px;
-font-weight:bold;
-color:#d4af37;
-position:relative;
-z-index:2;
-}
-
-#grand{
-display:none;
-font-family:Cinzel,serif;
-font-size:38px;
-font-weight:bold;
-color:#d4af37;
-position:relative;
-z-index:2;
-}
-
-.countAnimation{
-animation:countZoom 1s ease;
-}
-
-@keyframes countZoom{
-
-0%{
-transform:scale(.3);
-opacity:0;
-}
-
-50%{
-transform:scale(1.2);
-opacity:1;
-}
-
-100%{
-transform:scale(1);
-opacity:1;
-}
-
-}
-
-.openingExit{
-animation:openingExit 1.5s ease forwards;
-}
-
-@keyframes openingExit{
-
-0%{
-opacity:1;
-transform:scale(1);
-}
-
-100%{
-opacity:0;
-transform:scale(1.15);
-}
-
-}
-
-@media(max-width:600px){
-
-.openlogo{
-width:190px;
-}
-
-.openbrand{
+.guest{
 font-size:26px;
 }
 
-.special{
-font-size:21px;
-}
-
-#guest{
-font-size:19px;
-}
-
-#grand{
-font-size:30px;
+#grand h1{
+font-size:31px;
 }
 
 #count{
-font-size:75px;
+font-size:90px;
 }
 
 }
+
 </style>
 </head>
 
@@ -943,25 +753,6 @@ View T-Shirts
 </a>
 
 </section>
-
-
-<!-- OPENING DATE INFO -->
-
-<div class="opening-date-info">
-
-<div class="opening-online">
-ONLINE SALES OPENING FROM
-</div>
-
-<div class="opening-date">
-01.10.2026
-</div>
-
-<div class="opening-offline">
-OFFLINE SHOP OPENING SOON
-</div>
-
-</div>
 
 
 <!-- T-SHIRTS -->
@@ -1496,13 +1287,7 @@ sangeetha: "Mrs. Sangeetha",
 
 venkatesh: "Mr. Venkatesh Mama & Mrs. Priya Akka",
 
-yogesh: "Mr. Yogesh",
-
-dharmendran: "Mr. Dharmendran & Mrs. Priya",
-
-miraj: "Mr. Mohamed Miraj & Mrs. Minha Fathima",
-
-sunfar: "Mr. Mohamed Sunfar & Mrs. Megarunnisha"
+yogesh: "Mr. Yogesh"
 
 };
 
@@ -1653,9 +1438,11 @@ measurementId: "G-C9KLX0KQ8R"
 
 };
 
+
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
+
 
 const reviewName =
 document.getElementById("reviewName");
@@ -1684,6 +1471,7 @@ document.getElementById("reviewCount");
 const publicReviews =
 document.getElementById("publicReviews");
 
+
 let selectedRating = 0;
 
 
@@ -1696,12 +1484,12 @@ starButtons.forEach(function(star){
 star.addEventListener("click",function(){
 
 selectedRating =
-Number(this.getAttribute("data-rating"));
+Number(this.dataset.rating);
 
 starButtons.forEach(function(button){
 
 const rating =
-Number(button.getAttribute("data-rating"));
+Number(button.dataset.rating);
 
 if(rating <= selectedRating){
 
@@ -1740,6 +1528,7 @@ return result;
 
 }
 
+
 /* =========================
    LOAD APPROVED REVIEWS
 ========================= */
@@ -1754,6 +1543,7 @@ limit(50)
 
 );
 
+
 onSnapshot(
 
 reviewsQuery,
@@ -1766,6 +1556,7 @@ let totalReviews = 0;
 
 publicReviews.innerHTML = "";
 
+
 snapshot.forEach(function(doc){
 
 const data = doc.data();
@@ -1774,11 +1565,13 @@ totalReviews++;
 
 totalRating += Number(data.rating);
 
+
 const reviewCard =
 document.createElement("div");
 
 reviewCard.className =
 "public-review";
+
 
 const name =
 document.createElement("div");
@@ -1789,6 +1582,7 @@ name.className =
 name.textContent =
 data.name || "Customer";
 
+
 const stars =
 document.createElement("div");
 
@@ -1798,14 +1592,17 @@ stars.className =
 stars.textContent =
 makeStars(Number(data.rating));
 
+
 const text =
 document.createElement("p");
 
 text.className =
 "public-review-text";
 
-text.textContent =
+
+   text.textContent =
 data.review || "";
+
 
 reviewCard.appendChild(name);
 
@@ -1816,6 +1613,7 @@ reviewCard.appendChild(text);
 publicReviews.appendChild(reviewCard);
 
 });
+
 
 if(totalReviews === 0){
 
@@ -1831,8 +1629,10 @@ return;
 
 }
 
+
 const average =
 totalRating / totalReviews;
+
 
 averageStars.textContent =
 makeStars(Math.round(average));
@@ -1840,12 +1640,13 @@ makeStars(Math.round(average));
 averageRating.textContent =
 average.toFixed(1) + " / 5";
 
+
 reviewCount.textContent =
 totalReviews +
 (totalReviews === 1 ? " review" : " reviews");
 
 },
-function(error){
+  function(error){
 
 console.error(
 "Firebase review loading error:",
@@ -1859,7 +1660,9 @@ reviewMessage.style.color =
 "#b00020";
 
 }
+
 );
+
 
 /* =========================
    SUBMIT REVIEW
@@ -1874,6 +1677,7 @@ reviewName.value.trim();
 
 const review =
 reviewText.value.trim();
+
 
 if(name.length < 2){
 
@@ -1901,6 +1705,7 @@ return;
 
 }
 
+
 if(review.length < 3){
 
 reviewMessage.textContent =
@@ -1915,6 +1720,22 @@ return;
 
 }
 
+
+if(review.length < 3){
+
+reviewMessage.textContent =
+"Please write your review.";
+
+reviewMessage.style.color =
+"#b00020";
+
+reviewText.focus();
+
+return;
+
+}
+
+
 submitReview.disabled=true;
 
 submitReview.textContent =
@@ -1922,13 +1743,14 @@ submitReview.textContent =
 
 reviewMessage.textContent="";
 
+
 try{
 
 await addDoc(
 
 collection(db,"reviews"),
 
-{
+  {
 
 name:name,
 
@@ -1944,17 +1766,20 @@ createdAt:Timestamp.now()
 
 );
 
+
 reviewMessage.textContent =
 "Thank you! Your review has been submitted and will appear after approval.";
 
 reviewMessage.style.color =
 "#064d32";
 
+
 reviewName.value="";
 
 reviewText.value="";
 
 selectedRating=0;
+
 
 starButtons.forEach(function(button){
 
@@ -1963,7 +1788,7 @@ button.classList.remove("active");
 });
 
 }
-}
+
 catch(error){
 
 console.error(
@@ -1978,6 +1803,7 @@ reviewMessage.style.color =
 "#b00020";
 
 }
+
 finally{
 
 submitReview.disabled=false;
@@ -1989,13 +1815,7 @@ submitReview.textContent =
 
 });
 
-
-/* =========================
-   END OF FIREBASE REVIEWS
-========================= */
-
 </script>
 
 </body>
-
 </html>
