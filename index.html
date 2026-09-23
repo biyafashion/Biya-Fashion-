@@ -153,6 +153,42 @@ z-index:2000;
 
 
 /* =========================
+   OPENING DATE INFO
+========================= */
+
+.opening-date-info{
+text-align:center;
+margin:25px auto;
+padding:20px 15px;
+max-width:600px;
+background:#ffffff;
+border-radius:12px;
+box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
+
+.opening-online{
+font-size:16px;
+font-weight:bold;
+color:#064d32;
+letter-spacing:.5px;
+}
+
+.opening-date{
+font-size:30px;
+font-weight:bold;
+color:#d4af37;
+margin:8px 0;
+}
+
+.opening-offline{
+font-size:16px;
+font-weight:bold;
+color:#064d32;
+letter-spacing:.5px;
+}
+
+
+/* =========================
    REVIEWS
 ========================= */
 
@@ -753,6 +789,25 @@ View T-Shirts
 </a>
 
 </section>
+
+
+<!-- OPENING DATE INFO -->
+
+<div class="opening-date-info">
+
+<div class="opening-online">
+ONLINE SALES OPENING FROM
+</div>
+
+<div class="opening-date">
+01.10.2026
+</div>
+
+<div class="opening-offline">
+OFFLINE SHOP OPENING SOON
+</div>
+
+</div>
 
 
 <!-- T-SHIRTS -->
@@ -1438,11 +1493,9 @@ measurementId: "G-C9KLX0KQ8R"
 
 };
 
-
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
-
 
 const reviewName =
 document.getElementById("reviewName");
@@ -1470,7 +1523,6 @@ document.getElementById("reviewCount");
 
 const publicReviews =
 document.getElementById("publicReviews");
-
 
 let selectedRating = 0;
 
@@ -1528,7 +1580,6 @@ return result;
 
 }
 
-
 /* =========================
    LOAD APPROVED REVIEWS
 ========================= */
@@ -1543,7 +1594,6 @@ limit(50)
 
 );
 
-
 onSnapshot(
 
 reviewsQuery,
@@ -1556,7 +1606,6 @@ let totalReviews = 0;
 
 publicReviews.innerHTML = "";
 
-
 snapshot.forEach(function(doc){
 
 const data = doc.data();
@@ -1565,13 +1614,11 @@ totalReviews++;
 
 totalRating += Number(data.rating);
 
-
 const reviewCard =
 document.createElement("div");
 
 reviewCard.className =
 "public-review";
-
 
 const name =
 document.createElement("div");
@@ -1582,7 +1629,6 @@ name.className =
 name.textContent =
 data.name || "Customer";
 
-
 const stars =
 document.createElement("div");
 
@@ -1591,7 +1637,6 @@ stars.className =
 
 stars.textContent =
 makeStars(Number(data.rating));
-
 
 const text =
 document.createElement("p");
@@ -1602,7 +1647,6 @@ text.className =
 text.textContent =
 data.review || "";
 
-
 reviewCard.appendChild(name);
 
 reviewCard.appendChild(stars);
@@ -1612,7 +1656,6 @@ reviewCard.appendChild(text);
 publicReviews.appendChild(reviewCard);
 
 });
-
 
 if(totalReviews === 0){
 
@@ -1628,10 +1671,8 @@ return;
 
 }
 
-
 const average =
 totalRating / totalReviews;
-
 
 averageStars.textContent =
 makeStars(Math.round(average));
@@ -1639,13 +1680,12 @@ makeStars(Math.round(average));
 averageRating.textContent =
 average.toFixed(1) + " / 5";
 
-
 reviewCount.textContent =
 totalReviews +
 (totalReviews === 1 ? " review" : " reviews");
 
 },
-  function(error){
+function(error){
 
 console.error(
 "Firebase review loading error:",
@@ -1659,9 +1699,7 @@ reviewMessage.style.color =
 "#b00020";
 
 }
-
 );
-
 
 /* =========================
    SUBMIT REVIEW
@@ -1676,7 +1714,6 @@ reviewName.value.trim();
 
 const review =
 reviewText.value.trim();
-
 
 if(name.length < 2){
 
@@ -1704,7 +1741,6 @@ return;
 
 }
 
-
 if(review.length < 3){
 
 reviewMessage.textContent =
@@ -1719,7 +1755,6 @@ return;
 
 }
 
-
 submitReview.disabled=true;
 
 submitReview.textContent =
@@ -1727,14 +1762,13 @@ submitReview.textContent =
 
 reviewMessage.textContent="";
 
-
 try{
 
 await addDoc(
 
 collection(db,"reviews"),
 
-  {
+{
 
 name:name,
 
@@ -1750,20 +1784,17 @@ createdAt:Timestamp.now()
 
 );
 
-
 reviewMessage.textContent =
 "Thank you! Your review has been submitted and will appear after approval.";
 
 reviewMessage.style.color =
 "#064d32";
 
-
 reviewName.value="";
 
 reviewText.value="";
 
 selectedRating=0;
-
 
 starButtons.forEach(function(button){
 
@@ -1772,7 +1803,7 @@ button.classList.remove("active");
 });
 
 }
-
+}
 catch(error){
 
 console.error(
@@ -1787,7 +1818,6 @@ reviewMessage.style.color =
 "#b00020";
 
 }
-
 finally{
 
 submitReview.disabled=false;
@@ -1799,7 +1829,13 @@ submitReview.textContent =
 
 });
 
+
+/* =========================
+   END OF FIREBASE REVIEWS
+========================= */
+
 </script>
 
 </body>
+
 </html>
