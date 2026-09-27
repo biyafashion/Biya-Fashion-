@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="16" fill="#064C32"/>
+  <!-- Crown -->
+  <path d="M22 23L26 29L32 20L38 29L42 23L40 33H24L22 23Z" fill="#D9A514"/>
+  <circle cx="22" cy="22" r="1.5" fill="#F3D477"/>
+  <circle cx="32" cy="19" r="1.8" fill="#F3D477"/>
+  <circle cx="42" cy="22" r="1.5" fill="#F3D477"/>
+  <!-- Hanger Hook & Frame -->
+  <path d="M32 30V33M32 33C30 33 28 34.5 28 36.5C28 38.5 30 40 32 40C34 40 36 41.5 36 43.5C36 45.5 34 47 32 47" stroke="#D9A514" stroke-width="2.2" stroke-linecap="round"/>
+  <!-- Hanger Shoulders -->
+  <path d="M32 36L16 46C15 46.6 15 48 16 48.5H48C49 48 49 46.6 48 46L32 36Z" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linejoin="round"/>
+  <line x1="16" y1="48.5" x2="48" y2="48.5" stroke="#D9A514" stroke-width="2" stroke-linecap="round"/>
+</svg>
