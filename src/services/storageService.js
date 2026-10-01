@@ -60,9 +60,13 @@ export const initializeStorage = () => {
 
   if (currentVersion !== CATALOG_VERSION) {
     const existingProds = safeGet(KEYS.PRODUCTS, []);
-    const blacklistIds = ['prod-1790871438922', 'prod-1', 'prod-2', 'prod-3', 'prod-4', 'prod-5', 'prod-6', 'prod-7', 'prod-8'];
+    const blacklistIds = ['prod-1790871438922', 'prod-1790879114150', 'prod-1', 'prod-2', 'prod-3', 'prod-4', 'prod-5', 'prod-6', 'prod-7', 'prod-8'];
+    const isTestName = (name) => {
+      const n = (name || '').trim().toLowerCase();
+      return n === 'test' || n === 'te 2' || n.startsWith('test ');
+    };
     const cleaned = Array.isArray(existingProds)
-      ? existingProds.filter((p) => !blacklistIds.includes(String(p?.id)) && p?.name?.trim().toLowerCase() !== 'test')
+      ? existingProds.filter((p) => !blacklistIds.includes(String(p?.id)) && !isTestName(p?.name))
       : [];
     safeSet(KEYS.PRODUCTS, cleaned);
     localStorage.setItem('biya_catalog_version', CATALOG_VERSION);
@@ -70,9 +74,13 @@ export const initializeStorage = () => {
 
   // Double Check: If any demo or test products linger in browser storage, force-purge them immediately
   const existingProds = safeGet(KEYS.PRODUCTS, []);
-  const demoIds = ['prod-1790871438922', 'prod-1', 'prod-2', 'prod-3', 'prod-4', 'prod-5', 'prod-6', 'prod-7', 'prod-8'];
-  if (Array.isArray(existingProds) && existingProds.some((p) => demoIds.includes(String(p?.id)) || p?.name?.trim().toLowerCase() === 'test')) {
-    const cleaned = existingProds.filter((p) => !demoIds.includes(String(p?.id)) && p?.name?.trim().toLowerCase() !== 'test');
+  const demoIds = ['prod-1790871438922', 'prod-1790879114150', 'prod-1', 'prod-2', 'prod-3', 'prod-4', 'prod-5', 'prod-6', 'prod-7', 'prod-8'];
+  const isTestName = (name) => {
+    const n = (name || '').trim().toLowerCase();
+    return n === 'test' || n === 'te 2' || n.startsWith('test ');
+  };
+  if (Array.isArray(existingProds) && existingProds.some((p) => demoIds.includes(String(p?.id)) || isTestName(p?.name))) {
+    const cleaned = existingProds.filter((p) => !demoIds.includes(String(p?.id)) && !isTestName(p?.name));
     safeSet(KEYS.PRODUCTS, cleaned);
   }
 
@@ -132,7 +140,7 @@ export const getProducts = () => {
   const prods = safeGet(KEYS.PRODUCTS, []);
   
   // Permanent blacklist filter: Never allow demo or lingering test products to be displayed
-  const demoIds = ['prod-1790871438922', 'prod-1', 'prod-2', 'prod-3', 'prod-4', 'prod-5', 'prod-6', 'prod-7', 'prod-8'];
+  const demoIds = ['prod-1790871438922', 'prod-1790879114150', 'prod-1', 'prod-2', 'prod-3', 'prod-4', 'prod-5', 'prod-6', 'prod-7', 'prod-8'];
   const demoNames = [
     'Classic Black T-Shirt',
     'Premium White T-Shirt',
@@ -144,10 +152,16 @@ export const getProducts = () => {
     'Forest Green Textured Polo T-Shirt',
     'Classic Hoodie',
     'test',
+    'te 2',
   ];
 
+  const isTest = (p) => {
+    const name = (p?.name || '').trim().toLowerCase();
+    return name === 'test' || name === 'te 2' || name.startsWith('test ');
+  };
+
   const cleaned = prods.filter(
-    (p) => !demoIds.includes(String(p?.id)) && !demoNames.includes(p?.name?.trim()) && p?.name?.trim().toLowerCase() !== 'test'
+    (p) => !demoIds.includes(String(p?.id)) && !demoNames.includes(p?.name?.trim()) && !isTest(p)
   );
 
   if (cleaned.length !== prods.length) {
