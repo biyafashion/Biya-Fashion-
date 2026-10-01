@@ -38,10 +38,11 @@ const EditProduct = () => {
     bestSeller: false,
   });
 
+  // Individual URL input fields for Image 1, Image 2, etc.
+  const [urlInputs, setUrlInputs] = useState(['', '']);
   const [images, setImages] = useState([]);
   const [isProcessingImages, setIsProcessingImages] = useState(false);
-  const [showUrlBox, setShowUrlBox] = useState(false);
-  const [multiUrlInput, setMultiUrlInput] = useState('');
+  const [showDeviceUpload, setShowDeviceUpload] = useState(false);
 
   useEffect(() => {
     const existing = products.find((p) => String(p.id) === String(id));
@@ -60,7 +61,9 @@ const EditProduct = () => {
         newArrival: Boolean(existing.newArrival),
         bestSeller: Boolean(existing.bestSeller),
       });
-      setImages(existing.images || []);
+      const existingImgs = existing.images && existing.images.length > 0 ? existing.images : [];
+      setImages(existingImgs);
+      setUrlInputs(existingImgs.length > 0 ? [...existingImgs] : ['', '']);
     }
   }, [id, products, categories]);
 
@@ -81,6 +84,34 @@ const EditProduct = () => {
     }));
   };
 
+  const handleUrlInputChange = (index, value) => {
+    const updated = [...urlInputs];
+    updated[index] = value;
+    setUrlInputs(updated);
+
+    const valid = updated
+      .map((u) => u.trim())
+      .filter((u) => u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:image/'))
+      .map(normalizeGoogleDriveUrl);
+    setImages(valid);
+  };
+
+  const handleAddUrlField = () => {
+    setUrlInputs((prev) => [...prev, '']);
+  };
+
+  const handleRemoveUrlField = (index) => {
+    const updated = urlInputs.filter((_, idx) => idx !== index);
+    const fallback = updated.length > 0 ? updated : [''];
+    setUrlInputs(fallback);
+
+    const valid = fallback
+      .map((u) => u.trim())
+      .filter((u) => u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:image/'))
+      .map(normalizeGoogleDriveUrl);
+    setImages(valid);
+  };
+
   // Upload multiple images from local device (phone/computer)
   const handleMultipleFilesUpload = async (e) => {
     const files = e.target.files;
@@ -90,8 +121,12 @@ const EditProduct = () => {
     try {
       const processed = await processMultipleImageFiles(files);
       if (processed.length > 0) {
+        setUrlInputs((prev) => {
+          const nonEmpty = prev.filter((u) => u.trim());
+          return [...nonEmpty, ...processed];
+        });
         setImages((prev) => [...prev, ...processed]);
-        toast.success(`Added ${processed.length} image(s) successfully!`);
+        toast.success(`Added ${processed.length} image(s) from device!`);
       }
     } catch (err) {
       console.error(err);
@@ -102,44 +137,24 @@ const EditProduct = () => {
     }
   };
 
-  // Add multiple URLs at once (supports direct links & Google Drive links)
-  const handleAddMultipleUrls = (e) => {
-    e.preventDefault();
-    if (!multiUrlInput.trim()) return;
-
-    const rawUrls = multiUrlInput
-      .split(/[\n,]+/)
-      .map((u) => u.trim())
-      .filter((u) => u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:image/'));
-
-    if (rawUrls.length === 0) {
-      toast.error('Please enter valid image URLs or Google Drive links (starting with https://)');
-      return;
-    }
-
-    // Auto convert any Google Drive links into direct CDN URLs
-    const urls = rawUrls.map(normalizeGoogleDriveUrl);
-
-    setImages((prev) => [...prev, ...urls]);
-    toast.success(`Added ${urls.length} image URL(s)!`);
-    setMultiUrlInput('');
-    setShowUrlBox(false);
-  };
-
   // Set any image as primary cover (Index 0)
   const handleSetMainImage = (index) => {
     if (index === 0) return;
-    setImages((prev) => {
-      const next = [...prev];
-      const [selected] = next.splice(index, 1);
-      next.unshift(selected);
-      return next;
-    });
-    toast.success('Set as primary cover image!');
+    const nextUrls = [...urlInputs];
+    const [selected] = nextUrls.splice(index, 1);
+    nextUrls.unshift(selected);
+    setUrlInputs(nextUrls);
+
+    const valid = nextUrls
+      .map((u) => u.trim())
+      .filter((u) => u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:image/'))
+      .map(normalizeGoogleDriveUrl);
+    setImages(valid);
+    toast.success('Set as Image 1 (Cover Photo)!');
   };
 
   const handleRemoveImage = (index) => {
-    setImages((prev) => prev.filter((_, idx) => idx !== index));
+    handleRemoveUrlField(index);
   };
 
   const handleSubmit = (e) => {
@@ -364,7 +379,7 @@ const EditProduct = () => {
             <div className="flex items-center justify-between pb-2 border-b border-[#E5E5E5]">
               <div>
                 <h2 className="font-serif font-bold text-base text-[#111111]">Product Images</h2>
-                <p className="text-[11px] text-[#666666]">Upload multiple photos</p>
+                <p className="text-[11px] text-[#666666]">Add Image 1, Image 2, Image 3 URLs</p>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-[#064C32]/10 text-[#064C32]">
@@ -373,7 +388,10 @@ const EditProduct = () => {
                 {images.length > 0 && (
                   <button
                     type="button"
-                    onClick={() => setImages([])}
+                    onClick={() => {
+                      setUrlInputs(['', '']);
+                      setImages([]);
+                    }}
                     className="text-[11px] text-red-600 hover:underline"
                   >
                     Clear All
@@ -382,94 +400,149 @@ const EditProduct = () => {
               </div>
             </div>
 
-            {/* Main Upload Zone for Multiple Files */}
-            <div>
-              <input
-                type="file"
-                id="edit-multiple-images-upload"
-                multiple
-                accept="image/*"
-                onChange={handleMultipleFilesUpload}
-                disabled={isProcessingImages}
-                className="hidden"
-              />
-              <label
-                htmlFor="edit-multiple-images-upload"
-                className={`w-full py-6 px-4 rounded-2xl border-2 border-dashed transition flex flex-col items-center justify-center text-center cursor-pointer ${
-                  isProcessingImages
-                    ? 'border-gray-300 bg-gray-50 opacity-60 cursor-not-allowed'
-                    : 'border-[#064C32]/40 bg-white hover:bg-[#064C32]/5 hover:border-[#064C32]'
-                }`}
-              >
-                {isProcessingImages ? (
-                  <div className="flex flex-col items-center gap-2 py-2">
-                    <Loader2 className="w-6 h-6 text-[#064C32] animate-spin" />
-                    <span className="text-xs font-bold text-[#064C32]">Optimizing & Loading Images...</span>
-                  </div>
-                ) : (
-                  <div className="flex flex-col items-center gap-2">
-                    <div className="w-12 h-12 rounded-2xl bg-[#064C32]/10 text-[#064C32] flex items-center justify-center shadow-xs">
-                      <Upload className="w-6 h-6 text-[#064C32]" />
+            {/* Individual Multiple Image URL Input Rows */}
+            <div className="space-y-3">
+              {urlInputs.map((url, idx) => {
+                const normalized = url.trim() ? normalizeGoogleDriveUrl(url.trim()) : '';
+                const isDrive = url.includes('drive.google.com');
+
+                return (
+                  <div
+                    key={idx}
+                    className={`bg-white p-3 rounded-2xl border transition-all ${
+                      idx === 0
+                        ? 'border-[#064C32]/40 ring-1 ring-[#064C32]/10 shadow-xs'
+                        : 'border-[#E5E5E5]'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-xs font-bold text-[#064C32] flex items-center gap-1.5">
+                        <span
+                          className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
+                            idx === 0
+                              ? 'bg-[#064C32] text-[#F3D477]'
+                              : 'bg-gray-100 text-gray-700'
+                          }`}
+                        >
+                          {idx + 1}
+                        </span>
+                        <span>{idx === 0 ? 'Image 1 (Main Front Cover) *' : `Image ${idx + 1} URL`}</span>
+                      </span>
+
+                      {urlInputs.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveUrlField(idx)}
+                          className="text-[11px] text-red-600 hover:text-red-700 font-bold flex items-center gap-1 hover:underline"
+                        >
+                          <Trash2 className="w-3 h-3" />
+                          <span>Remove</span>
+                        </button>
+                      )}
                     </div>
-                    <div>
-                      <p className="text-xs font-bold text-[#111111] uppercase tracking-wider">
-                        Upload Multiple Photos
-                      </p>
-                      <p className="text-[11px] text-[#666666] mt-0.5">
-                        Select 1 or more images from device
-                      </p>
+
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="text"
+                        value={url}
+                        onChange={(e) => handleUrlInputChange(idx, e.target.value)}
+                        placeholder={
+                          idx === 0
+                            ? "Paste Image 1 URL or Google Drive link..."
+                            : `Paste Image ${idx + 1} URL or Google Drive link...`
+                        }
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8F8F8] border border-[#E5E5E5] text-xs font-mono text-[#111111] focus:outline-none focus:border-[#064C32]"
+                      />
                     </div>
+
+                    {isDrive && (
+                      <p className="text-[10px] text-emerald-700 mt-1 font-semibold flex items-center gap-1">
+                        <span>⚡ Google Drive link detected (auto-converting to direct CDN view)</span>
+                      </p>
+                    )}
+
+                    {/* Instant Preview Box */}
+                    {normalized && (
+                      <div className="flex items-center gap-2.5 mt-2 pt-2 border-t border-[#F0F0F0]">
+                        <img
+                          src={normalized}
+                          alt={`Preview ${idx + 1}`}
+                          className="w-12 h-14 object-cover rounded-lg border border-[#E5E5E5] bg-gray-50 shrink-0 shadow-xs"
+                          onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=100';
+                          }}
+                        />
+                        <div className="text-[11px] text-gray-600 truncate flex-1">
+                          <span className="font-bold text-[#064C32] block">
+                            {idx === 0 ? '★ Primary Cover Image' : `Additional View #${idx + 1}`}
+                          </span>
+                          <span className="text-[10px] text-gray-400 truncate block">{normalized}</span>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                )}
-              </label>
+                );
+              })}
             </div>
 
-            {/* Quick Action Button: URLs */}
-            <div>
+            {/* + Add Another Image URL Button */}
+            <button
+              type="button"
+              onClick={handleAddUrlField}
+              className="w-full py-2.5 px-4 rounded-xl border-2 border-dashed border-[#064C32]/40 bg-[#064C32]/5 hover:bg-[#064C32]/10 text-[#064C32] text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition active:scale-98"
+            >
+              <Plus className="w-4 h-4" />
+              <span>+ Add Image {urlInputs.length + 1} URL</span>
+            </button>
+
+            {/* Device / Mobile Photos Upload Alternative */}
+            <div className="pt-2 border-t border-[#E5E5E5]">
               <button
                 type="button"
-                onClick={() => setShowUrlBox(!showUrlBox)}
-                className="w-full py-2.5 px-3 rounded-xl bg-white border border-[#E5E5E5] hover:border-[#064C32] text-[#111111] text-[11px] font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition"
+                onClick={() => setShowDeviceUpload(!showDeviceUpload)}
+                className="w-full py-2 px-3 rounded-xl bg-white border border-[#E5E5E5] hover:border-[#064C32] text-[#111111] text-[11px] font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition"
               >
-                <LinkIcon className="w-3.5 h-3.5 text-[#064C32]" />
-                <span>Or Paste Image URLs / Google Drive Links</span>
+                <Upload className="w-3.5 h-3.5 text-[#064C32]" />
+                <span>{showDeviceUpload ? 'Hide Device Upload' : 'Or Upload Photos Directly From Device / Mobile'}</span>
               </button>
-            </div>
 
-            {/* URL Paste Drawer */}
-            {showUrlBox && (
-              <div className="p-3.5 bg-white rounded-2xl border border-[#E5E5E5] space-y-2">
-                <div className="flex items-center justify-between">
-                  <label className="text-[11px] font-bold uppercase tracking-wider text-[#111111]">
-                    Paste Image URLs or Google Drive Links
-                  </label>
-                  <button
-                    type="button"
-                    onClick={() => setShowUrlBox(false)}
-                    className="text-gray-400 hover:text-black"
+              {showDeviceUpload && (
+                <div className="mt-3">
+                  <input
+                    type="file"
+                    id="edit-multiple-images-upload"
+                    multiple
+                    accept="image/*"
+                    onChange={handleMultipleFilesUpload}
+                    disabled={isProcessingImages}
+                    className="hidden"
+                  />
+                  <label
+                    htmlFor="edit-multiple-images-upload"
+                    className={`w-full py-5 px-4 rounded-2xl border-2 border-dashed transition flex flex-col items-center justify-center text-center cursor-pointer ${
+                      isProcessingImages
+                        ? 'border-gray-300 bg-gray-50 opacity-60 cursor-not-allowed'
+                        : 'border-[#064C32]/40 bg-white hover:bg-[#064C32]/5 hover:border-[#064C32]'
+                    }`}
                   >
-                    <X className="w-3.5 h-3.5" />
-                  </button>
+                    {isProcessingImages ? (
+                      <div className="flex flex-col items-center gap-2 py-2">
+                        <Loader2 className="w-6 h-6 text-[#064C32] animate-spin" />
+                        <span className="text-xs font-bold text-[#064C32]">Optimizing & Loading Images...</span>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col items-center gap-1.5">
+                        <Upload className="w-5 h-5 text-[#064C32]" />
+                        <p className="text-xs font-bold text-[#111111] uppercase tracking-wider">
+                          Select Photos from Mobile/Gallery
+                        </p>
+                      </div>
+                    )}
+                  </label>
                 </div>
-                <textarea
-                  rows={3}
-                  value={multiUrlInput}
-                  onChange={(e) => setMultiUrlInput(e.target.value)}
-                  placeholder="https://example.com/photo.jpg&#10;https://drive.google.com/file/d/1XyZ.../view"
-                  className="w-full p-2.5 rounded-xl border border-[#E5E5E5] text-xs font-mono focus:outline-none focus:border-[#064C32]"
-                />
-                <p className="text-[10px] text-gray-500">
-                  💡 Google Drive share links (Anyone with the link) will automatically convert to direct fast images.
-                </p>
-                <button
-                  type="button"
-                  onClick={handleAddMultipleUrls}
-                  className="w-full py-2 bg-[#064C32] text-white text-xs font-bold uppercase rounded-lg hover:bg-[#033B27] transition"
-                >
-                  Add Images
-                </button>
-              </div>
-            )}
+              )}
+            </div>
 
             {/* Image Previews Grid */}
             {images.length === 0 ? (
