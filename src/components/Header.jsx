@@ -214,7 +214,7 @@ const Header = () => {
                   Featured Categories
                 </div>
                 <div className="space-y-1">
-                  {['T-Shirts', 'Casual Wear', 'Shirts', 'Polo T-Shirts', 'Hoodies', 'Jeans'].map((cat) => (
+                  {['T-Shirts', 'Polo T-Shirts'].map((cat) => (
                     <Link
                       key={cat}
                       to={`/shop?category=${encodeURIComponent(cat)}`}

@@ -164,28 +164,8 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/shop?category=Casual%20Wear" className="hover:text-white transition">
-                  Casual Wear
-                </Link>
-              </li>
-              <li>
-                <Link to="/shop?category=Shirts" className="hover:text-white transition">
-                  Shirts
-                </Link>
-              </li>
-              <li>
                 <Link to="/shop?category=Polo%20T-Shirts" className="hover:text-white transition">
                   Polo T-Shirts
-                </Link>
-              </li>
-              <li>
-                <Link to="/shop?category=Hoodies" className="hover:text-white transition">
-                  Hoodies
-                </Link>
-              </li>
-              <li>
-                <Link to="/shop?category=Jeans" className="hover:text-white transition">
-                  Jeans & Trousers
                 </Link>
               </li>
             </ul>

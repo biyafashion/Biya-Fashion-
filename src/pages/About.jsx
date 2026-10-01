@@ -8,7 +8,7 @@ const About = () => {
     <div className="bg-white min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         {/* Brand Mission Hero */}
-        <div className="text-center max-w-3xl mx-auto space-y-4">
+        <div className="text-center max-w-3xl mx-auto space-y-4" data-aos="fade-down">
           <div className="flex justify-center mb-4">
             <BiyaLogo size="large" />
           </div>
@@ -25,7 +25,7 @@ const About = () => {
 
         {/* Narrative Section with Editorial Image */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-5 text-sm sm:text-base text-[#666666] leading-relaxed">
+          <div className="space-y-5 text-sm sm:text-base text-[#666666] leading-relaxed" data-aos="fade-right">
             <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#111111]">
               Rooted in Textile Heritage, Crafted for the Modern World
             </h2>
@@ -50,7 +50,7 @@ const About = () => {
             </div>
           </div>
 
-          <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-xl border border-[#E5E5E5] bg-[#F8F8F8]">
+          <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-xl border border-[#E5E5E5] bg-[#F8F8F8]" data-aos="fade-left" data-aos-delay="150">
             <img
               src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=1000&q=80"
               alt="Biya Fashion craftsmanship"
@@ -61,7 +61,7 @@ const About = () => {
 
         {/* Brand Values 4 Pillars */}
         <div className="pt-8 border-t border-[#E5E5E5]">
-          <div className="text-center max-w-xl mx-auto mb-12">
+          <div className="text-center max-w-xl mx-auto mb-12" data-aos="fade-up">
             <span className="text-xs font-bold uppercase tracking-widest text-[#064C32]">Our Core Pillars</span>
             <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#111111] mt-1">
               What Defines Biya Fashion
@@ -69,7 +69,7 @@ const About = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="p-8 rounded-3xl bg-[#F8F8F8] border border-[#E5E5E5] space-y-3">
+            <div className="p-8 rounded-3xl bg-[#F8F8F8] border border-[#E5E5E5] space-y-3" data-aos="fade-up" data-aos-delay="100">
               <div className="w-12 h-12 rounded-2xl bg-[#064C32] text-[#F3D477] flex items-center justify-center">
                 <Shirt className="w-6 h-6" />
               </div>
@@ -79,7 +79,7 @@ const About = () => {
               </p>
             </div>
 
-            <div className="p-8 rounded-3xl bg-[#F8F8F8] border border-[#E5E5E5] space-y-3">
+            <div className="p-8 rounded-3xl bg-[#F8F8F8] border border-[#E5E5E5] space-y-3" data-aos="fade-up" data-aos-delay="200">
               <div className="w-12 h-12 rounded-2xl bg-[#064C32] text-[#F3D477] flex items-center justify-center">
                 <Award className="w-6 h-6" />
               </div>
@@ -89,7 +89,7 @@ const About = () => {
               </p>
             </div>
 
-            <div className="p-8 rounded-3xl bg-[#F8F8F8] border border-[#E5E5E5] space-y-3">
+            <div className="p-8 rounded-3xl bg-[#F8F8F8] border border-[#E5E5E5] space-y-3" data-aos="fade-up" data-aos-delay="300">
               <div className="w-12 h-12 rounded-2xl bg-[#064C32] text-[#F3D477] flex items-center justify-center">
                 <Compass className="w-6 h-6" />
               </div>

@@ -60,7 +60,7 @@ const Contact = () => {
     <div className="bg-white min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto">
+        <div className="text-center max-w-2xl mx-auto" data-aos="fade-down">
           <span className="text-xs font-bold uppercase tracking-widest text-[#064C32] bg-[#064C32]/5 px-3 py-1 rounded-full">
             Customer Concierge
           </span>
@@ -73,7 +73,7 @@ const Contact = () => {
         </div>
 
         {/* SPECIAL THANKS - Tribute to Beloved Brother Thangapandii */}
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#064C32] via-[#033B27] to-[#012216] text-white p-6 sm:p-10 border-2 border-[#D9A514]/30 shadow-2xl">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#064C32] via-[#033B27] to-[#012216] text-white p-6 sm:p-10 border-2 border-[#D9A514]/30 shadow-2xl" data-aos="zoom-in" data-aos-duration="900">
           {/* Subtle Royal Background Accents */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-[#D9A514]/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#064C32]/30 rounded-full blur-3xl -ml-16 -mb-16 pointer-events-none" />
@@ -110,7 +110,7 @@ const Contact = () => {
         {/* 2-Column Layout: Direct Details + Contact Form */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Column: Direct Info Cards (5 cols) */}
-          <div className="lg:col-span-5 space-y-4">
+          <div className="lg:col-span-5 space-y-4" data-aos="fade-right">
             {/* WhatsApp Quick Card */}
             <div className="p-6 rounded-3xl bg-[#064C32] text-white space-y-4 shadow-lg">
               <div className="flex items-center gap-3">
@@ -172,7 +172,7 @@ const Contact = () => {
           </div>
 
           {/* Right Column: Contact Form (7 cols) */}
-          <div className="lg:col-span-7 bg-[#F8F8F8] p-6 sm:p-8 rounded-3xl border border-[#E5E5E5]">
+          <div className="lg:col-span-7 bg-[#F8F8F8] p-6 sm:p-8 rounded-3xl border border-[#E5E5E5]" data-aos="fade-left">
             <h2 className="font-serif font-bold text-xl text-[#111111] mb-1">
               Send us a Message
             </h2>
@@ -288,14 +288,14 @@ const Contact = () => {
         </div>
 
         {/* FAQs */}
-        <div className="pt-10 border-t border-[#E5E5E5]">
+        <div className="pt-10 border-t border-[#E5E5E5]" data-aos="fade-up">
           <div className="text-center max-w-xl mx-auto mb-8">
             <span className="text-xs font-bold uppercase tracking-widest text-[#064C32]">Quick Answers</span>
             <h2 className="font-serif text-2xl font-bold text-[#111111] mt-1">Frequently Asked Questions</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {faqs.map((faq, i) => (
-              <div key={i} className="p-6 rounded-2xl bg-[#F8F8F8] border border-[#E5E5E5]">
+              <div key={i} className="p-6 rounded-2xl bg-[#F8F8F8] border border-[#E5E5E5]" data-aos="fade-up" data-aos-delay={i * 100}>
                 <div className="flex items-center gap-2 text-[#064C32] font-bold text-sm mb-2">
                   <HelpCircle className="w-4 h-4 shrink-0" />
                   <h4>{faq.q}</h4>

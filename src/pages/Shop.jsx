@@ -160,7 +160,7 @@ const Shop = () => {
     <div className="bg-white min-h-screen py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb & Header */}
-        <div className="mb-6">
+        <div className="mb-6" data-aos="fade-down">
           <div className="flex items-center gap-2 text-xs text-[#666666] mb-2 uppercase tracking-wider">
             <span>Home</span>
             <span>/</span>
@@ -182,7 +182,7 @@ const Shop = () => {
 
         {/* Search query tag notice */}
         {searchQuery && (
-          <div className="mb-4 inline-flex items-center gap-2 bg-[#F8F8F8] border border-[#E5E5E5] px-3 py-1.5 rounded-lg text-xs">
+          <div className="mb-4 inline-flex items-center gap-2 bg-[#F8F8F8] border border-[#E5E5E5] px-3 py-1.5 rounded-lg text-xs" data-aos="fade-in">
             <span>
               Search query: <strong className="text-[#064C32]">"{searchQuery}"</strong>
             </span>
@@ -201,7 +201,7 @@ const Shop = () => {
         )}
 
         {/* Toolbar: Filter Toggle on Mobile, Count, Sorting Dropdown */}
-        <div className="flex items-center justify-between py-4 mb-6 border-y border-[#E5E5E5] gap-4">
+        <div className="flex items-center justify-between py-4 mb-6 border-y border-[#E5E5E5] gap-4" data-aos="fade-up">
           {/* Mobile Filter Button */}
           <button
             type="button"
@@ -240,25 +240,27 @@ const Shop = () => {
         {/* Main Content Layout: Sidebar + Product Grid */}
         <div className="flex gap-8">
           {/* Filter Sidebar */}
-          <ProductFilter
-            categories={categories}
-            selectedCategory={selectedCategory}
-            onSelectCategory={handleSelectCategory}
-            priceRange={priceRange}
-            onChangePriceRange={setPriceRange}
-            selectedSizes={selectedSizes}
-            onToggleSize={handleToggleSize}
-            selectedColors={selectedColors}
-            onToggleColor={handleToggleColor}
-            inStockOnly={inStockOnly}
-            onToggleInStock={setInStockOnly}
-            onResetFilters={handleResetFilters}
-            isOpen={isMobileFilterOpen}
-            onClose={() => setIsMobileFilterOpen(false)}
-          />
+          <div data-aos="fade-right">
+            <ProductFilter
+              categories={categories}
+              selectedCategory={selectedCategory}
+              onSelectCategory={handleSelectCategory}
+              priceRange={priceRange}
+              onChangePriceRange={setPriceRange}
+              selectedSizes={selectedSizes}
+              onToggleSize={handleToggleSize}
+              selectedColors={selectedColors}
+              onToggleColor={handleToggleColor}
+              inStockOnly={inStockOnly}
+              onToggleInStock={setInStockOnly}
+              onResetFilters={handleResetFilters}
+              isOpen={isMobileFilterOpen}
+              onClose={() => setIsMobileFilterOpen(false)}
+            />
+          </div>
 
           {/* Products Column */}
-          <div className="flex-1 min-w-0">
+          <div className="flex-1 min-w-0" data-aos="fade-up" data-aos-delay="150">
             <ProductGrid
               products={sortedProducts}
               loading={loading}

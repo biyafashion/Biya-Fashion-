@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import brandLogo from '../assets/logo-round.png';
 
 /**
  * BIYA FASHION - Master Brand Logo
@@ -22,17 +23,18 @@ const BiyaLogo = ({ variant = 'default', size = 'normal', showTagline = true, to
       {/* Official BIYA Royal Crown & 'B' Emblem - Round Format */}
       <div
         className={`relative flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105 rounded-full overflow-hidden ${
-          isLarge ? 'w-13 h-13' : 'w-10 h-10'
+          isLarge ? 'w-16 h-16' : 'w-12 h-12'
         } ${
           isLight
-            ? 'bg-white p-0.5 shadow-md border-2 border-[#D9A514]/60 ring-2 ring-white/20'
-            : 'bg-white p-0.5 shadow-sm border border-[#D9A514]/40'
+            ? 'shadow-md border border-[#D9A514]/60 bg-white'
+            : 'shadow-sm bg-white'
         }`}
       >
         <img
-          src="/logo-round.png"
-          alt="BIYA FASHION Crown & B Emblem"
-          className="w-full h-full object-contain rounded-full"
+          src={brandLogo}
+          alt="BIYA FASHION Emblem"
+          className="w-full h-full object-cover"
+          onError={(e) => { e.currentTarget.src = '/logo-round.png'; }}
         />
       </div>
 

@@ -1,5 +1,7 @@
-import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import React, { Suspense, lazy, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 // Context Providers
 import { ToastProvider } from './context/ToastContext';
@@ -38,7 +40,28 @@ const AdminOrders = lazy(() => import('./admin/AdminOrders'));
 const AdminCustomers = lazy(() => import('./admin/AdminCustomers'));
 const AdminSettings = lazy(() => import('./admin/AdminSettings'));
 
+// Auto-refresh AOS and scroll to top on navigation
+const AosRouteRefresher = () => {
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    setTimeout(() => {
+      AOS.refresh();
+    }, 100);
+  }, [location.pathname]);
+  return null;
+};
+
 function App() {
+  useEffect(() => {
+    AOS.init({
+      duration: 800,
+      easing: 'ease-out-cubic',
+      once: false,
+      offset: 40,
+    });
+  }, []);
+
   return (
     <ToastProvider>
       <ProductProvider>
@@ -46,6 +69,7 @@ function App() {
           <WishlistProvider>
             <AuthProvider>
               <Router>
+                <AosRouteRefresher />
                 <Suspense
                   fallback={
                     <div className="min-h-screen bg-white flex items-center justify-center">

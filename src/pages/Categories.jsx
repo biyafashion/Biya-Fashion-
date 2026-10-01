@@ -10,7 +10,7 @@ const Categories = () => {
     <div className="bg-white min-h-screen py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
+        <div className="text-center max-w-2xl mx-auto mb-12" data-aos="fade-down">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#064C32]/5 text-[#064C32] text-xs font-bold uppercase tracking-wider mb-2">
             <Sparkles className="w-3.5 h-3.5 text-[#D9A514]" />
             Collection Index
@@ -25,7 +25,7 @@ const Categories = () => {
 
         {/* Categories Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto gap-6 sm:gap-8">
-          {categories.map((cat) => {
+          {categories.map((cat, idx) => {
             const countInCat = products.filter(
               (p) => p.category?.toLowerCase() === cat.name?.toLowerCase()
             ).length;
@@ -35,6 +35,8 @@ const Categories = () => {
                 key={cat.id || cat.name}
                 to={`/shop?category=${encodeURIComponent(cat.name)}`}
                 className="group relative rounded-3xl overflow-hidden border border-[#E5E5E5] bg-[#F8F8F8] shadow-sm hover:shadow-xl hover:border-[#064C32]/40 transition-all duration-300 flex flex-col justify-end min-h-[380px]"
+                data-aos="zoom-in"
+                data-aos-delay={idx * 150}
               >
                 {/* Background Image with Zoom */}
                 <div className="absolute inset-0 z-0">

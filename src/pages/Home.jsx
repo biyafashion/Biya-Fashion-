@@ -94,7 +94,7 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
             {/* Left Hero Text Content */}
-            <div className="lg:col-span-6 space-y-6 text-left">
+            <div className="lg:col-span-6 space-y-6 text-left" data-aos="fade-right" data-aos-duration="900">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#064C32]/5 border border-[#064C32]/20">
                 <Sparkles className="w-4 h-4 text-[#D9A514]" />
                 <span className="text-xs font-bold uppercase tracking-widest text-[#064C32]">
@@ -151,7 +151,7 @@ const Home = () => {
             </div>
 
             {/* Right Hero Image Editorial Layout */}
-            <div className="lg:col-span-6 relative">
+            <div className="lg:col-span-6 relative" data-aos="fade-left" data-aos-duration="900" data-aos-delay="150">
               <div className="relative mx-auto max-w-md lg:max-w-none">
                 {/* Main Hero Photo */}
                 <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-[#F8F8F8] relative">
@@ -190,7 +190,7 @@ const Home = () => {
       {/* 2. SHOP BY CATEGORY SECTION */}
       <section className="py-16 sm:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10" data-aos="fade-up">
             <div>
               <span className="text-xs font-bold uppercase tracking-widest text-[#064C32]">
                 Curated Wardrobe
@@ -209,11 +209,13 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 max-w-3xl mx-auto gap-6 sm:gap-8">
-            {categories.map((cat) => (
+            {categories.map((cat, idx) => (
               <Link
                 key={cat.id || cat.name}
                 to={`/shop?category=${encodeURIComponent(cat.name)}`}
                 className="group flex items-center gap-5 bg-[#F8F8F8] rounded-3xl p-5 sm:p-6 border border-[#E5E5E5] hover:border-[#064C32] hover:shadow-xl transition-all duration-300"
+                data-aos="zoom-in"
+                data-aos-delay={idx * 150}
               >
                 <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border-2 border-white shadow-md group-hover:scale-105 transition-transform duration-300 bg-white shrink-0 flex items-center justify-center">
                   {cat.image ? (
@@ -251,7 +253,7 @@ const Home = () => {
       {/* 3. NEW ARRIVALS */}
       <section className="py-16 sm:py-20 bg-[#F8F8F8] border-t border-b border-[#E5E5E5]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10" data-aos="fade-up">
             <div>
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#D9A514]">
                 <Sparkles className="w-4 h-4" /> Fresh Off The Loom
@@ -271,12 +273,14 @@ const Home = () => {
 
           {newArrivals.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-              {newArrivals.slice(0, 4).map((product) => (
-                <ProductCard key={product.id} product={product} />
+              {newArrivals.slice(0, 4).map((product, pIdx) => (
+                <div key={product.id} data-aos="fade-up" data-aos-delay={pIdx * 100}>
+                  <ProductCard product={product} />
+                </div>
               ))}
             </div>
           ) : (
-            <div className="text-center py-12 px-6 rounded-3xl bg-white border border-[#E5E5E5] shadow-xs max-w-xl mx-auto">
+            <div className="text-center py-12 px-6 rounded-3xl bg-white border border-[#E5E5E5] shadow-xs max-w-xl mx-auto" data-aos="zoom-in">
               <div className="w-12 h-12 rounded-2xl bg-[#064C32]/10 text-[#064C32] flex items-center justify-center mx-auto mb-3">
                 <Sparkles className="w-6 h-6 text-[#D9A514]" />
               </div>
@@ -298,7 +302,7 @@ const Home = () => {
         <div className="absolute top-10 left-10 w-72 h-72 bg-[#064C32]/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="relative rounded-3xl bg-gradient-to-br from-[#064C32] via-[#033B27] to-[#012216] text-white p-8 sm:p-12 lg:p-14 shadow-2xl border-2 border-[#D9A514]/50 animate-royal-pulse overflow-hidden">
+          <div className="relative rounded-3xl bg-gradient-to-br from-[#064C32] via-[#033B27] to-[#012216] text-white p-8 sm:p-12 lg:p-14 shadow-2xl border-2 border-[#D9A514]/50 animate-royal-pulse overflow-hidden" data-aos="zoom-in" data-aos-duration="1000">
             {/* Ambient gold radial corners */}
             <div className="absolute -top-24 -right-24 w-72 h-72 bg-[#D9A514]/20 rounded-full blur-2xl pointer-events-none" />
             <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-[#F3D477]/15 rounded-full blur-2xl pointer-events-none" />
@@ -358,7 +362,7 @@ const Home = () => {
       {/* 6. WHY CHOOSE BIYA FASHION */}
       <section className="py-16 sm:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-12">
+          <div className="text-center max-w-2xl mx-auto mb-12" data-aos="fade-up">
             <span className="text-xs font-bold uppercase tracking-widest text-[#064C32]">
               The Biya Difference
             </span>
@@ -372,7 +376,7 @@ const Home = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Card 1 */}
-            <div className="p-6 rounded-2xl bg-[#F8F8F8] border border-[#E5E5E5] hover:border-[#064C32]/40 hover:shadow-lg transition-all duration-300">
+            <div className="p-6 rounded-2xl bg-[#F8F8F8] border border-[#E5E5E5] hover:border-[#064C32]/40 hover:shadow-lg transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
               <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-[#064C32] shadow-sm mb-4 border border-[#E5E5E5]">
                 <ShieldCheck className="w-6 h-6 text-[#064C32]" />
               </div>
@@ -385,7 +389,7 @@ const Home = () => {
             </div>
 
             {/* Card 2 */}
-            <div className="p-6 rounded-2xl bg-[#F8F8F8] border border-[#E5E5E5] hover:border-[#064C32]/40 hover:shadow-lg transition-all duration-300">
+            <div className="p-6 rounded-2xl bg-[#F8F8F8] border border-[#E5E5E5] hover:border-[#064C32]/40 hover:shadow-lg transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
               <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-[#064C32] shadow-sm mb-4 border border-[#E5E5E5]">
                 <HeartHandshake className="w-6 h-6 text-[#064C32]" />
               </div>
@@ -398,7 +402,7 @@ const Home = () => {
             </div>
 
             {/* Card 3 */}
-            <div className="p-6 rounded-2xl bg-[#F8F8F8] border border-[#E5E5E5] hover:border-[#064C32]/40 hover:shadow-lg transition-all duration-300">
+            <div className="p-6 rounded-2xl bg-[#F8F8F8] border border-[#E5E5E5] hover:border-[#064C32]/40 hover:shadow-lg transition-all duration-300" data-aos="fade-up" data-aos-delay="300">
               <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-[#064C32] shadow-sm mb-4 border border-[#E5E5E5]">
                 <TrendingUp className="w-6 h-6 text-[#064C32]" />
               </div>
@@ -411,7 +415,7 @@ const Home = () => {
             </div>
 
             {/* Card 4 */}
-            <div className="p-6 rounded-2xl bg-[#F8F8F8] border border-[#E5E5E5] hover:border-[#064C32]/40 hover:shadow-lg transition-all duration-300">
+            <div className="p-6 rounded-2xl bg-[#F8F8F8] border border-[#E5E5E5] hover:border-[#064C32]/40 hover:shadow-lg transition-all duration-300" data-aos="fade-up" data-aos-delay="400">
               <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-[#064C32] shadow-sm mb-4 border border-[#E5E5E5]">
                 <Tag className="w-6 h-6 text-[#064C32]" />
               </div>
@@ -429,7 +433,7 @@ const Home = () => {
       {/* 7. PROMOTIONAL BANNER (White/light-gray background, green & gold accents) */}
       <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative rounded-3xl bg-[#F8F8F8] border-2 border-[#064C32]/20 p-8 sm:p-12 lg:p-16 overflow-hidden shadow-lg">
+          <div className="relative rounded-3xl bg-[#F8F8F8] border-2 border-[#064C32]/20 p-8 sm:p-12 lg:p-16 overflow-hidden shadow-lg" data-aos="zoom-in" data-aos-duration="800">
             {/* Subtle decorative gold badge accent */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-[#D9A514]/10 rounded-full blur-2xl pointer-events-none" />
 
@@ -465,7 +469,7 @@ const Home = () => {
       {/* 8. CUSTOMER REVIEWS */}
       <section className="py-16 sm:py-20 bg-[#F8F8F8] border-t border-b border-[#E5E5E5]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-12">
+          <div className="text-center max-w-2xl mx-auto mb-12" data-aos="fade-up">
             <span className="text-xs font-bold uppercase tracking-widest text-[#064C32]">
               Real Feedback
             </span>
@@ -485,6 +489,8 @@ const Home = () => {
               <div
                 key={idx}
                 className="bg-white p-6 rounded-2xl border border-[#E5E5E5] shadow-xs flex flex-col justify-between"
+                data-aos="fade-up"
+                data-aos-delay={idx * 150}
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">
@@ -523,7 +529,7 @@ const Home = () => {
       {/* 9. INSTAGRAM / SOCIAL SECTION */}
       <section className="py-16 sm:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-10">
+          <div className="text-center max-w-2xl mx-auto mb-10" data-aos="fade-up">
             <span className="text-xs font-bold uppercase tracking-widest text-[#064C32]">
               Join The Community
             </span>
@@ -536,13 +542,15 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {instagramPosts.map((post) => (
+            {instagramPosts.map((post, idx) => (
               <a
                 key={post.id}
                 href={STORE_CONFIG.socialLinks.instagram}
                 target="_blank"
                 rel="noreferrer"
                 className="group relative aspect-square rounded-2xl overflow-hidden border border-[#E5E5E5] block"
+                data-aos="zoom-in"
+                data-aos-delay={idx * 100}
               >
                 <img
                   src={post.image}
@@ -562,7 +570,7 @@ const Home = () => {
 
       {/* 10. NEWSLETTER SECTION */}
       <section className="py-16 bg-[#F8F8F8] border-t border-[#E5E5E5]">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center" data-aos="fade-up">
           <div className="w-12 h-12 rounded-2xl bg-[#064C32] text-[#F3D477] flex items-center justify-center mx-auto mb-4 shadow-sm">
             <Mail className="w-6 h-6" />
           </div>

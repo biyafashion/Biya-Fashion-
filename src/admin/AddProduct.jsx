@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
-  Cloud,
   Plus,
   Trash2,
   ArrowLeft,
@@ -14,7 +13,6 @@ import {
 } from 'lucide-react';
 import { useProducts } from '../context/ProductContext';
 import { useToast } from '../context/ToastContext';
-import GoogleDrivePickerModal from '../components/GoogleDrivePickerModal';
 import { processMultipleImageFiles } from '../utils/imageUtils';
 
 const AVAILABLE_SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL'];
@@ -42,7 +40,6 @@ const AddProduct = () => {
   // Clean empty state - zero dummy images
   const [images, setImages] = useState([]);
   const [isProcessingImages, setIsProcessingImages] = useState(false);
-  const [isDrivePickerOpen, setIsDrivePickerOpen] = useState(false);
   const [showUrlBox, setShowUrlBox] = useState(false);
   const [multiUrlInput, setMultiUrlInput] = useState('');
 
@@ -119,13 +116,6 @@ const AddProduct = () => {
 
   const handleRemoveImage = (index) => {
     setImages((prev) => prev.filter((_, idx) => idx !== index));
-  };
-
-  const handleDriveImageSelected = (url) => {
-    if (url) {
-      setImages((prev) => [...prev, url]);
-      toast.success('Image added from Google Drive!');
-    }
   };
 
   const handleSubmit = (e) => {
@@ -421,24 +411,15 @@ const AddProduct = () => {
               </label>
             </div>
 
-            {/* Quick Action Buttons: URLs & Google Drive */}
-            <div className="grid grid-cols-2 gap-2">
+            {/* Quick Action Button: URLs */}
+            <div>
               <button
                 type="button"
                 onClick={() => setShowUrlBox(!showUrlBox)}
-                className="py-2.5 px-3 rounded-xl bg-white border border-[#E5E5E5] hover:border-[#064C32] text-[#111111] text-[11px] font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition"
+                className="w-full py-2.5 px-3 rounded-xl bg-white border border-[#E5E5E5] hover:border-[#064C32] text-[#111111] text-[11px] font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition"
               >
                 <LinkIcon className="w-3.5 h-3.5 text-[#064C32]" />
-                <span>Paste URLs</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setIsDrivePickerOpen(true)}
-                className="py-2.5 px-3 rounded-xl bg-white border border-[#E5E5E5] hover:border-[#064C32] text-[#111111] text-[11px] font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition"
-              >
-                <Cloud className="w-3.5 h-3.5 text-[#D9A514]" />
-                <span>Google Drive</span>
+                <span>Or Paste Image URLs (Web Links)</span>
               </button>
             </div>
 
@@ -602,13 +583,6 @@ const AddProduct = () => {
           </div>
         </div>
       </form>
-
-      {/* Google Drive Picker Modal */}
-      <GoogleDrivePickerModal
-        isOpen={isDrivePickerOpen}
-        onClose={() => setIsDrivePickerOpen(false)}
-        onSelectImage={handleDriveImageSelected}
-      />
     </div>
   );
 };
