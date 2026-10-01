@@ -16,68 +16,26 @@ const BiyaLogo = ({ variant = 'default', size = 'normal', showTagline = true, to
   const primaryTextColor = isLight ? '#FFFFFF' : '#064C32';
   const secondaryTextColor = isLight ? '#F3D477' : '#D9A514';
   const taglineColor = isLight ? '#E5E5E5' : '#666666';
-  const hangerStroke = isLight ? '#FFFFFF' : '#064C32';
-  const crownFill = isLight ? '#F3D477' : '#D9A514';
 
   const Content = (
     <div className="flex items-center gap-3 group select-none">
-      {/* Crown + Hanger Emblem */}
-      <div className={`relative flex items-center justify-center shrink-0 ${isLarge ? 'w-14 h-14' : 'w-10 h-10'}`}>
-        <svg
-          viewBox="0 0 64 64"
-          className="w-full h-full transform transition-transform duration-300 group-hover:scale-105"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          {/* Subtle Circular Glow Background */}
-          <circle
-            cx="32"
-            cy="32"
-            r="30"
-            fill={isLight ? 'rgba(217, 165, 20, 0.12)' : 'rgba(6, 76, 50, 0.06)'}
-            stroke={secondaryTextColor}
-            strokeWidth="1.2"
-            strokeDasharray="2 3"
-          />
-
-          {/* Royal Crown */}
-          <path
-            d="M21 24L26 29L32 18L38 29L43 24L41 33H23L21 24Z"
-            fill={crownFill}
-            filter="drop-shadow(0px 1px 1px rgba(0,0,0,0.15))"
-          />
-          <circle cx="21" cy="23" r="1.5" fill="#F3D477" />
-          <circle cx="32" cy="17" r="2.0" fill="#FFFFFF" />
-          <circle cx="43" cy="23" r="1.5" fill="#F3D477" />
-
-          {/* Hanger Hook */}
-          <path
-            d="M32 30V32C32 34 30.5 35 29 36C27.5 37 27.5 39 29.5 40C31 40.5 32 41 32 42"
-            stroke={secondaryTextColor}
-            strokeWidth="2.2"
-            strokeLinecap="round"
-          />
-
-          {/* Hanger Triangular Structure */}
-          <path
-            d="M32 38L15 47.5C14.2 48 14.6 49 15.6 49H48.4C49.4 49 49.8 48 49 47.5L32 38Z"
-            fill="none"
-            stroke={hangerStroke}
-            strokeWidth="2.2"
-            strokeLinejoin="round"
-          />
-
-          {/* Hanger Lower Gold Support Bar */}
-          <line
-            x1="16"
-            y1="49"
-            x2="48"
-            y2="49"
-            stroke={secondaryTextColor}
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-        </svg>
+      {/* Official BIYA Royal Crown & 'B' Emblem */}
+      <div
+        className={`relative flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105 ${
+          isLarge ? 'w-13 h-14' : 'w-10 h-11'
+        } ${
+          isLight
+            ? 'bg-white rounded-xl p-1 shadow-md border border-[#D9A514]/40 ring-1 ring-white/20'
+            : 'rounded-lg p-0.5'
+        }`}
+      >
+        <img
+          src="/logo.jpg"
+          alt="BIYA FASHION Crown & B Emblem"
+          className={`w-full h-full object-contain ${
+            isLight ? 'rounded-lg' : 'mix-blend-multiply'
+          }`}
+        />
       </div>
 
       {/* Brand Typography */}

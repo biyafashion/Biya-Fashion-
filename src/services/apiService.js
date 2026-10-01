@@ -214,9 +214,12 @@ export const printClientInvoice = (order) => {
     </head>
     <body>
       <div class="header">
-        <div>
-          <div class="brand">BIYA FASHION</div>
-          <div class="tagline">WEAR YOUR STYLE • LUXURY APPAREL</div>
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <img src="/logo.jpg" style="height: 50px; width: 46px; object-fit: contain; background: white; border-radius: 8px; padding: 3px;" alt="Logo" />
+          <div>
+            <div class="brand">BIYA FASHION</div>
+            <div class="tagline">WEAR YOUR STYLE • LUXURY APPAREL</div>
+          </div>
         </div>
         <div style="text-align: right;">
           <h2 style="margin: 0; font-size: 18px;">TAX INVOICE</h2>
@@ -307,9 +310,12 @@ export const printClientShippingLabel = (order) => {
     </head>
     <body>
       <div class="label">
-        <div class="header">
-          <h3>BIYA FASHION LOGISTICS</h3>
-          <div class="sub">STANDARD COURIER PRIORITY SURFACE</div>
+        <div class="header" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+          <img src="/logo.jpg" style="height: 34px; width: 30px; object-fit: contain; background: white; border-radius: 6px; padding: 2px;" alt="Logo" />
+          <div style="text-align: left;">
+            <h3 style="margin: 0; font-size: 15px; letter-spacing: 1px;">BIYA FASHION LOGISTICS</h3>
+            <div class="sub">STANDARD COURIER PRIORITY SURFACE</div>
+          </div>
         </div>
 
         <div class="barcode">
