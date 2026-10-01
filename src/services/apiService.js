@@ -287,63 +287,211 @@ export const printClientShippingLabel = (order) => {
   if (!win) return;
 
   const isCOD = (order.paymentMethod || '').toLowerCase().includes('cash');
+  const awbNumber = '14908' + String(Math.abs(order.id.split('').reduce((a, c) => (a << 5) - a + c.charCodeAt(0), 5381))).slice(0, 11).padEnd(11, '4801');
+  const orderDate = new Date(order.createdAt || Date.now()).toLocaleDateString('en-GB');
+
+  const productRows = (order.items || []).map((item) => `
+    <tr>
+      <td style="padding: 4px 6px; border: 1px solid #111; font-family: monospace;">${(item.name || 'APPAREL').slice(0, 14)}</td>
+      <td style="padding: 4px 6px; border: 1px solid #111; text-align: center;">${item.selectedSize || 'Free Size'}</td>
+      <td style="padding: 4px 6px; border: 1px solid #111; text-align: center;">${item.quantity || 1}</td>
+      <td style="padding: 4px 6px; border: 1px solid #111; text-align: center;">${(item.selectedColor || 'NA').slice(0, 8)}</td>
+      <td style="padding: 4px 6px; border: 1px solid #111; font-family: monospace;">${order.id}_1</td>
+    </tr>
+  `).join('');
+
+  const invoiceRows = (order.items || []).map((item) => {
+    const gross = item.price * item.quantity;
+    const taxable = (gross / 1.05).toFixed(2);
+    const tax = (gross - parseFloat(taxable)).toFixed(2);
+    return `
+      <tr>
+        <td style="padding: 3px 5px; border-bottom: 1px solid #ddd; max-width: 140px; font-size: 8px; line-height: 1.2;">
+          ${item.name} (${item.selectedSize || 'Std'}, ${item.selectedColor || 'Std'})
+        </td>
+        <td style="padding: 3px 5px; border-bottom: 1px solid #ddd; text-align: center; font-size: 8px;">610910</td>
+        <td style="padding: 3px 5px; border-bottom: 1px solid #ddd; text-align: center; font-size: 8px;">${item.quantity}</td>
+        <td style="padding: 3px 5px; border-bottom: 1px solid #ddd; text-align: right; font-size: 8px;">Rs.${gross.toFixed(2)}</td>
+        <td style="padding: 3px 5px; border-bottom: 1px solid #ddd; text-align: right; font-size: 8px;">Rs.0.00</td>
+        <td style="padding: 3px 5px; border-bottom: 1px solid #ddd; text-align: right; font-size: 8px;">Rs.${taxable}</td>
+        <td style="padding: 3px 5px; border-bottom: 1px solid #ddd; text-align: right; font-size: 8px;">IGST @5% Rs.${tax}</td>
+        <td style="padding: 3px 5px; border-bottom: 1px solid #ddd; text-align: right; font-size: 8px; font-weight: bold;">Rs.${gross.toFixed(2)}</td>
+      </tr>
+    `;
+  }).join('');
 
   win.document.write(`
     <!DOCTYPE html>
     <html>
     <head>
-      <title>Shipping Label - ${order.id} | BIYA FASHION</title>
+      <title>Courier Label - ${order.id} | BIYA FASHION</title>
       <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #111; margin: 0; padding: 20px; display: flex; justify-content: center; }
-        .label { width: 380px; border: 2px solid #111; border-radius: 10px; overflow: hidden; background: white; }
-        .header { background: #033B27; color: white; text-align: center; padding: 12px; }
-        .header h3 { margin: 0; font-size: 16px; letter-spacing: 1px; }
-        .sub { color: #F3D477; font-size: 9px; font-weight: bold; letter-spacing: 1.5px; }
-        .barcode { text-align: center; padding: 16px 8px; border-bottom: 2px solid #111; background: #fafafa; }
-        .barcode-bars { height: 42px; background: repeating-linear-gradient(90deg, #000, #000 2px, transparent 2px, transparent 4px, #000 4px, #000 7px, transparent 7px, transparent 9px); margin: 0 auto; width: 85%; }
-        .ship-to { padding: 14px; border-bottom: 2px solid #111; }
-        .pin-badge { background: #033B27; color: white; padding: 4px 8px; border-radius: 4px; font-size: 13px; font-weight: bold; display: inline-block; margin-top: 6px; }
-        .cod-banner { padding: 10px; text-align: center; font-weight: 800; font-size: 13px; background: ${isCOD ? '#fff3cd' : '#d4edda'}; color: ${isCOD ? '#856404' : '#155724'}; border-bottom: 1px solid #ccc; }
-        .footer { padding: 10px 14px; font-size: 9px; color: #444; }
-        @media print { .no-print { display: none; } }
+        @page { size: 100mm 150mm; margin: 0; }
+        * { box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; color: #000; margin: 0; padding: 12px; display: flex; justify-content: center; background: #fafafa; font-size: 9px; }
+        .sheet { width: 440px; background: white; border: 1.5px solid #000; padding: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .top-split { display: grid; grid-template-columns: 1.25fr 1fr; border-bottom: 1.5px solid #000; }
+        .left-col { padding: 8px 10px; border-right: 1.5px solid #000; display: flex; flex-direction: column; justify-content: space-between; }
+        .right-col { display: flex; flex-direction: column; }
+        .sec-title { font-size: 9px; font-weight: 800; text-transform: capitalize; color: #333; margin-bottom: 3px; }
+        .cust-name { font-size: 13px; font-weight: 800; margin-bottom: 2px; text-transform: uppercase; }
+        .addr-text { font-size: 9.5px; line-height: 1.35; color: #222; }
+        .ret-box { margin-top: 10px; padding-top: 8px; border-top: 1px dashed #666; font-size: 8.5px; line-height: 1.35; }
+        .cod-strip { background: #333; color: white; text-align: center; font-weight: 800; font-size: 9.5px; padding: 5px 6px; letter-spacing: 0.5px; }
+        .logistics-head { padding: 6px 8px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; }
+        .courier-name { font-size: 13px; font-weight: 900; letter-spacing: 0.5px; }
+        .badge { border: 1px solid #000; padding: 1px 4px; font-size: 8px; font-weight: bold; border-radius: 2px; }
+        .dest-code { padding: 4px 8px; font-size: 8px; line-height: 1.3; color: #333; }
+        .qr-section { text-align: center; padding: 4px 0; }
+        .qr-matrix { width: 70px; height: 70px; margin: 0 auto; background: repeating-conic-gradient(#000 0% 25%, #fff 0% 50%) 50% / 10px 10px; border: 3px solid #000; }
+        .barcode-section { padding: 4px 8px; text-align: center; }
+        .barcode-bars { height: 38px; background: repeating-linear-gradient(90deg, #000, #000 2px, transparent 2px, transparent 4px, #000 4px, #000 7px, transparent 7px, transparent 9px, #000 9px, #000 12px, transparent 12px, transparent 14px); margin: 0 auto; width: 95%; }
+        .awb-text { font-family: monospace; font-size: 11px; font-weight: bold; margin-top: 3px; letter-spacing: 1px; }
+        .prod-details { padding: 6px 8px; border-bottom: 1.5px solid #000; }
+        .prod-table { width: 100%; border-collapse: collapse; font-size: 8.5px; margin-top: 3px; }
+        .prod-table th { background: #f0f0f0; border: 1px solid #111; padding: 3px 5px; font-weight: 800; }
+        .inv-section { padding: 6px 8px; font-size: 8px; }
+        .inv-title { text-align: center; font-size: 11px; font-weight: 900; letter-spacing: 1px; margin-bottom: 4px; position: relative; }
+        .orig-text { position: absolute; right: 0; top: 2px; font-size: 7.5px; font-weight: normal; color: #555; }
+        .inv-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 6px; font-size: 8px; line-height: 1.3; border-bottom: 1px solid #ddd; padding-bottom: 4px; }
+        .inv-table { width: 100%; border-collapse: collapse; font-size: 7.5px; margin-top: 4px; }
+        .inv-table th { border-bottom: 1px solid #000; border-top: 1px solid #000; padding: 3px 4px; font-weight: 800; }
+        .disclaimer { font-size: 6.5px; color: #666; margin-top: 6px; line-height: 1.25; border-top: 0.8px solid #ddd; padding-top: 3px; text-align: justify; }
+        @media print {
+          body { background: white; padding: 0; }
+          .sheet { border: 1px solid #000; box-shadow: none; width: 100%; }
+          .no-print { display: none; }
+        }
       </style>
     </head>
     <body>
-      <div class="label">
-        <div class="header" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-          <img src="/logo.jpg" style="height: 34px; width: 30px; object-fit: contain; background: white; border-radius: 6px; padding: 2px;" alt="Logo" />
-          <div style="text-align: left;">
-            <h3 style="margin: 0; font-size: 15px; letter-spacing: 1px;">BIYA FASHION LOGISTICS</h3>
-            <div class="sub">STANDARD COURIER PRIORITY SURFACE</div>
+      <div>
+        <div class="sheet">
+          {/* Top Half: Courier Shipping Routing */}
+          <div class="top-split">
+            {/* Left Box: Customer Address & Return */}
+            <div class="left-col">
+              <div>
+                <div class="sec-title">Customer Address</div>
+                <div class="cust-name">${order.customer?.name || 'Customer'}</div>
+                <div class="addr-text">
+                  ${order.customer?.address || ''}<br/>
+                  ${order.customer?.city || ''}, ${order.customer?.state || ''}, ${order.customer?.pincode || ''}<br/>
+                  <strong>TEL:</strong> ${order.customer?.phone || 'N/A'}
+                </div>
+              </div>
+
+              <div class="ret-box">
+                <strong style="display:block; margin-bottom:2px;">If undelivered, return to:</strong>
+                <strong>BIYA FASHION</strong><br/>
+                Pandiyan Nagar, Karaiyapatti<br/>
+                Virudhunagar, Tamil Nadu, 626106<br/>
+                Tel: +91 96556 25186
+              </div>
+            </div>
+
+            {/* Right Box: COD Banner, Carrier, QR, Barcode */}
+            <div class="right-col">
+              <div class="cod-strip">
+                ${isCOD ? `COD: Check the payable amount on the app` : 'PREPAID ORDER: DO NOT COLLECT CASH'}
+              </div>
+
+              <div class="logistics-head">
+                <div class="courier-name">Delhivery</div>
+                <div class="badge">Pickup</div>
+              </div>
+
+              <div class="dest-code">
+                <strong>Destination Code:</strong><br/>
+                ${(order.customer?.city || 'HUB').toUpperCase()}_PP (${(order.customer?.state || 'TN')})<br/>
+                <strong>Return Code:</strong> 626106,3593013
+              </div>
+
+              <div class="qr-section">
+                <div class="qr-matrix"></div>
+              </div>
+
+              <div class="barcode-section">
+                <div class="awb-text">${awbNumber}</div>
+                <div class="barcode-bars"></div>
+              </div>
+            </div>
+          </div>
+
+          {/* Middle: Product Details */}
+          <div class="prod-details">
+            <div class="sec-title">Product Details</div>
+            <table class="prod-table">
+              <thead>
+                <tr>
+                  <th style="text-align: left;">SKU</th>
+                  <th>Size</th>
+                  <th>Qty</th>
+                  <th>Color</th>
+                  <th style="text-align: right;">Order No.</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${productRows}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Bottom Half: TAX INVOICE */}
+          <div class="inv-section">
+            <div class="inv-title">
+              TAX INVOICE
+              <span class="orig-text">Original For Recipient</span>
+            </div>
+
+            <div class="inv-meta-grid">
+              <div>
+                <strong>BILL TO / SHIP TO</strong><br/>
+                ${order.customer?.name} - ${order.customer?.address}, ${order.customer?.city}, ${order.customer?.state}, ${order.customer?.pincode}.<br/>
+                Place of Supply: <strong>${order.customer?.state || 'Tamil Nadu'}</strong>
+              </div>
+
+              <div>
+                <strong>Sold by:</strong> BIYA FASHION<br/>
+                Pandiyan Nagar, Karaiyapatti, Virudhunagar, Tamil Nadu - 626106<br/>
+                GSTIN - <strong>33AAACB1234F1Z5</strong><br/>
+                Invoice No: INV-${order.id} &nbsp;|&nbsp; Date: ${orderDate}
+              </div>
+            </div>
+
+            <table class="inv-table">
+              <thead>
+                <tr>
+                  <th style="text-align: left;">Description</th>
+                  <th>HSN</th>
+                  <th>Qty</th>
+                  <th style="text-align: right;">Gross</th>
+                  <th style="text-align: right;">Disc</th>
+                  <th style="text-align: right;">Taxable</th>
+                  <th style="text-align: right;">Taxes</th>
+                  <th style="text-align: right;">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${invoiceRows}
+                <tr>
+                  <td colspan="7" style="padding: 4px; text-align: right; font-weight: bold; border-top: 1px solid #000;">Grand Total Payable:</td>
+                  <td style="padding: 4px; text-align: right; font-weight: 900; font-size: 9px; border-top: 1px solid #000;">Rs.${order.total}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="disclaimer">
+              Tax is not payable on reverse charge basis. This is a computer generated invoice and does not require signature. Other charges are charges that are applicable to your order and include charges for logistics fee (where applicable). Includes discounts for your city and/or for online payments (as applicable).
+            </div>
           </div>
         </div>
 
-        <div class="barcode">
-          <div class="barcode-bars"></div>
-          <div style="font-weight: bold; font-size: 11px; margin-top: 4px; font-family: monospace;">* ${order.id} *</div>
+        <div class="no-print" style="margin-top: 16px; text-align: center;">
+          <button onclick="window.print()" style="padding: 10px 24px; background: #064C32; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 13px;">
+            🖨️ Print Label / Save as PDF
+          </button>
         </div>
-
-        <div class="ship-to">
-          <div style="font-size: 10px; font-weight: 800; color: #064C32; margin-bottom: 4px;">SHIP TO (DELIVERY ADDRESS):</div>
-          <div style="font-size: 15px; font-weight: 800;">${order.customer?.name}</div>
-          <div style="font-size: 12px; margin-top: 3px; line-height: 1.4;">${order.customer?.address}</div>
-          <div style="font-size: 13px; font-weight: bold; margin-top: 3px;">${order.customer?.city}, ${order.customer?.state}</div>
-          <div class="pin-badge">PIN: ${order.customer?.pincode}</div>
-          <div style="font-size: 12px; font-weight: 700; margin-top: 6px;">TEL: ${order.customer?.phone}</div>
-        </div>
-
-        <div class="cod-banner">
-          ${isCOD ? `COLLECT CASH ON DELIVERY: ₹${order.total}` : 'PREPAID ORDER - DO NOT COLLECT CASH'}
-        </div>
-
-        <div class="footer">
-          <strong>RETURN / SENDER:</strong> BIYA FASHION, Pandiyan Nagar, Karaiyapatti, Virudhunagar - 626106<br/>
-          Helpline: +91 96556 25186 | Order ID: ${order.id} | Items: ${order.items?.length || 1} pcs
-        </div>
-      </div>
-
-      <div class="no-print" style="margin-left: 20px;">
-        <button onclick="window.print()" style="padding: 10px 20px; background: #064C32; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">Print Label</button>
       </div>
     </body>
     </html>

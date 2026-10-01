@@ -180,91 +180,137 @@ export const generateInvoicePDF = (order, stream) => {
  */
 export const generateShippingLabelPDF = (order, stream) => {
   // 4x6 inches at 72 points/inch = 288 x 432 points
-  const doc = new PDFDocument({ margin: 15, size: [288, 432] });
+  const doc = new PDFDocument({ margin: 8, size: [288, 432] });
   doc.pipe(stream);
 
-  const brandGreen = '#064C32';
-  const brandDarkGreen = '#033B27';
   const darkText = '#111111';
-
-  // 1. Label Outer Border
-  doc.rect(10, 10, 268, 412).lineWidth(1.5).strokeColor('#111111').stroke();
-
-  // 2. Shipping Header
-  doc.rect(10, 10, 268, 42).fill(brandDarkGreen);
-  doc.fillColor('#FFFFFF').fontSize(14).font('Helvetica-Bold')
-    .text('BIYA FASHION LOGISTICS', 15, 18, { width: 258, align: 'center' });
-  doc.fillColor('#F3D477').fontSize(8).font('Helvetica-Bold')
-    .text('STANDARD EXPEDITED SURFACE DELIVERY', 15, 36, { width: 258, align: 'center' });
-
-  // 3. Routing & Tracking Info Bar
-  let y = 57;
-  doc.rect(10, y, 268, 24).fill('#F0F0F0');
-  doc.fillColor(darkText).fontSize(9).font('Helvetica-Bold');
-  doc.text(`HUB: SURAT-W / 395`, 18, y + 6);
-  doc.text(`ROUTING: ${order.customer?.pincode ? order.customer.pincode.substring(0, 3) : '400'}-EXP`, 175, y + 6);
-
-  // 4. Main Shipping Barcode
-  y = 86;
-  drawBarcode(doc, 20, y, 248, 40, order.id);
-
-  // Line Divider
-  y = 150;
-  doc.moveTo(10, y).lineTo(278, y).lineWidth(1.2).strokeColor('#111111').stroke();
-
-  // 5. SHIP TO (DELIVERY ADDRESS) - BIG & PROMINENT
-  y = 156;
-  doc.rect(15, y, 258, 120).fill('#FAFAFA').strokeColor('#CCCCCC').lineWidth(0.8).stroke();
-
-  doc.fillColor(brandGreen).fontSize(9).font('Helvetica-Bold').text('SHIP TO (DELIVERY ADDRESS):', 22, y + 6);
-  doc.fillColor(darkText).fontSize(12).font('Helvetica-Bold')
-    .text(order.customer?.name || 'Customer', 22, y + 20, { width: 240 });
-
-  doc.fontSize(9).font('Helvetica').fillColor('#222222')
-    .text(order.customer?.address || '', 22, y + 36, { width: 240, height: 35 });
-
-  doc.fontSize(10).font('Helvetica-Bold').fillColor(darkText)
-    .text(`${order.customer?.city || ''}, ${order.customer?.state || ''}`, 22, y + 74);
-
-  // Pincode Highlight
-  doc.rect(180, y + 70, 85, 20).fill(brandDarkGreen);
-  doc.fillColor('#FFFFFF').fontSize(11).font('Helvetica-Bold')
-    .text(`PIN: ${order.customer?.pincode || '395002'}`, 180, y + 74, { width: 85, align: 'center' });
-
-  doc.fontSize(9).font('Helvetica-Bold').fillColor(darkText)
-    .text(`TEL: ${order.customer?.phone || 'N/A'}`, 22, y + 96);
-
-  // 6. COD / Payment Banner
-  y = 283;
   const isCOD = (order.paymentMethod || '').toLowerCase().includes('cash');
-  doc.rect(10, y, 268, 32).fill(isCOD ? '#fff3cd' : '#d4edda');
-  doc.rect(10, y, 268, 32).strokeColor(isCOD ? '#ffeeba' : '#c3e6cb').lineWidth(1).stroke();
+  const awbNumber = '14908' + String(Math.abs(order.id.split('').reduce((a, c) => (a << 5) - a + c.charCodeAt(0), 5381))).slice(0, 11).padEnd(11, '4801');
+  const orderDate = new Date(order.createdAt || Date.now()).toLocaleDateString('en-GB');
 
-  doc.fillColor(isCOD ? '#856404' : '#155724').fontSize(11).font('Helvetica-Bold');
-  if (isCOD) {
-    doc.text(`COLLECT CASH ON DELIVERY: INR ${order.total}`, 15, y + 10, { width: 258, align: 'center' });
-  } else {
-    doc.text(`PREPAID ORDER - DO NOT COLLECT CASH`, 15, y + 10, { width: 258, align: 'center' });
-  }
+  // Outer Box
+  doc.rect(8, 8, 272, 416).lineWidth(1.2).strokeColor('#111111').stroke();
 
-  // 7. Package Details & Return Address
-  y = 322;
-  doc.fillColor(darkText).fontSize(8).font('Helvetica-Bold').text('RETURN / SENDER ADDRESS:', 18, y);
-  doc.fontSize(7.5).font('Helvetica').fillColor('#444444');
-  doc.text('BIYA FASHION, Pandiyan Nagar, Karaiyapatti, Virudhunagar - 626106', 18, y + 12, { width: 250 });
-  doc.text('Email: biyasfashion02@gmail.com | Helpline: +91 96556 25186', 18, y + 23);
+  // Top Section (y = 8 to 170)
+  // Vertical line at x = 148
+  doc.moveTo(148, 8).lineTo(148, 170).lineWidth(1).strokeColor('#111111').stroke();
 
-  // Bottom Meta Summary
-  y = 365;
-  doc.moveTo(10, y).lineTo(278, y).lineWidth(1).strokeColor('#111111').stroke();
-  doc.fontSize(7.5).font('Helvetica').fillColor('#333333');
-  doc.text(`Order ID: ${order.id}`, 18, y + 6);
-  doc.text(`Weight: 0.45 KG (Apparel)`, 18, y + 18);
-  doc.text(`Pieces: ${order.items?.length || 1} item(s)`, 18, y + 30);
+  // LEFT COLUMN: Customer Address & Return
+  doc.fillColor(darkText).fontSize(7.5).font('Helvetica-Bold').text('Customer Address', 12, 12);
+  doc.fontSize(10).font('Helvetica-Bold').text(order.customer?.name || 'Customer', 12, 22, { width: 132 });
+  doc.fontSize(7.5).font('Helvetica').text(order.customer?.address || '', 12, 34, { width: 132, height: 26 });
+  doc.text(`${order.customer?.city || ''}, ${order.customer?.state || ''}, ${order.customer?.pincode || ''}`, 12, 62, { width: 132 });
+  doc.text(`TEL: ${order.customer?.phone || 'N/A'}`, 12, 72);
 
-  doc.text(`Date: ${new Date(order.createdAt).toLocaleDateString('en-IN')}`, 170, y + 6);
-  doc.text(`Courier: Priority Cargo`, 170, y + 18);
-  doc.font('Helvetica-Bold').text(`AUTHENTIC LABEL`, 170, y + 30);
+  // Return Divider
+  doc.moveTo(12, 84).lineTo(144, 84).lineWidth(0.8).strokeColor('#888888').stroke();
+
+  doc.fillColor(darkText).fontSize(7).font('Helvetica-Bold').text('If undelivered, return to:', 12, 88);
+  doc.fontSize(8.5).font('Helvetica-Bold').text('BIYA FASHION', 12, 98);
+  doc.fontSize(7).font('Helvetica').text('Pandiyan Nagar, Karaiyapatti', 12, 109);
+  doc.text('Virudhunagar, Tamil Nadu, 626106', 12, 119);
+  doc.text('Tel: +91 96556 25186', 12, 129);
+
+  // RIGHT COLUMN: COD Banner, Carrier, Routing, Barcode
+  doc.rect(148, 8, 132, 16).fill('#222222');
+  doc.fillColor('#FFFFFF').fontSize(7).font('Helvetica-Bold')
+    .text(isCOD ? 'COD: Check payable amount on app' : 'PREPAID ORDER: DO NOT COLLECT CASH', 149, 12, { width: 130, align: 'center' });
+
+  doc.fillColor(darkText).fontSize(11).font('Helvetica-Bold').text('Delhivery', 154, 28);
+  doc.rect(240, 27, 34, 11).strokeColor('#111111').lineWidth(0.8).stroke();
+  doc.fillColor(darkText).fontSize(6.5).font('Helvetica-Bold').text('Pickup', 240, 29, { width: 34, align: 'center' });
+
+  doc.fontSize(6.5).font('Helvetica').fillColor('#333333');
+  doc.text(`Destination Code: ${(order.customer?.city || 'HUB').toUpperCase()}_PP (${order.customer?.state || 'TN'})`, 154, 43, { width: 122 });
+  doc.text('Return Code: 626106,3593013', 154, 53);
+
+  // Barcode & AWB
+  drawBarcode(doc, 154, 66, 120, 24, awbNumber);
+
+  // Horizontal line separating Top and Middle
+  doc.moveTo(8, 142).lineTo(280, 142).lineWidth(1).strokeColor('#111111').stroke();
+
+  // MIDDLE SECTION: Product Details Table (y = 145 to 195)
+  doc.fillColor(darkText).fontSize(7.5).font('Helvetica-Bold').text('Product Details', 12, 145);
+
+  let py = 156;
+  doc.rect(12, py, 264, 13).fill('#F0F0F0');
+  doc.rect(12, py, 264, 13).strokeColor('#111111').lineWidth(0.8).stroke();
+  doc.fillColor(darkText).fontSize(6.5).font('Helvetica-Bold');
+  doc.text('SKU', 15, py + 3);
+  doc.text('Size', 110, py + 3, { width: 35, align: 'center' });
+  doc.text('Qty', 148, py + 3, { width: 20, align: 'center' });
+  doc.text('Color', 170, py + 3, { width: 35, align: 'center' });
+  doc.text('Order No.', 210, py + 3, { width: 62, align: 'right' });
+
+  py += 13;
+  (order.items || []).slice(0, 2).forEach((item) => {
+    doc.rect(12, py, 264, 12).strokeColor('#DDDDDD').lineWidth(0.5).stroke();
+    doc.fillColor(darkText).fontSize(6.5).font('Helvetica');
+    doc.text((item.name || 'APPAREL').slice(0, 18), 15, py + 2, { width: 90 });
+    doc.text(item.selectedSize || 'Free', 110, py + 2, { width: 35, align: 'center' });
+    doc.text(String(item.quantity || 1), 148, py + 2, { width: 20, align: 'center' });
+    doc.text((item.selectedColor || 'NA').slice(0, 8), 170, py + 2, { width: 35, align: 'center' });
+    doc.text(`${order.id}_1`, 210, py + 2, { width: 62, align: 'right' });
+    py += 12;
+  });
+
+  // Horizontal line separating Middle and Bottom Invoice
+  doc.moveTo(8, py + 4).lineTo(280, py + 4).lineWidth(1).strokeColor('#111111').stroke();
+
+  // BOTTOM SECTION: TAX INVOICE
+  let iy = py + 8;
+  doc.fillColor(darkText).fontSize(8.5).font('Helvetica-Bold').text('TAX INVOICE', 8, iy, { width: 272, align: 'center' });
+  doc.fontSize(6).font('Helvetica').fillColor('#555555').text('Original For Recipient', 200, iy, { width: 72, align: 'right' });
+
+  iy += 12;
+  // Bill to & Sold by grid
+  doc.fillColor(darkText).fontSize(6.5).font('Helvetica-Bold').text('BILL TO / SHIP TO', 12, iy);
+  doc.fontSize(6).font('Helvetica').text(`${order.customer?.name} - ${order.customer?.address || ''}, ${order.customer?.city || ''}, ${order.customer?.pincode || ''}. Place of Supply: ${order.customer?.state || 'Tamil Nadu'}`, 12, iy + 9, { width: 130 });
+
+  doc.fontSize(6.5).font('Helvetica-Bold').text('Sold by: BIYA FASHION', 148, iy);
+  doc.fontSize(6).font('Helvetica').text(`Pandiyan Nagar, Karaiyapatti, Virudhunagar - 626106\nGSTIN: 33AAACB1234F1Z5\nInv No: INV-${order.id} | Date: ${orderDate}`, 148, iy + 9, { width: 124 });
+
+  iy += 32;
+  // Invoice table header
+  doc.rect(12, iy, 264, 11).fill('#F0F0F0');
+  doc.rect(12, iy, 264, 11).strokeColor('#111111').lineWidth(0.8).stroke();
+  doc.fillColor(darkText).fontSize(6).font('Helvetica-Bold');
+  doc.text('Description', 14, iy + 2);
+  doc.text('HSN', 95, iy + 2, { width: 22, align: 'center' });
+  doc.text('Qty', 120, iy + 2, { width: 15, align: 'center' });
+  doc.text('Gross', 138, iy + 2, { width: 28, align: 'right' });
+  doc.text('Disc', 168, iy + 2, { width: 20, align: 'right' });
+  doc.text('Taxable', 190, iy + 2, { width: 28, align: 'right' });
+  doc.text('Taxes', 220, iy + 2, { width: 28, align: 'right' });
+  doc.text('Total', 250, iy + 2, { width: 24, align: 'right' });
+
+  iy += 11;
+  (order.items || []).slice(0, 2).forEach((item) => {
+    const gross = item.price * item.quantity;
+    const taxable = (gross / 1.05).toFixed(2);
+    const tax = (gross - parseFloat(taxable)).toFixed(2);
+
+    doc.fillColor(darkText).fontSize(5.5).font('Helvetica');
+    doc.text((item.name || 'Apparel').slice(0, 18), 14, iy + 2, { width: 80 });
+    doc.text('610910', 95, iy + 2, { width: 22, align: 'center' });
+    doc.text(String(item.quantity || 1), 120, iy + 2, { width: 15, align: 'center' });
+    doc.text(`Rs.${gross.toFixed(0)}`, 138, iy + 2, { width: 28, align: 'right' });
+    doc.text('Rs.0', 168, iy + 2, { width: 20, align: 'right' });
+    doc.text(`Rs.${taxable}`, 190, iy + 2, { width: 28, align: 'right' });
+    doc.text(`Rs.${tax}`, 220, iy + 2, { width: 28, align: 'right' });
+    doc.font('Helvetica-Bold').text(`Rs.${gross.toFixed(0)}`, 250, iy + 2, { width: 24, align: 'right' });
+    iy += 10;
+  });
+
+  // Grand Total Line
+  doc.moveTo(12, iy + 2).lineTo(276, iy + 2).lineWidth(0.8).strokeColor('#111111').stroke();
+  doc.fontSize(6.5).font('Helvetica-Bold').fillColor(darkText).text(`Total Amount Payable: Rs.${order.total}`, 14, iy + 5, { width: 260, align: 'right' });
+
+  // Disclaimer footer
+  iy += 16;
+  doc.fontSize(4.8).font('Helvetica').fillColor('#666666')
+    .text('Tax is not payable on reverse charge basis. This is a computer generated invoice and does not require signature. Other charges are charges that are applicable to your order and include charges for logistics fee (where applicable). Includes discounts for your city and/or for online payments (as applicable).', 12, iy, { width: 264, align: 'justify' });
 
   doc.end();
 };

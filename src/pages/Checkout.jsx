@@ -31,7 +31,7 @@ const Checkout = () => {
     notes: '',
   });
 
-  const [paymentMethod, setPaymentMethod] = useState('cod'); // 'cod' or 'whatsapp'
+  const [paymentMethod, setPaymentMethod] = useState('whatsapp'); // 'whatsapp' (no DB) or 'cod' (stores in DB)
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (cart.length === 0) {
@@ -105,27 +105,28 @@ const Checkout = () => {
         createdAt: new Date().toISOString(),
       };
 
-      // Save to localStorage
+      // Save locally so the customer can view their receipt & label
       storageService.createOrder(orderPayload);
 
-      // Async sync to Express & Firebase backend (does not block UI)
-      syncOrderToBackend(orderPayload);
+      // Save to Firebase DB ONLY for Cash on Delivery / standard orders
+      // For "Send to WhatsApp", order goes directly to WhatsApp without saving to DB
+      if (paymentMethod !== 'whatsapp') {
+        syncOrderToBackend(orderPayload);
+      }
 
       clearCart();
-      toast.success(`Order ${orderId} placed successfully!`);
+      toast.success(`Order ${orderId} registered!`);
 
-      // If WhatsApp order selected, open WhatsApp conversation with formatted message
+      // If WhatsApp order selected, open WhatsApp conversation with full shipping & item details
       if (paymentMethod === 'whatsapp') {
         const itemsListText = cart
           .map(
-            (i) =>
-              `• ${i.name} (Size: ${i.size}, Color: ${i.color}) x ${i.quantity} = ₹${
-                i.price * i.quantity
-              }`
+            (i, idx) =>
+              `${idx + 1}. *${i.name}*\n   • Size: ${i.size} | Color: ${i.color}\n   • Qty: ${i.quantity} x ₹${i.price} = ₹${i.price * i.quantity}`
           )
-          .join('\n');
+          .join('\n\n');
 
-        const message = `✨ *NEW BIYA FASHION ORDER* ✨\n\n*Order ID:* ${orderId}\n*Customer:* ${formData.fullName}\n*Phone:* ${formData.phone}\n*Email:* ${formData.email || 'N/A'}\n\n*Delivery Address:*\n${formData.address}, ${formData.city}, ${formData.state} - ${formData.pincode}\n\n*Items Ordered:*\n${itemsListText}\n\n*Subtotal:* ₹${subtotal}\n*Delivery:* ${deliveryFee === 0 ? 'FREE' : '₹' + deliveryFee}\n*Total Amount:* ₹${grandTotal}\n*Payment Mode:* WhatsApp Direct Order\n\n_Thank you for shopping with BIYA FASHION! Wear Your Style._`;
+        const message = `🛍️ *NEW BIYA FASHION ORDER* 🛍️\n----------------------------------------\n*Order ID:* ${orderId}\n*Date:* ${new Date().toLocaleDateString('en-IN')}\n\n👤 *CUSTOMER & SHIPPING DETAILS:*\n• *Customer Name:* ${formData.fullName}\n• *Mobile Number:* ${formData.phone}\n• *Email:* ${formData.email || 'N/A'}\n• *Delivery Address:*\n  ${formData.address}\n  ${formData.city}, ${formData.state} - ${formData.pincode}${formData.notes ? `\n• *Delivery Instructions:* ${formData.notes}` : ''}\n\n👗 *ORDERED APPAREL (${cart.length}):*\n${itemsListText}\n\n💰 *BILLING SUMMARY:*\n• *Subtotal:* ₹${subtotal}\n• *Delivery Fee:* ${deliveryFee === 0 ? 'FREE' : '₹' + deliveryFee}\n• *Grand Total Payable:* ₹${grandTotal}\n• *Payment Mode:* Send to WhatsApp Order\n----------------------------------------\n👑 *BIYA FASHION • WEAR YOUR STYLE*\n_Pandiyan Nagar, Karaiyapatti, Virudhunagar - 626106_\n_Please confirm my order dispatch. Thank you!_`;
 
         const waUrl = `https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${encodeURIComponent(
           message
@@ -298,11 +299,43 @@ const Checkout = () => {
               </div>
 
               <div className="space-y-3">
-                {/* Option 1: Cash on Delivery */}
+                {/* Option 1: Send to WhatsApp Order */}
+                <label
+                  className={`flex items-start gap-4 p-4 rounded-2xl border cursor-pointer transition ${
+                    paymentMethod === 'whatsapp'
+                      ? 'border-[#064C32] bg-white ring-2 ring-[#064C32]/20 shadow-sm'
+                      : 'border-[#E5E5E5] bg-white hover:bg-gray-50'
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    value="whatsapp"
+                    checked={paymentMethod === 'whatsapp'}
+                    onChange={() => setPaymentMethod('whatsapp')}
+                    className="mt-1 accent-[#064C32]"
+                  />
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                      <MessageCircle className="w-5 h-5 text-[#25D366]" />
+                      <span className="font-bold text-sm text-[#111111]">
+                        Send to WhatsApp (Direct Order)
+                      </span>
+                      <span className="text-[10px] font-bold uppercase tracking-wider bg-[#25D366]/15 text-[#064C32] px-2 py-0.5 rounded-full">
+                        Recommended
+                      </span>
+                    </div>
+                    <p className="text-xs text-[#666666] mt-1 leading-relaxed">
+                      Instantly sends your full delivery address and ordered items directly to BIYA FASHION WhatsApp (+91 96556 25186) for immediate dispatch confirmation.
+                    </p>
+                  </div>
+                </label>
+
+                {/* Option 2: Cash on Delivery */}
                 <label
                   className={`flex items-start gap-4 p-4 rounded-2xl border cursor-pointer transition ${
                     paymentMethod === 'cod'
-                      ? 'border-[#064C32] bg-white ring-2 ring-[#064C32]/10'
+                      ? 'border-[#064C32] bg-white ring-2 ring-[#064C32]/20 shadow-sm'
                       : 'border-[#E5E5E5] bg-white hover:bg-gray-50'
                   }`}
                 >
@@ -322,36 +355,7 @@ const Checkout = () => {
                       </span>
                     </div>
                     <p className="text-xs text-[#666666] mt-1">
-                      Pay easily in cash or UPI at your doorstep when your garments arrive.
-                    </p>
-                  </div>
-                </label>
-
-                {/* Option 2: WhatsApp Order */}
-                <label
-                  className={`flex items-start gap-4 p-4 rounded-2xl border cursor-pointer transition ${
-                    paymentMethod === 'whatsapp'
-                      ? 'border-[#064C32] bg-white ring-2 ring-[#064C32]/10'
-                      : 'border-[#E5E5E5] bg-white hover:bg-gray-50'
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="whatsapp"
-                    checked={paymentMethod === 'whatsapp'}
-                    onChange={() => setPaymentMethod('whatsapp')}
-                    className="mt-1 accent-[#064C32]"
-                  />
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2">
-                      <MessageCircle className="w-5 h-5 text-[#25D366]" />
-                      <span className="font-bold text-sm text-[#111111]">
-                        Direct WhatsApp Order Confirmation
-                      </span>
-                    </div>
-                    <p className="text-xs text-[#666666] mt-1">
-                      Instantly sends your complete invoice and order items to our official WhatsApp support number.
+                      Pay in cash or UPI at your doorstep upon receiving your garments.
                     </p>
                   </div>
                 </label>
