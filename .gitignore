@@ -26,5 +26,6 @@ server/.env
 server/.env.*
 serviceAccountKey.json
 server/config/serviceAccountKey.json
+*firebase-adminsdk*.json
 server/data/*.json
 !server/data/.gitkeep
