@@ -67,8 +67,8 @@ const BiyaChatBot = () => {
 
   const resetConversation = () => {
     const greetingText = customer?.name
-      ? `Hello ${customer.name}! 👋 I am your live Biya Store Assistant. How may I assist you with your account or orders today?`
-      : `Welcome to BIYA FASHION! 👋 I am your live Store Assistant connected directly to our store database.`;
+      ? `Hello ${customer.name}! 👋 I am your Biya Chatbot. How may I assist you with your account or orders today?`
+      : `Welcome to BIYA FASHION! 👋 I am your Biya Chatbot. Select an option below to track orders, search products, or check your bag.`;
 
     setMessages([
       {
@@ -398,7 +398,7 @@ const BiyaChatBot = () => {
         id: `bot-${Date.now()}`,
         sender: 'bot',
         type: 'actions',
-        text: `I am your live Biya Store Assistant connected directly to our database. I can look up live orders, show products in stock, or check your account details:`,
+        text: `I am your Biya Chatbot. I can look up live orders, show products in stock, or check your account details:`,
       },
     ]);
     setIsSearching(false);
@@ -424,7 +424,7 @@ const BiyaChatBot = () => {
           </div>
 
           <span className="font-serif font-bold text-xs tracking-wider uppercase">
-            Store Assistant
+            Chat Bot
           </span>
         </button>
       )}
@@ -440,12 +440,12 @@ const BiyaChatBot = () => {
               </div>
               <div>
                 <h3 className="font-serif font-black text-xs sm:text-sm text-white tracking-wider flex items-center gap-1.5">
-                  BIYA STORE ASSISTANT
+                  BIYA CHATBOT
                 </h3>
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#25D366] animate-pulse"></span>
                   <span className="text-[10px] text-[#D9A514] font-semibold tracking-wide">
-                    Live Database Connected
+                    Chat Bot
                   </span>
                 </div>
               </div>
