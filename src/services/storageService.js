@@ -53,33 +53,36 @@ const safeSet = (key, value) => {
  * Automatically migrates to updated catalog versions (e.g. T-Shirts & Polo T-Shirts exclusive).
  */
 export const initializeStorage = () => {
-  const CATALOG_VERSION = 'v2_tshirt_polo_only';
+  const CATALOG_VERSION = 'v4_clean_slate_all_cleared';
   const currentVersion = localStorage.getItem('biya_catalog_version');
 
   if (currentVersion !== CATALOG_VERSION) {
-    safeSet(KEYS.PRODUCTS, DEMO_PRODUCTS);
+    safeSet(KEYS.PRODUCTS, []);
     safeSet(KEYS.CATEGORIES, DEMO_CATEGORIES);
+    safeSet(KEYS.ORDERS, []);
+    safeSet(KEYS.CART, []);
+    safeSet(KEYS.WISHLIST, []);
     localStorage.setItem('biya_catalog_version', CATALOG_VERSION);
   } else {
     if (!localStorage.getItem(KEYS.PRODUCTS)) {
-      safeSet(KEYS.PRODUCTS, DEMO_PRODUCTS);
+      safeSet(KEYS.PRODUCTS, []);
     }
     if (!localStorage.getItem(KEYS.CATEGORIES)) {
       safeSet(KEYS.CATEGORIES, DEMO_CATEGORIES);
     }
+    if (!localStorage.getItem(KEYS.ORDERS)) {
+      safeSet(KEYS.ORDERS, []);
+    }
+    if (!localStorage.getItem(KEYS.CART)) {
+      safeSet(KEYS.CART, []);
+    }
+    if (!localStorage.getItem(KEYS.WISHLIST)) {
+      safeSet(KEYS.WISHLIST, []);
+    }
   }
 
-  if (!localStorage.getItem(KEYS.ORDERS)) {
-    safeSet(KEYS.ORDERS, DEMO_ORDERS);
-  }
   if (!localStorage.getItem(KEYS.SETTINGS)) {
     safeSet(KEYS.SETTINGS, DEMO_SETTINGS);
-  }
-  if (!localStorage.getItem(KEYS.CART)) {
-    safeSet(KEYS.CART, []);
-  }
-  if (!localStorage.getItem(KEYS.WISHLIST)) {
-    safeSet(KEYS.WISHLIST, []);
   }
 };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, Sparkles, Shirt } from 'lucide-react';
 import { useProducts } from '../context/ProductContext';
 
 const Categories = () => {
@@ -38,11 +38,17 @@ const Categories = () => {
               >
                 {/* Background Image with Zoom */}
                 <div className="absolute inset-0 z-0">
-                  <img
-                    src={cat.image}
-                    alt={cat.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                  />
+                  {cat.image ? (
+                    <img
+                      src={cat.image}
+                      alt={cat.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-[#064C32] via-[#033B27] to-[#111111] flex items-center justify-center">
+                      <Shirt className="w-24 h-24 text-[#D9A514]/20" />
+                    </div>
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent" />
                 </div>
 

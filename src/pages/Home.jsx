@@ -215,12 +215,18 @@ const Home = () => {
                 to={`/shop?category=${encodeURIComponent(cat.name)}`}
                 className="group flex items-center gap-5 bg-[#F8F8F8] rounded-3xl p-5 sm:p-6 border border-[#E5E5E5] hover:border-[#064C32] hover:shadow-xl transition-all duration-300"
               >
-                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border-2 border-white shadow-md group-hover:scale-105 transition-transform duration-300 bg-white shrink-0">
-                  <img
-                    src={cat.image}
-                    alt={cat.name}
-                    className="w-full h-full object-cover"
-                  />
+                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border-2 border-white shadow-md group-hover:scale-105 transition-transform duration-300 bg-white shrink-0 flex items-center justify-center">
+                  {cat.image ? (
+                    <img
+                      src={cat.image}
+                      alt={cat.name}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-[#064C32] to-[#033B27] flex items-center justify-center text-[#F3D477]">
+                      <Shirt className="w-10 h-10" />
+                    </div>
+                  )}
                 </div>
                 <div className="text-left">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-[#D9A514] bg-[#064C32]/5 px-2.5 py-0.5 rounded-full border border-[#064C32]/10">
@@ -263,11 +269,25 @@ const Home = () => {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-            {newArrivals.slice(0, 4).map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
+          {newArrivals.length > 0 ? (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+              {newArrivals.slice(0, 4).map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 px-6 rounded-3xl bg-white border border-[#E5E5E5] shadow-xs max-w-xl mx-auto">
+              <div className="w-12 h-12 rounded-2xl bg-[#064C32]/10 text-[#064C32] flex items-center justify-center mx-auto mb-3">
+                <Sparkles className="w-6 h-6 text-[#D9A514]" />
+              </div>
+              <h3 className="font-serif text-lg sm:text-xl font-bold text-[#111111]">
+                Exclusive Collection Dropping Soon
+              </h3>
+              <p className="text-xs text-[#666666] mt-1.5 max-w-sm mx-auto">
+                Our signature handcrafted T-Shirts & Polo T-Shirts are being cataloged. Stay tuned for new arrivals.
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
