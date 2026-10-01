@@ -309,17 +309,15 @@ export const getProductsFromFirebase = async () => {
   if (isFirebaseReady() && db) {
     try {
       const snapshot = await db.collection('products').get();
-      if (!snapshot.empty) {
-        const firestoreProducts = [];
-        snapshot.forEach((doc) => {
-          firestoreProducts.push({ id: doc.id, ...doc.data() });
-        });
-        firestoreProducts.sort(
-          (a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
-        );
-        writeJsonFile(PRODUCTS_FILE, firestoreProducts);
-        return firestoreProducts;
-      }
+      const firestoreProducts = [];
+      snapshot.forEach((doc) => {
+        firestoreProducts.push({ id: doc.id, ...doc.data() });
+      });
+      firestoreProducts.sort(
+        (a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
+      );
+      writeJsonFile(PRODUCTS_FILE, firestoreProducts);
+      return firestoreProducts;
     } catch (err) {
       console.warn('[Firebase] Error reading products from Firestore:', err.message);
     }

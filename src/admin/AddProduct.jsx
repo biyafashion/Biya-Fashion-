@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 import { useProducts } from '../context/ProductContext';
 import { useToast } from '../context/ToastContext';
-import { processMultipleImageFiles, normalizeGoogleDriveUrl } from '../utils/imageUtils';
+import { processMultipleImageFiles, normalizeGoogleDriveUrl, cleanAndNormalizeImageUrl } from '../utils/imageUtils';
 
 const AVAILABLE_SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL'];
 
@@ -42,6 +42,7 @@ const AddProduct = () => {
   const [images, setImages] = useState([]);
   const [isProcessingImages, setIsProcessingImages] = useState(false);
   const [showDeviceUpload, setShowDeviceUpload] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -66,9 +67,8 @@ const AddProduct = () => {
     setUrlInputs(updated);
 
     const valid = updated
-      .map((u) => u.trim())
-      .filter((u) => u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:image/'))
-      .map(normalizeGoogleDriveUrl);
+      .map(cleanAndNormalizeImageUrl)
+      .filter((u) => u && (u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:image/')));
     setImages(valid);
   };
 
@@ -82,9 +82,8 @@ const AddProduct = () => {
     setUrlInputs(fallback);
 
     const valid = fallback
-      .map((u) => u.trim())
-      .filter((u) => u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:image/'))
-      .map(normalizeGoogleDriveUrl);
+      .map(cleanAndNormalizeImageUrl)
+      .filter((u) => u && (u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:image/')));
     setImages(valid);
   };
 
@@ -122,9 +121,8 @@ const AddProduct = () => {
     setUrlInputs(nextUrls);
 
     const valid = nextUrls
-      .map((u) => u.trim())
-      .filter((u) => u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:image/'))
-      .map(normalizeGoogleDriveUrl);
+      .map(cleanAndNormalizeImageUrl)
+      .filter((u) => u && (u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:image/')));
     setImages(valid);
     toast.success('Set as Image 1 (Cover Photo)!');
   };
@@ -133,7 +131,7 @@ const AddProduct = () => {
     handleRemoveUrlField(index);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!formData.name.trim() || !formData.price) {
@@ -141,24 +139,41 @@ const AddProduct = () => {
       return;
     }
 
-    if (images.length === 0) {
-      toast.error('Please add at least one product image.');
+    // Collect all valid URLs from urlInputs as well as images
+    const allInputUrls = urlInputs
+      .map(cleanAndNormalizeImageUrl)
+      .filter((u) => u && (u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:image/')));
+
+    const finalImages = Array.from(new Set([...images, ...allInputUrls])).filter(Boolean);
+
+    if (finalImages.length === 0) {
+      toast.error('Please add at least one product image (Paste Image URL or upload).');
       return;
     }
 
-    const payload = {
-      ...formData,
-      price: Number(formData.price),
-      discountPrice: formData.discountPrice ? Number(formData.discountPrice) : null,
-      stock: Number(formData.stock) || 0,
-      colors: formData.colors.split(',').map((c) => c.trim()).filter(Boolean),
-      images,
-      rating: 5.0,
-      reviewsCount: 0,
-    };
+    setIsSubmitting(true);
+    try {
+      const payload = {
+        ...formData,
+        price: Number(formData.price),
+        discountPrice: formData.discountPrice ? Number(formData.discountPrice) : null,
+        stock: Number(formData.stock) || 0,
+        colors: typeof formData.colors === 'string'
+          ? formData.colors.split(',').map((c) => c.trim()).filter(Boolean)
+          : (formData.colors || ['Standard']),
+        images: finalImages,
+        rating: 5.0,
+        reviewsCount: 0,
+      };
 
-    addProduct(payload);
-    navigate('/admin/products');
+      await addProduct(payload);
+      navigate('/admin/products');
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to add product.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -646,9 +661,17 @@ const AddProduct = () => {
           <div className="space-y-2 pt-2">
             <button
               type="submit"
-              className="w-full py-4 bg-[#064C32] hover:bg-[#033B27] text-white font-bold text-xs uppercase tracking-widest rounded-xl shadow-lg transition active:scale-95"
+              disabled={isSubmitting}
+              className="w-full py-4 bg-[#064C32] hover:bg-[#033B27] disabled:opacity-60 text-white font-bold text-xs uppercase tracking-widest rounded-xl shadow-lg transition active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
             >
-              SAVE PRODUCT
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>SAVING PRODUCT...</span>
+                </>
+              ) : (
+                'SAVE PRODUCT'
+              )}
             </button>
             <Link
               to="/admin/products"

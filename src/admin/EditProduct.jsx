@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 import { useProducts } from '../context/ProductContext';
 import { useToast } from '../context/ToastContext';
-import { processMultipleImageFiles, normalizeGoogleDriveUrl } from '../utils/imageUtils';
+import { processMultipleImageFiles, normalizeGoogleDriveUrl, cleanAndNormalizeImageUrl } from '../utils/imageUtils';
 
 const AVAILABLE_SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL'];
 
@@ -43,6 +43,7 @@ const EditProduct = () => {
   const [images, setImages] = useState([]);
   const [isProcessingImages, setIsProcessingImages] = useState(false);
   const [showDeviceUpload, setShowDeviceUpload] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const existing = products.find((p) => String(p.id) === String(id));
@@ -90,9 +91,8 @@ const EditProduct = () => {
     setUrlInputs(updated);
 
     const valid = updated
-      .map((u) => u.trim())
-      .filter((u) => u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:image/'))
-      .map(normalizeGoogleDriveUrl);
+      .map(cleanAndNormalizeImageUrl)
+      .filter((u) => u && (u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:image/')));
     setImages(valid);
   };
 
@@ -106,9 +106,8 @@ const EditProduct = () => {
     setUrlInputs(fallback);
 
     const valid = fallback
-      .map((u) => u.trim())
-      .filter((u) => u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:image/'))
-      .map(normalizeGoogleDriveUrl);
+      .map(cleanAndNormalizeImageUrl)
+      .filter((u) => u && (u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:image/')));
     setImages(valid);
   };
 
@@ -146,9 +145,8 @@ const EditProduct = () => {
     setUrlInputs(nextUrls);
 
     const valid = nextUrls
-      .map((u) => u.trim())
-      .filter((u) => u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:image/'))
-      .map(normalizeGoogleDriveUrl);
+      .map(cleanAndNormalizeImageUrl)
+      .filter((u) => u && (u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:image/')));
     setImages(valid);
     toast.success('Set as Image 1 (Cover Photo)!');
   };
@@ -157,7 +155,7 @@ const EditProduct = () => {
     handleRemoveUrlField(index);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!formData.name.trim() || !formData.price) {
@@ -165,22 +163,39 @@ const EditProduct = () => {
       return;
     }
 
-    if (images.length === 0) {
-      toast.error('Please add at least one product image.');
+    // Collect all valid URLs from urlInputs as well as images
+    const allInputUrls = urlInputs
+      .map(cleanAndNormalizeImageUrl)
+      .filter((u) => u && (u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:image/')));
+
+    const finalImages = Array.from(new Set([...images, ...allInputUrls])).filter(Boolean);
+
+    if (finalImages.length === 0) {
+      toast.error('Please add at least one product image (Paste Image URL or upload).');
       return;
     }
 
-    const payload = {
-      ...formData,
-      price: Number(formData.price),
-      discountPrice: formData.discountPrice ? Number(formData.discountPrice) : null,
-      stock: Number(formData.stock) || 0,
-      colors: formData.colors.split(',').map((c) => c.trim()).filter(Boolean),
-      images,
-    };
+    setIsSubmitting(true);
+    try {
+      const payload = {
+        ...formData,
+        price: Number(formData.price),
+        discountPrice: formData.discountPrice ? Number(formData.discountPrice) : null,
+        stock: Number(formData.stock) || 0,
+        colors: typeof formData.colors === 'string'
+          ? formData.colors.split(',').map((c) => c.trim()).filter(Boolean)
+          : (formData.colors || ['Standard']),
+        images: finalImages,
+      };
 
-    updateProduct(id, payload);
-    navigate('/admin/products');
+      await updateProduct(id, payload);
+      navigate('/admin/products');
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to update product.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -658,9 +673,17 @@ const EditProduct = () => {
           <div className="space-y-2 pt-2">
             <button
               type="submit"
-              className="w-full py-4 bg-[#064C32] hover:bg-[#033B27] text-white font-bold text-xs uppercase tracking-widest rounded-xl shadow-lg transition active:scale-95"
+              disabled={isSubmitting}
+              className="w-full py-4 bg-[#064C32] hover:bg-[#033B27] disabled:opacity-60 text-white font-bold text-xs uppercase tracking-widest rounded-xl shadow-lg transition active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
             >
-              UPDATE PRODUCT
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>UPDATING PRODUCT...</span>
+                </>
+              ) : (
+                'UPDATE PRODUCT'
+              )}
             </button>
             <Link
               to="/admin/products"

@@ -101,3 +101,19 @@ export const normalizeGoogleDriveUrl = (url) => {
   return trimmed;
 };
 
+/**
+ * Safely cleans and normalizes any image URL.
+ * Automatically prepends https:// if missing, converts Google Drive links,
+ * and leaves data:image/ URIs intact.
+ */
+export const cleanAndNormalizeImageUrl = (url) => {
+  if (!url || typeof url !== 'string') return '';
+  let clean = url.trim();
+  if (!clean) return '';
+  if (!clean.startsWith('http://') && !clean.startsWith('https://') && !clean.startsWith('data:image/')) {
+    clean = `https://${clean}`;
+  }
+  return normalizeGoogleDriveUrl(clean);
+};
+
+

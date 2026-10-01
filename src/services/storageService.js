@@ -55,24 +55,25 @@ const safeSet = (key, value) => {
  * Automatically migrates to updated catalog versions (e.g. T-Shirts & Polo T-Shirts exclusive).
  */
 export const initializeStorage = () => {
-  const CATALOG_VERSION = 'v6_absolute_purge_zero_demo';
+  const CATALOG_VERSION = 'v7_hard_delete_purge_test';
   const currentVersion = localStorage.getItem('biya_catalog_version');
 
   if (currentVersion !== CATALOG_VERSION) {
-    safeSet(KEYS.PRODUCTS, []);
-    safeSet(KEYS.CATEGORIES, DEMO_CATEGORIES);
-    safeSet(KEYS.ORDERS, []);
-    safeSet(KEYS.CART, []);
-    safeSet(KEYS.WISHLIST, []);
+    const existingProds = safeGet(KEYS.PRODUCTS, []);
+    const blacklistIds = ['prod-1790871438922', 'prod-1', 'prod-2', 'prod-3', 'prod-4', 'prod-5', 'prod-6', 'prod-7', 'prod-8'];
+    const cleaned = Array.isArray(existingProds)
+      ? existingProds.filter((p) => !blacklistIds.includes(String(p?.id)) && p?.name?.trim().toLowerCase() !== 'test')
+      : [];
+    safeSet(KEYS.PRODUCTS, cleaned);
     localStorage.setItem('biya_catalog_version', CATALOG_VERSION);
   }
 
-  // Double Check: If any demo products linger in browser storage, force-purge them immediately
+  // Double Check: If any demo or test products linger in browser storage, force-purge them immediately
   const existingProds = safeGet(KEYS.PRODUCTS, []);
-  const demoIds = ['prod-1', 'prod-2', 'prod-3', 'prod-4', 'prod-5', 'prod-6', 'prod-7', 'prod-8'];
-  if (Array.isArray(existingProds) && existingProds.some((p) => demoIds.includes(String(p?.id)))) {
-    safeSet(KEYS.PRODUCTS, []);
-    safeSet(KEYS.ORDERS, []);
+  const demoIds = ['prod-1790871438922', 'prod-1', 'prod-2', 'prod-3', 'prod-4', 'prod-5', 'prod-6', 'prod-7', 'prod-8'];
+  if (Array.isArray(existingProds) && existingProds.some((p) => demoIds.includes(String(p?.id)) || p?.name?.trim().toLowerCase() === 'test')) {
+    const cleaned = existingProds.filter((p) => !demoIds.includes(String(p?.id)) && p?.name?.trim().toLowerCase() !== 'test');
+    safeSet(KEYS.PRODUCTS, cleaned);
   }
 
   if (!localStorage.getItem(KEYS.PRODUCTS)) {
@@ -130,8 +131,8 @@ export const getProducts = () => {
   initializeStorage();
   const prods = safeGet(KEYS.PRODUCTS, []);
   
-  // Permanent blacklist filter: Never allow demo products to be displayed
-  const demoIds = ['prod-1', 'prod-2', 'prod-3', 'prod-4', 'prod-5', 'prod-6', 'prod-7', 'prod-8'];
+  // Permanent blacklist filter: Never allow demo or lingering test products to be displayed
+  const demoIds = ['prod-1790871438922', 'prod-1', 'prod-2', 'prod-3', 'prod-4', 'prod-5', 'prod-6', 'prod-7', 'prod-8'];
   const demoNames = [
     'Classic Black T-Shirt',
     'Premium White T-Shirt',
@@ -141,11 +142,12 @@ export const getProducts = () => {
     'White Gold-Tipped Polo T-Shirt',
     'Signature Royal Polo T-Shirt',
     'Forest Green Textured Polo T-Shirt',
-    'Classic Hoodie'
+    'Classic Hoodie',
+    'test',
   ];
 
   const cleaned = prods.filter(
-    (p) => !demoIds.includes(String(p?.id)) && !demoNames.includes(p?.name)
+    (p) => !demoIds.includes(String(p?.id)) && !demoNames.includes(p?.name?.trim()) && p?.name?.trim().toLowerCase() !== 'test'
   );
 
   if (cleaned.length !== prods.length) {

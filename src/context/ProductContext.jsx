@@ -26,24 +26,11 @@ export const ProductProvider = ({ children }) => {
       setProducts(localProds);
       setCategories(cats);
 
-      // 2. Fetch fresh catalog from Backend & Firebase with bidirectional auto-sync
+      // 2. Fetch fresh catalog from Backend & Firebase (Remote is source of truth)
       const remoteProds = await fetchProductsFromBackend();
       if (remoteProds && Array.isArray(remoteProds)) {
-        if (remoteProds.length > 0) {
-          const remoteIds = new Set(remoteProds.map((p) => String(p.id)));
-          const unSynced = localProds.filter((p) => !remoteIds.has(String(p.id)));
-          for (const p of unSynced) {
-            await createProductOnBackend(p);
-          }
-          const allMerged = [...remoteProds, ...unSynced];
-          setProducts(allMerged);
-          storageService.setProductsCache(allMerged);
-        } else if (localProds.length > 0) {
-          // If Firebase is empty, automatically upload all local products (e.g. 'test') to Firebase!
-          for (const p of localProds) {
-            await createProductOnBackend(p);
-          }
-        }
+        setProducts(remoteProds);
+        storageService.setProductsCache(remoteProds);
       }
     } catch (err) {
       console.warn('Backend products sync skipped, using local store:', err.message);
@@ -57,34 +44,47 @@ export const ProductProvider = ({ children }) => {
   }, [loadData]);
 
   // Product CRUD
-  const handleAddProduct = useCallback((productData) => {
+  const handleAddProduct = useCallback(async (productData) => {
     const created = storageService.addProduct(productData);
     setProducts((prev) => [created, ...prev.filter((p) => String(p.id) !== String(created.id))]);
     // Save to Firebase backend
-    createProductOnBackend(created);
+    try {
+      await createProductOnBackend(created);
+    } catch (err) {
+      console.warn('Backend product create skipped:', err.message);
+    }
     toast.success(`"${created.name}" added successfully.`);
     return created;
   }, [toast]);
 
-  const handleUpdateProduct = useCallback((id, updatedFields) => {
+  const handleUpdateProduct = useCallback(async (id, updatedFields) => {
     const updated = storageService.updateProduct(id, updatedFields);
     if (updated) {
       setProducts((prev) => prev.map((p) => (String(p.id) === String(id) ? updated : p)));
-      updateProductOnBackend(id, updatedFields);
+      try {
+        await updateProductOnBackend(id, updatedFields);
+      } catch (err) {
+        console.warn('Backend product update skipped:', err.message);
+      }
       toast.success(`"${updated.name}" updated successfully.`);
     }
     return updated;
   }, [toast]);
 
-  const handleDeleteProduct = useCallback((id) => {
+  const handleDeleteProduct = useCallback(async (id) => {
     const prod = products.find((p) => String(p.id) === String(id));
-    const success = storageService.deleteProduct(id);
-    if (success) {
-      setProducts((prev) => prev.filter((p) => String(p.id) !== String(id)));
-      deleteProductOnBackend(id);
-      toast.success(`"${prod?.name || 'Product'}" deleted successfully.`);
+    // 1. Immediately remove from local memory state
+    setProducts((prev) => prev.filter((p) => String(p.id) !== String(id)));
+    // 2. Remove permanently from browser storage cache
+    storageService.deleteProduct(id);
+    // 3. Permanent hard delete from Firebase Firestore & backend JSON
+    try {
+      await deleteProductOnBackend(id);
+    } catch (err) {
+      console.warn('Backend product delete skipped:', err.message);
     }
-    return success;
+    toast.success(`"${prod?.name || 'Product'}" permanently deleted.`);
+    return true;
   }, [products, toast]);
 
   const handleDuplicateProduct = useCallback((id) => {
@@ -137,11 +137,19 @@ export const ProductProvider = ({ children }) => {
   const newArrivals = useMemo(() => products.filter((p) => p.newArrival), [products]);
   const bestSellers = useMemo(() => products.filter((p) => p.bestSeller), [products]);
 
-  const handleClearAllProducts = useCallback(() => {
+  const handleClearAllProducts = useCallback(async () => {
+    const toDelete = [...products];
     storageService.clearAllProducts();
     setProducts([]);
+    for (const p of toDelete) {
+      try {
+        await deleteProductOnBackend(p.id);
+      } catch (err) {
+        // ignore
+      }
+    }
     toast.success('All products cleared from catalog.');
-  }, [toast]);
+  }, [products, toast]);
 
   const value = {
     products,
