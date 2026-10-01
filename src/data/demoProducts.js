@@ -9,53 +9,17 @@ export const DEMO_CATEGORIES = [
     name: "T-Shirts",
     slug: "t-shirts",
     image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80",
-    description: "Everyday luxury essential crewneck and graphic t-shirts crafted from 100% combed cotton.",
-    itemCount: 18,
+    description: "Everyday luxury essential crewneck, oversized, and graphic t-shirts crafted from 100% combed cotton.",
+    itemCount: 16,
     status: "Active"
   },
   {
     id: "cat-2",
-    name: "Casual Wear",
-    slug: "casual-wear",
-    image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80",
-    description: "Relaxed fit silhouettes designed for supreme comfort and modern street style.",
-    itemCount: 14,
-    status: "Active"
-  },
-  {
-    id: "cat-3",
-    name: "Shirts",
-    slug: "shirts",
-    image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=800&q=80",
-    description: "Tailored oxford cotton and linen-blend casual & semi-formal button-downs.",
-    itemCount: 12,
-    status: "Active"
-  },
-  {
-    id: "cat-4",
     name: "Polo T-Shirts",
     slug: "polo-t-shirts",
     image: "https://images.unsplash.com/photo-1625910513413-7e289e6eb7bc?auto=format&fit=crop&w=800&q=80",
-    description: "Classic pique knit polo tees with ribbed collars and refined gold-tipped accents.",
-    itemCount: 10,
-    status: "Active"
-  },
-  {
-    id: "cat-5",
-    name: "Hoodies",
-    slug: "hoodies",
-    image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=80",
-    description: "Heavyweight French terry hoodies providing exceptional warmth and structured drape.",
-    itemCount: 8,
-    status: "Active"
-  },
-  {
-    id: "cat-6",
-    name: "Jeans",
-    slug: "jeans",
-    image: "https://images.unsplash.com/photo-1542272604-780c96856592?auto=format&fit=crop&w=800&q=80",
-    description: "Durable stretch-denim trousers in tapered, slim, and relaxed contemporary cuts.",
-    itemCount: 9,
+    description: "Classic honeycomb pique knit polo t-shirts with ribbed collars and refined gold-tipped accents.",
+    itemCount: 12,
     status: "Active"
   }
 ];
@@ -119,7 +83,7 @@ export const DEMO_PRODUCTS = [
   },
   {
     id: "prod-3",
-    name: "Oversized Green T-Shirt",
+    name: "Oversized Emerald Green T-Shirt",
     sku: "BF-TSH-003",
     category: "T-Shirts",
     description: "Embody the signature BIYA aesthetic in our deep forest green oversized silhouette. Featuring dropped shoulders, an elongated sleeve cut, and the iconic subtle gold emblem accent. Ultimate streetwear luxury meets casual sophistication.",
@@ -147,38 +111,38 @@ export const DEMO_PRODUCTS = [
   },
   {
     id: "prod-4",
-    name: "Casual Cotton Shirt",
-    sku: "BF-SHT-004",
-    category: "Casual Wear",
-    description: "Versatility at its finest. Our signature long-sleeve cotton shirt transitions seamlessly from relaxed office meetings to weekend evening dinners. Breathable poplin weave with natural mother-of-pearl finish buttons.",
-    price: 1899,
-    discountPrice: 1299,
+    name: "Luxury Graphic Street T-Shirt",
+    sku: "BF-TSH-004",
+    category: "T-Shirts",
+    description: "Statement streetwear with artistic restraint. Featuring high-density tonal typography and royal gold crest screen-printing on premium charcoal washed cotton.",
+    price: 1399,
+    discountPrice: 949,
     stock: 35,
     sizes: ["S", "M", "L", "XL"],
-    colors: ["Olive Green", "Sky Blue", "White"],
+    colors: ["Charcoal", "Washed Black", "Heather Grey"],
     images: [
-      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=1000&q=85",
-      "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=1000&q=85",
-      "https://images.unsplash.com/photo-1603252109303-2751441dd157?auto=format&fit=crop&w=1000&q=85"
+      "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1000&q=85",
+      "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1000&q=85",
+      "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=1000&q=85"
     ],
-    rating: 4.6,
-    reviewsCount: 73,
-    featured: false,
-    newArrival: false,
+    rating: 4.8,
+    reviewsCount: 75,
+    featured: true,
+    newArrival: true,
     bestSeller: true,
     details: {
-      fabric: "100% Giza Cotton Poplin",
-      weight: "160 GSM Lightweight",
-      fit: "Tailored Slim Fit",
-      care: "Dry clean or gentle hand wash."
+      fabric: "100% Combed Cotton High-Density Jersey",
+      weight: "220 GSM",
+      fit: "Relaxed Boxy Fit",
+      care: "Machine wash cold inside out. Iron on reverse."
     }
   },
   {
     id: "prod-5",
-    name: "Premium Polo T-Shirt",
-    sku: "BF-POL-005",
+    name: "Signature Royal Polo T-Shirt",
+    sku: "BF-POL-001",
     category: "Polo T-Shirts",
-    description: "Sporting elegance redefined. Designed with a honey-comb pique knit that facilitates cooling airflow. Detailed with a contrast gold tipped collar, custom engraved horn buttons, and the signature BIYA crest embroidery.",
+    description: "Sporting elegance redefined. Designed with a honey-comb pique knit that facilitates cooling airflow. Detailed with a contrast gold tipped collar, custom engraved buttons, and signature BIYA crest embroidery.",
     price: 1599,
     discountPrice: 1099,
     stock: 40,
@@ -203,86 +167,86 @@ export const DEMO_PRODUCTS = [
   },
   {
     id: "prod-6",
-    name: "Classic Hoodie",
-    sku: "BF-HOD-006",
-    category: "Hoodies",
-    description: "The pinnacle of snug luxury. Heavy 380 GSM brushed fleece inside keeps you warm in breezy climates, while the double-layered structured hood retains its crisp sculptural shape. Accented with brass-gold eyelets and braided aglets.",
-    price: 2499,
-    discountPrice: 1799,
-    stock: 22,
-    sizes: ["M", "L", "XL"],
-    colors: ["Deep Forest Green", "Heather Grey", "Midnight Black"],
+    name: "Classic Navy Pique Polo T-Shirt",
+    sku: "BF-POL-002",
+    category: "Polo T-Shirts",
+    description: "A commanding deep navy hue finished with subtle pearlized buttons and ribbed sleeve bands for a flattering, athletic taper on the biceps.",
+    price: 1699,
+    discountPrice: 1199,
+    stock: 32,
+    sizes: ["M", "L", "XL", "XXL"],
+    colors: ["Navy Blue", "Midnight Black", "Steel Grey"],
     images: [
-      "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=1000&q=85",
-      "https://images.unsplash.com/photo-1578587018452-892bacefd3f2?auto=format&fit=crop&w=1000&q=85",
-      "https://images.unsplash.com/photo-1509967419530-da38b4704bc6?auto=format&fit=crop&w=1000&q=85"
+      "https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?auto=format&fit=crop&w=1000&q=85",
+      "https://images.unsplash.com/photo-1625910513413-7e289e6eb7bc?auto=format&fit=crop&w=1000&q=85",
+      "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1000&q=85"
     ],
     rating: 4.9,
-    reviewsCount: 142,
+    reviewsCount: 88,
     featured: true,
     newArrival: true,
     bestSeller: true,
     details: {
-      fabric: "80% Cotton / 20% Polyester Heavyweight Fleece",
-      weight: "380 GSM Thermal",
-      fit: "Relaxed Fit",
-      care: "Turn inside out before wash. Hang dry away from direct heat."
+      fabric: "100% Combed Pique Cotton",
+      weight: "240 GSM",
+      fit: "Tailored Smart Casual",
+      care: "Machine wash cold. Lay flat to dry."
     }
   },
   {
     id: "prod-7",
-    name: "Tailored Oxford Shirt",
-    sku: "BF-SHT-007",
-    category: "Shirts",
-    description: "An understated wardrobe essential crafted from authentic pinpoint Oxford cotton weave. Features button-down collar points, curved hem, and refined box pleat for effortless natural movement.",
-    price: 1999,
-    discountPrice: 1399,
-    stock: 19,
+    name: "White Gold-Tipped Polo T-Shirt",
+    sku: "BF-POL-003",
+    category: "Polo T-Shirts",
+    description: "An impeccably clean white polo with regal gold tipping along the collar and cuffs. High breathability and luxurious soft drape for upscale resort and weekend wear.",
+    price: 1799,
+    discountPrice: 1249,
+    stock: 25,
     sizes: ["S", "M", "L", "XL"],
-    colors: ["White", "Classic Blue", "Sage Green"],
+    colors: ["Pure White", "Ivory Cream"],
     images: [
-      "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=1000&q=85",
-      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=1000&q=85",
-      "https://images.unsplash.com/photo-1603252109303-2751441dd157?auto=format&fit=crop&w=1000&q=85"
+      "https://images.unsplash.com/photo-1625910513413-7e289e6eb7bc?auto=format&fit=crop&w=1000&q=85",
+      "https://images.unsplash.com/photo-1581655353564-df123a1eb820?auto=format&fit=crop&w=1000&q=85",
+      "https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?auto=format&fit=crop&w=1000&q=85"
     ],
-    rating: 4.7,
-    reviewsCount: 65,
-    featured: false,
+    rating: 4.8,
+    reviewsCount: 64,
+    featured: true,
     newArrival: true,
     bestSeller: false,
     details: {
-      fabric: "100% Two-Ply Oxford Cotton",
-      weight: "180 GSM",
-      fit: "Regular Tailored Fit",
-      care: "Warm iron with light steam."
+      fabric: "Mercerized Combed Cotton",
+      weight: "220 GSM",
+      fit: "Regular Slim Fit",
+      care: "Gentle wash cold. Warm iron."
     }
   },
   {
     id: "prod-8",
-    name: "Comfort Tapered Jeans",
-    sku: "BF-JEA-008",
-    category: "Jeans",
-    description: "Engineered for flexibility and style. Handcrafted with Japanese selvedge-inspired indigo wash, reinforced copper rivets, and 2% elastane for unrestricted mobility. Perfect companion to Biya T-Shirts.",
-    price: 2799,
-    discountPrice: 1999,
-    stock: 31,
-    sizes: ["30", "32", "34", "36"],
-    colors: ["Dark Indigo", "Washed Black", "Mid Blue"],
+    name: "Forest Green Textured Polo T-Shirt",
+    sku: "BF-POL-004",
+    category: "Polo T-Shirts",
+    description: "Engineered in our brand's iconic forest green shade. Features waffle-knit jacquard texture, breathable aerated weave, and premium metal-finish buttons.",
+    price: 1799,
+    discountPrice: 1299,
+    stock: 29,
+    sizes: ["M", "L", "XL", "XXL"],
+    colors: ["Forest Green", "Olive", "Dark Sage"],
     images: [
-      "https://images.unsplash.com/photo-1542272604-780c96856592?auto=format&fit=crop&w=1000&q=85",
-      "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=1000&q=85",
-      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1000&q=85"
+      "https://images.unsplash.com/photo-1625910513413-7e289e6eb7bc?auto=format&fit=crop&w=1000&q=85",
+      "https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?auto=format&fit=crop&w=1000&q=85",
+      "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=1000&q=85"
     ],
-    rating: 4.8,
-    reviewsCount: 88,
+    rating: 4.9,
+    reviewsCount: 92,
     featured: true,
     newArrival: false,
     bestSeller: true,
     details: {
-      fabric: "98% Cotton / 2% Spandex Indigo Denim",
-      weight: "13.5 oz Denim",
-      fit: "Tapered Leg",
-      care: "Wash inside out in cold water. Air dry."
+      fabric: "Waffle Texture Pique Cotton",
+      weight: "240 GSM Heavyweight",
+      fit: "Modern Regular Fit",
+      care: "Cold wash with mild detergent."
     }
   }
 ];

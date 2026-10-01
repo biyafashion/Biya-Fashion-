@@ -19,12 +19,12 @@ const Categories = () => {
             Shop By Category
           </h1>
           <p className="text-xs sm:text-sm text-[#666666] mt-2 leading-relaxed">
-            From essential combed cotton tees to refined oxford shirts and heavy fleeces, browse our specialized apparel departments.
+            Explore our signature combed cotton T-Shirts and refined Polo T-Shirts collection crafted for luxury and everyday comfort.
           </p>
         </div>
 
         {/* Categories Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto gap-6 sm:gap-8">
           {categories.map((cat) => {
             const countInCat = products.filter(
               (p) => p.category?.toLowerCase() === cat.name?.toLowerCase()

@@ -11,6 +11,9 @@ import {
   CheckCircle2,
   Mail,
   Shirt,
+  Heart,
+  Crown,
+  Quote,
 } from 'lucide-react';
 import { InstagramIcon } from '../components/SocialIcons';
 import ProductCard from '../components/ProductCard';
@@ -18,7 +21,7 @@ import { useProducts } from '../context/ProductContext';
 import STORE_CONFIG from '../config/storeConfig';
 
 const Home = () => {
-  const { categories, featuredProducts, newArrivals, bestSellers } = useProducts();
+  const { categories, newArrivals } = useProducts();
 
   const reviews = [
     {
@@ -205,24 +208,34 @@ const Home = () => {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 max-w-3xl mx-auto gap-6 sm:gap-8">
             {categories.map((cat) => (
               <Link
                 key={cat.id || cat.name}
                 to={`/shop?category=${encodeURIComponent(cat.name)}`}
-                className="group flex flex-col items-center text-center bg-[#F8F8F8] rounded-2xl p-4 border border-[#E5E5E5] hover:border-[#064C32] hover:shadow-lg transition-all duration-300"
+                className="group flex items-center gap-5 bg-[#F8F8F8] rounded-3xl p-5 sm:p-6 border border-[#E5E5E5] hover:border-[#064C32] hover:shadow-xl transition-all duration-300"
               >
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden mb-3 border-2 border-white shadow-sm group-hover:scale-105 transition-transform duration-300 bg-white">
+                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border-2 border-white shadow-md group-hover:scale-105 transition-transform duration-300 bg-white shrink-0">
                   <img
                     src={cat.image}
                     alt={cat.name}
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <h3 className="font-serif font-bold text-xs sm:text-sm text-[#111111] group-hover:text-[#064C32] transition">
-                  {cat.name}
-                </h3>
-                <span className="text-[11px] text-[#666666] mt-0.5">Explore →</span>
+                <div className="text-left">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#D9A514] bg-[#064C32]/5 px-2.5 py-0.5 rounded-full border border-[#064C32]/10">
+                    Department
+                  </span>
+                  <h3 className="font-serif font-bold text-lg sm:text-xl text-[#111111] group-hover:text-[#064C32] transition mt-1.5">
+                    {cat.name}
+                  </h3>
+                  <p className="text-xs text-[#666666] line-clamp-2 mt-1 font-light">
+                    {cat.description || 'Premium combed cotton apparel'}
+                  </p>
+                  <span className="inline-flex items-center gap-1 text-xs font-bold text-[#064C32] mt-3 group-hover:translate-x-1 transition-transform">
+                    Explore Collection →
+                  </span>
+                </div>
               </Link>
             ))}
           </div>
@@ -258,59 +271,69 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 4. BEST SELLERS */}
-      <section className="py-16 sm:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-widest text-[#064C32]">
-                Customer Favorites
-              </span>
-              <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-[#111111] mt-1">
-                Best Sellers
-              </h2>
-            </div>
-            <Link
-              to="/shop?sort=popular"
-              className="mt-4 md:mt-0 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-[#064C32] hover:text-[#033B27] group"
-            >
-              <span>View All Bestsellers</span>
-              <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </div>
+      {/* 4. SPECIAL THANKS - TRIBUTE SECTION */}
+      <section className="py-16 sm:py-20 bg-gradient-to-b from-white via-[#064C32]/5 to-white relative overflow-hidden">
+        {/* Ambient atmospheric glows */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#D9A514]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-10 left-10 w-72 h-72 bg-[#064C32]/10 rounded-full blur-3xl pointer-events-none" />
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-            {bestSellers.slice(0, 4).map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="relative rounded-3xl bg-gradient-to-br from-[#064C32] via-[#033B27] to-[#012216] text-white p-8 sm:p-12 lg:p-14 shadow-2xl border-2 border-[#D9A514]/50 animate-royal-pulse overflow-hidden">
+            {/* Ambient gold radial corners */}
+            <div className="absolute -top-24 -right-24 w-72 h-72 bg-[#D9A514]/20 rounded-full blur-2xl pointer-events-none" />
+            <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-[#F3D477]/15 rounded-full blur-2xl pointer-events-none" />
+
+            {/* Floating Top Crown / Sparkle Badge */}
+            <div className="flex justify-center mb-6">
+              <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-[#D9A514]/50 shadow-inner animate-gentle-float">
+                <Crown className="w-5 h-5 text-[#F3D477]" />
+                <span className="text-xs sm:text-sm font-extrabold tracking-widest uppercase text-[#F3D477]">
+                  A Heartfelt Tribute
+                </span>
+                <Sparkles className="w-4 h-4 text-[#F3D477]" />
+              </div>
+            </div>
+
+            {/* Shimmering Title */}
+            <div className="text-center space-y-3 mb-8">
+              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-wide uppercase animate-gold-shimmer drop-shadow-md">
+                SPECIAL THANKS
+              </h2>
+              <div className="w-24 h-1 bg-gradient-to-r from-transparent via-[#D9A514] to-transparent mx-auto rounded-full" />
+            </div>
+
+            {/* Quote Body with Heartbeat icon */}
+            <div className="relative text-center max-w-2xl mx-auto">
+              <Quote className="w-10 h-10 text-[#D9A514]/30 mx-auto mb-4 rotate-180" />
+              
+              <p className="font-serif text-base sm:text-lg lg:text-xl text-gray-100 leading-relaxed font-normal tracking-wide">
+                A Heartfelt Thank You to My Beloved Brother,{' '}
+                <span className="font-extrabold text-[#F3D477] underline decoration-[#D9A514]/60 underline-offset-4 tracking-wider">
+                  Thangapandii
+                </span>
+                , for Being a Great Inspiration Behind My Business Journey. Your Constant Support, Encouragement, and Belief in Me Mean More Than Words Can Express.
+              </p>
+
+              {/* Heart pulse icon */}
+              <div className="flex justify-center items-center gap-2 mt-8">
+                <div className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-[#D9A514]/40 animate-heart-beat shadow-lg shadow-[#064C32]">
+                  <Heart className="w-6 h-6 text-[#F3D477] fill-[#F3D477]" />
+                </div>
+              </div>
+
+              {/* Signature / Brand Stamp */}
+              <div className="mt-6 pt-6 border-t border-white/15 inline-block">
+                <p className="font-serif text-xl sm:text-2xl font-black tracking-widest text-[#F3D477] uppercase drop-shadow-sm">
+                  BIYA FASHION
+                </p>
+                <p className="text-[11px] sm:text-xs text-gray-300 uppercase tracking-widest font-medium mt-1">
+                  Wear Your Style
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
-
-      {/* 5. FEATURED PRODUCTS */}
-      {featuredProducts.length > 0 && (
-        <section className="py-16 sm:py-20 bg-[#F8F8F8] border-t border-b border-[#E5E5E5]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-2xl mx-auto mb-12">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#064C32]">
-                Handpicked Highlights
-              </span>
-              <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-[#111111] mt-1">
-                Featured Selection
-              </h2>
-              <p className="text-sm text-[#666666] mt-2">
-                Carefully tailored silhouettes featuring signature Biya accents and superior stitching.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-              {featuredProducts.slice(0, 4).map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* 6. WHY CHOOSE BIYA FASHION */}
       <section className="py-16 sm:py-20 bg-white">

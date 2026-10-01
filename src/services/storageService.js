@@ -50,15 +50,25 @@ const safeSet = (key, value) => {
 
 /**
  * Initialize storage with demo data ONLY if it does not already exist.
- * Does not overwrite existing user modifications.
+ * Automatically migrates to updated catalog versions (e.g. T-Shirts & Polo T-Shirts exclusive).
  */
 export const initializeStorage = () => {
-  if (!localStorage.getItem(KEYS.PRODUCTS)) {
+  const CATALOG_VERSION = 'v2_tshirt_polo_only';
+  const currentVersion = localStorage.getItem('biya_catalog_version');
+
+  if (currentVersion !== CATALOG_VERSION) {
     safeSet(KEYS.PRODUCTS, DEMO_PRODUCTS);
-  }
-  if (!localStorage.getItem(KEYS.CATEGORIES)) {
     safeSet(KEYS.CATEGORIES, DEMO_CATEGORIES);
+    localStorage.setItem('biya_catalog_version', CATALOG_VERSION);
+  } else {
+    if (!localStorage.getItem(KEYS.PRODUCTS)) {
+      safeSet(KEYS.PRODUCTS, DEMO_PRODUCTS);
+    }
+    if (!localStorage.getItem(KEYS.CATEGORIES)) {
+      safeSet(KEYS.CATEGORIES, DEMO_CATEGORIES);
+    }
   }
+
   if (!localStorage.getItem(KEYS.ORDERS)) {
     safeSet(KEYS.ORDERS, DEMO_ORDERS);
   }

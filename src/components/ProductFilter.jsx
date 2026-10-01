@@ -1,7 +1,7 @@
 import React from 'react';
 import { Filter, X, RotateCcw } from 'lucide-react';
 
-const SIZES = ['S', 'M', 'L', 'XL', 'XXL', '30', '32', '34', '36'];
+const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL'];
 const COLORS = [
   { name: 'Black', hex: '#111111' },
   { name: 'White', hex: '#FFFFFF', border: true },
