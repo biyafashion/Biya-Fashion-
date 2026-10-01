@@ -69,3 +69,30 @@ export const processMultipleImageFiles = async (fileList) => {
   }
   return results;
 };
+
+/**
+ * Converts Google Drive share links into direct viewable image URLs
+ * Examples:
+ * https://drive.google.com/file/d/1XyZ12345/view?usp=sharing -> https://lh3.googleusercontent.com/d/1XyZ12345
+ * https://drive.google.com/open?id=1XyZ12345 -> https://lh3.googleusercontent.com/d/1XyZ12345
+ */
+export const normalizeGoogleDriveUrl = (url) => {
+  if (!url || typeof url !== 'string') return '';
+  const trimmed = url.trim();
+
+  // Pattern 1: /file/d/FILE_ID
+  const matchFileD = trimmed.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/i);
+  if (matchFileD && matchFileD[1]) {
+    return `https://lh3.googleusercontent.com/d/${matchFileD[1]}`;
+  }
+
+  // Pattern 2: id=FILE_ID
+  const matchId = trimmed.match(/[?&]id=([a-zA-Z0-9_-]+)/i);
+  if (matchId && matchId[1] && trimmed.includes('drive.google.com')) {
+    return `https://lh3.googleusercontent.com/d/${matchId[1]}`;
+  }
+
+  // Pattern 3: already direct lh3.googleusercontent.com link
+  return trimmed;
+};
+

@@ -9,6 +9,7 @@ import { ProductProvider } from './context/ProductContext';
 import { CartProvider } from './context/CartContext';
 import { WishlistProvider } from './context/WishlistContext';
 import { AuthProvider } from './context/AuthContext';
+import { CustomerAuthProvider } from './context/CustomerAuthContext';
 
 // Layouts
 import MainLayout from './layouts/MainLayout';
@@ -26,6 +27,7 @@ const Cart = lazy(() => import('./pages/Cart'));
 const Wishlist = lazy(() => import('./pages/Wishlist'));
 const Checkout = lazy(() => import('./pages/Checkout'));
 const OrderSuccess = lazy(() => import('./pages/OrderSuccess'));
+const MyOrders = lazy(() => import('./pages/MyOrders'));
 const About = lazy(() => import('./pages/About'));
 const Contact = lazy(() => import('./pages/Contact'));
 
@@ -68,29 +70,31 @@ function App() {
         <CartProvider>
           <WishlistProvider>
             <AuthProvider>
-              <Router>
-                <AosRouteRefresher />
-                <Suspense
-                  fallback={
-                    <div className="min-h-screen bg-white flex items-center justify-center">
-                      <LoadingSpinner size="large" text="Opening BIYA FASHION..." />
-                    </div>
-                  }
-                >
-                  <Routes>
-                    {/* Customer Store Routes (MainLayout) */}
-                    <Route element={<MainLayout />}>
-                      <Route path="/" element={<Home />} />
-                      <Route path="/shop" element={<Shop />} />
-                      <Route path="/product/:id" element={<ProductDetails />} />
-                      <Route path="/categories" element={<Categories />} />
-                      <Route path="/cart" element={<Cart />} />
-                      <Route path="/wishlist" element={<Wishlist />} />
-                      <Route path="/checkout" element={<Checkout />} />
-                      <Route path="/order-success" element={<OrderSuccess />} />
-                      <Route path="/about" element={<About />} />
-                      <Route path="/contact" element={<Contact />} />
-                    </Route>
+              <CustomerAuthProvider>
+                <Router>
+                  <AosRouteRefresher />
+                  <Suspense
+                    fallback={
+                      <div className="min-h-screen bg-white flex items-center justify-center">
+                        <LoadingSpinner size="large" text="Opening BIYA FASHION..." />
+                      </div>
+                    }
+                  >
+                    <Routes>
+                      {/* Customer Store Routes (MainLayout) */}
+                      <Route element={<MainLayout />}>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/shop" element={<Shop />} />
+                        <Route path="/product/:id" element={<ProductDetails />} />
+                        <Route path="/categories" element={<Categories />} />
+                        <Route path="/cart" element={<Cart />} />
+                        <Route path="/wishlist" element={<Wishlist />} />
+                        <Route path="/checkout" element={<Checkout />} />
+                        <Route path="/order-success" element={<OrderSuccess />} />
+                        <Route path="/my-orders" element={<MyOrders />} />
+                        <Route path="/about" element={<About />} />
+                        <Route path="/contact" element={<Contact />} />
+                      </Route>
 
                     {/* Admin Authentication Route */}
                     <Route path="/admin/login" element={<AdminLogin />} />
@@ -112,11 +116,12 @@ function App() {
                   </Routes>
                 </Suspense>
               </Router>
-            </AuthProvider>
-          </WishlistProvider>
-        </CartProvider>
-      </ProductProvider>
-    </ToastProvider>
+            </CustomerAuthProvider>
+          </AuthProvider>
+        </WishlistProvider>
+      </CartProvider>
+    </ProductProvider>
+  </ToastProvider>
   );
 }
 

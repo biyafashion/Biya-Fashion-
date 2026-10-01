@@ -16,6 +16,7 @@ import SearchBar from './SearchBar';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useAuth } from '../context/AuthContext';
+import { useCustomerAuth } from '../context/CustomerAuthContext';
 import STORE_CONFIG from '../config/storeConfig';
 
 const NAV_LINKS = [
@@ -30,9 +31,11 @@ const NAV_LINKS = [
 const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isCustomerDropdownOpen, setIsCustomerDropdownOpen] = useState(false);
   const { cartCount, openCart } = useCart();
   const { wishlistCount } = useWishlist();
   const { isAuthenticated } = useAuth();
+  const { customer, isLoggedIn: isCustomerLoggedIn, openAuthModal, logout: customerLogout } = useCustomerAuth();
   const location = useLocation();
 
   return (
@@ -145,15 +148,56 @@ const Header = () => {
                 )}
               </button>
 
-              {/* Account / Admin Link */}
-              <Link
-                to={isAuthenticated ? '/admin' : '/admin/login'}
-                className="hidden sm:inline-flex p-2.5 text-[#111111] hover:text-[#064C32] hover:bg-gray-100 rounded-full transition"
-                title={isAuthenticated ? 'Admin Dashboard' : 'Admin Login'}
-                aria-label="Account"
-              >
-                <User className="w-5 h-5" />
-              </Link>
+              {/* Customer Account Trigger & Dropdown */}
+              {isCustomerLoggedIn ? (
+                <div className="relative hidden sm:block">
+                  <button
+                    type="button"
+                    onClick={() => setIsCustomerDropdownOpen(!isCustomerDropdownOpen)}
+                    className="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full bg-[#064C32]/10 hover:bg-[#064C32]/15 text-[#064C32] text-xs font-bold transition border border-[#064C32]/20"
+                  >
+                    <User className="w-3.5 h-3.5" />
+                    <span className="max-w-[90px] truncate">{customer.name.split(' ')[0]}</span>
+                    <ChevronRight className={`w-3 h-3 text-[#064C32] transition-transform ${isCustomerDropdownOpen ? 'rotate-90' : ''}`} />
+                  </button>
+
+                  {isCustomerDropdownOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-xl border border-[#E5E5E5] py-2 z-50 animate-fadeIn">
+                      <div className="px-4 py-2 border-b border-[#E5E5E5]">
+                        <p className="text-xs font-bold text-[#111111] truncate">{customer.name}</p>
+                        <p className="text-[10px] text-gray-500 truncate">{customer.phone}</p>
+                      </div>
+                      <Link
+                        to="/my-orders"
+                        onClick={() => setIsCustomerDropdownOpen(false)}
+                        className="block px-4 py-2 text-xs text-[#111111] hover:bg-[#F8F8F8] hover:text-[#064C32] font-semibold"
+                      >
+                        📦 My Orders & Invoices
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsCustomerDropdownOpen(false);
+                          customerLogout();
+                        }}
+                        className="w-full text-left px-4 py-2 text-xs text-red-600 hover:bg-red-50 font-semibold"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => openAuthModal('signin')}
+                  className="hidden sm:inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full hover:bg-gray-100 text-[#111111] hover:text-[#064C32] text-xs font-bold transition border border-transparent hover:border-gray-200"
+                  title="Sign In / Register"
+                >
+                  <User className="w-4 h-4" />
+                  <span>Sign In</span>
+                </button>
+              )}
 
               {/* Mobile Hamburger Menu Toggle */}
               <button
@@ -192,6 +236,53 @@ const Header = () => {
                 >
                   <X className="w-5 h-5" />
                 </button>
+              </div>
+
+              {/* Customer Account Box on Mobile */}
+              <div className="p-3 bg-[#F8F8F8] border-b border-[#E5E5E5]">
+                {isCustomerLoggedIn ? (
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="w-7 h-7 rounded-full bg-[#064C32] text-white flex items-center justify-center font-bold text-xs">
+                          {customer.name?.charAt(0).toUpperCase()}
+                        </div>
+                        <div>
+                          <p className="text-xs font-bold text-[#111111]">{customer.name}</p>
+                          <p className="text-[10px] text-gray-500">{customer.phone}</p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => {
+                          setIsMobileMenuOpen(false);
+                          customerLogout();
+                        }}
+                        className="text-[11px] text-red-600 font-semibold hover:underline"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                    <Link
+                      to="/my-orders"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="w-full flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-white border border-[#E5E5E5] text-xs font-bold text-[#064C32] shadow-xs"
+                    >
+                      <span>📦 My Orders & Invoices</span>
+                    </Link>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      openAuthModal('signin');
+                    }}
+                    className="w-full py-2.5 px-4 rounded-xl bg-[#064C32] text-white text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-xs"
+                  >
+                    <User className="w-4 h-4" />
+                    <span>Sign In / Create Account</span>
+                  </button>
+                )}
               </div>
 
               {/* Mobile Navigation Links */}

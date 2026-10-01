@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 import { useProducts } from '../context/ProductContext';
 import { useToast } from '../context/ToastContext';
-import { processMultipleImageFiles } from '../utils/imageUtils';
+import { processMultipleImageFiles, normalizeGoogleDriveUrl } from '../utils/imageUtils';
 
 const AVAILABLE_SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL'];
 
@@ -81,20 +81,23 @@ const AddProduct = () => {
     }
   };
 
-  // Add multiple URLs at once
+  // Add multiple URLs at once (supports direct links & Google Drive links)
   const handleAddMultipleUrls = (e) => {
     e.preventDefault();
     if (!multiUrlInput.trim()) return;
 
-    const urls = multiUrlInput
+    const rawUrls = multiUrlInput
       .split(/[\n,]+/)
       .map((u) => u.trim())
       .filter((u) => u.startsWith('http://') || u.startsWith('https://') || u.startsWith('data:image/'));
 
-    if (urls.length === 0) {
-      toast.error('Please enter valid image URLs (starting with http:// or https://)');
+    if (rawUrls.length === 0) {
+      toast.error('Please enter valid image URLs or Google Drive links (starting with https://)');
       return;
     }
+
+    // Auto convert any Google Drive links into direct CDN URLs
+    const urls = rawUrls.map(normalizeGoogleDriveUrl);
 
     setImages((prev) => [...prev, ...urls]);
     toast.success(`Added ${urls.length} image URL(s)!`);
@@ -419,7 +422,7 @@ const AddProduct = () => {
                 className="w-full py-2.5 px-3 rounded-xl bg-white border border-[#E5E5E5] hover:border-[#064C32] text-[#111111] text-[11px] font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition"
               >
                 <LinkIcon className="w-3.5 h-3.5 text-[#064C32]" />
-                <span>Or Paste Image URLs (Web Links)</span>
+                <span>Or Paste Image URLs / Google Drive Links</span>
               </button>
             </div>
 
@@ -428,7 +431,7 @@ const AddProduct = () => {
               <div className="p-3.5 bg-white rounded-2xl border border-[#E5E5E5] space-y-2">
                 <div className="flex items-center justify-between">
                   <label className="text-[11px] font-bold uppercase tracking-wider text-[#111111]">
-                    Paste Image URLs (One per line)
+                    Paste Image URLs or Google Drive Links
                   </label>
                   <button
                     type="button"
@@ -442,15 +445,18 @@ const AddProduct = () => {
                   rows={3}
                   value={multiUrlInput}
                   onChange={(e) => setMultiUrlInput(e.target.value)}
-                  placeholder="https://example.com/photo1.jpg&#10;https://example.com/photo2.jpg"
+                  placeholder="https://example.com/photo.jpg&#10;https://drive.google.com/file/d/1XyZ.../view"
                   className="w-full p-2.5 rounded-xl border border-[#E5E5E5] text-xs font-mono focus:outline-none focus:border-[#064C32]"
                 />
+                <p className="text-[10px] text-gray-500">
+                  💡 Google Drive share links (Anyone with the link) will automatically convert to direct fast images.
+                </p>
                 <button
                   type="button"
                   onClick={handleAddMultipleUrls}
                   className="w-full py-2 bg-[#064C32] text-white text-xs font-bold uppercase rounded-lg hover:bg-[#033B27] transition"
                 >
-                  Add URLs
+                  Add Images
                 </button>
               </div>
             )}

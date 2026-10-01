@@ -25,6 +25,8 @@ const KEYS = {
   ORDERS: 'biya_fashion_orders',
   SETTINGS: 'biya_fashion_settings',
   ADMIN_SESSION: ADMIN_CONFIG.SESSION_STORAGE_KEY,
+  CUSTOMER_ACCOUNTS: 'biya_fashion_customer_accounts',
+  CUSTOMER_SESSION: 'biya_fashion_customer_session',
 };
 
 // Safe localStorage helper
@@ -296,37 +298,202 @@ export const getOrderById = (id) => {
  * Note: Since this is a frontend-only application, customer data exists only in browser localStorage.
  */
 export const getCustomers = () => {
+  const accounts = getCustomerAccounts();
   const orders = getOrders();
   const customerMap = {};
 
+  // 1. Seed with registered accounts
+  accounts.forEach((acc) => {
+    const key = (acc.phone || acc.email || acc.name).toLowerCase().trim();
+    customerMap[key] = {
+      id: acc.id,
+      name: acc.name,
+      email: acc.email || 'N/A',
+      phone: acc.phone || 'N/A',
+      city: acc.city || 'N/A',
+      state: acc.state || 'N/A',
+      address: acc.address || '',
+      isRegistered: true,
+      ordersCount: 0,
+      totalSpent: 0,
+      lastOrderDate: acc.createdAt || null,
+    };
+  });
+
+  // 2. Merge order history and guest customers
   orders.forEach((order) => {
     const cust = order.customer;
     if (!cust) return;
-    const key = (cust.email || cust.phone || cust.name).toLowerCase().trim();
+    const key = (cust.phone || cust.email || cust.name).toLowerCase().trim();
 
     if (!customerMap[key]) {
       customerMap[key] = {
-        id: `cust-${Object.keys(customerMap).length + 1}`,
+        id: `cust-guest-${Object.keys(customerMap).length + 1}`,
         name: cust.name,
         email: cust.email || 'N/A',
         phone: cust.phone || 'N/A',
         city: cust.city || 'N/A',
         state: cust.state || 'N/A',
+        address: cust.address || '',
+        isRegistered: false,
         ordersCount: 0,
         totalSpent: 0,
-        lastOrderDate: order.createdAt
+        lastOrderDate: order.createdAt,
       };
     }
 
     customerMap[key].ordersCount += 1;
     customerMap[key].totalSpent += Number(order.total) || 0;
-    if (new Date(order.createdAt) > new Date(customerMap[key].lastOrderDate)) {
+    if (!customerMap[key].lastOrderDate || new Date(order.createdAt) > new Date(customerMap[key].lastOrderDate)) {
       customerMap[key].lastOrderDate = order.createdAt;
     }
   });
 
   return Object.values(customerMap);
 };
+
+// ==================== CUSTOMER ACCOUNTS & AUTH ====================
+
+export const getCustomerAccounts = () => {
+  return safeGet(KEYS.CUSTOMER_ACCOUNTS, []);
+};
+
+export const registerCustomer = (data) => {
+  const accounts = getCustomerAccounts();
+  const phone = (data.phone || '').trim();
+  const email = (data.email || '').trim().toLowerCase();
+
+  // Check duplicate
+  const exists = accounts.find(
+    (acc) =>
+      (phone && acc.phone === phone) ||
+      (email && acc.email && acc.email.toLowerCase() === email)
+  );
+
+  if (exists) {
+    return {
+      success: false,
+      error: 'An account with this phone number or email already exists. Please sign in.',
+    };
+  }
+
+  const newCustomer = {
+    id: `cust-${Date.now()}`,
+    name: (data.name || '').trim(),
+    phone,
+    email: email || '',
+    password: data.password || '',
+    address: (data.address || '').trim(),
+    city: (data.city || '').trim(),
+    state: (data.state || 'Tamil Nadu').trim(),
+    pincode: (data.pincode || '').trim(),
+    createdAt: new Date().toISOString(),
+  };
+
+  const updatedAccounts = [...accounts, newCustomer];
+  safeSet(KEYS.CUSTOMER_ACCOUNTS, updatedAccounts);
+
+  // Auto-login session (omit password from session)
+  const session = {
+    id: newCustomer.id,
+    name: newCustomer.name,
+    phone: newCustomer.phone,
+    email: newCustomer.email,
+    address: newCustomer.address,
+    city: newCustomer.city,
+    state: newCustomer.state,
+    pincode: newCustomer.pincode,
+  };
+  safeSet(KEYS.CUSTOMER_SESSION, session);
+
+  return { success: true, customer: session };
+};
+
+export const loginCustomer = (identifier, password) => {
+  const accounts = getCustomerAccounts();
+  const idClean = (identifier || '').trim().toLowerCase();
+  const passClean = (password || '').trim();
+
+  const found = accounts.find((acc) => {
+    const pMatch = acc.phone && acc.phone.trim().toLowerCase() === idClean;
+    const eMatch = acc.email && acc.email.trim().toLowerCase() === idClean;
+    return pMatch || eMatch;
+  });
+
+  if (!found) {
+    return {
+      success: false,
+      error: 'No account found with this Mobile Number or Email. Please check or register a new account.',
+    };
+  }
+
+  if (found.password && found.password !== passClean) {
+    return {
+      success: false,
+      error: 'Incorrect password. Please try again.',
+    };
+  }
+
+  const session = {
+    id: found.id,
+    name: found.name,
+    phone: found.phone,
+    email: found.email,
+    address: found.address,
+    city: found.city,
+    state: found.state,
+    pincode: found.pincode,
+  };
+  safeSet(KEYS.CUSTOMER_SESSION, session);
+
+  return { success: true, customer: session };
+};
+
+export const getCurrentCustomer = () => {
+  return safeGet(KEYS.CUSTOMER_SESSION, null);
+};
+
+export const updateCustomerProfile = (updates) => {
+  const session = getCurrentCustomer();
+  if (!session) return null;
+
+  const accounts = getCustomerAccounts();
+  const updatedAccounts = accounts.map((acc) => {
+    if (acc.id === session.id || acc.phone === session.phone) {
+      return { ...acc, ...updates };
+    }
+    return acc;
+  });
+  safeSet(KEYS.CUSTOMER_ACCOUNTS, updatedAccounts);
+
+  const updatedSession = { ...session, ...updates };
+  safeSet(KEYS.CUSTOMER_SESSION, updatedSession);
+  return updatedSession;
+};
+
+export const logoutCustomer = () => {
+  try {
+    localStorage.removeItem(KEYS.CUSTOMER_SESSION);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+export const getCustomerOrders = (customer) => {
+  const orders = getOrders();
+  if (!customer) return orders;
+  const cPhone = (customer.phone || '').trim().toLowerCase();
+  const cEmail = (customer.email || '').trim().toLowerCase();
+
+  return orders.filter((o) => {
+    const oPhone = (o.customer?.phone || '').trim().toLowerCase();
+    const oEmail = (o.customer?.email || '').trim().toLowerCase();
+    return (cPhone && oPhone === cPhone) || (cEmail && oEmail === cEmail);
+  });
+};
+
+
 
 // ==================== SETTINGS ====================
 

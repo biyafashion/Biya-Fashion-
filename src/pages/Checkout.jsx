@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   Truck,
@@ -7,9 +7,12 @@ import {
   Lock,
   ArrowRight,
   ShoppingBag,
+  User,
+  CheckCircle,
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
+import { useCustomerAuth } from '../context/CustomerAuthContext';
 import * as storageService from '../services/storageService';
 import { syncOrderToBackend } from '../services/apiService';
 import STORE_CONFIG from '../config/storeConfig';
@@ -20,16 +23,35 @@ const Checkout = () => {
   const navigate = useNavigate();
 
   // Form State
+  const { customer, isLoggedIn, openAuthModal, updateProfile } = useCustomerAuth();
+  const [saveAddressToProfile, setSaveAddressToProfile] = useState(true);
+
   const [formData, setFormData] = useState({
     fullName: '',
     phone: '',
     email: '',
     address: '',
     city: '',
-    state: '',
+    state: 'Tamil Nadu',
     pincode: '',
     notes: '',
   });
+
+  // Pre-fill form if customer is logged in
+  useEffect(() => {
+    if (customer) {
+      setFormData((prev) => ({
+        ...prev,
+        fullName: customer.name || prev.fullName,
+        phone: customer.phone || prev.phone,
+        email: customer.email || prev.email,
+        address: customer.address || prev.address,
+        city: customer.city || prev.city,
+        state: customer.state || prev.state || 'Tamil Nadu',
+        pincode: customer.pincode || prev.pincode,
+      }));
+    }
+  }, [customer]);
 
   const [paymentMethod, setPaymentMethod] = useState('whatsapp'); // 'whatsapp' (no DB) or 'cod' (stores in DB)
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -75,9 +97,22 @@ const Checkout = () => {
     setIsSubmitting(true);
 
     try {
+      if (isLoggedIn && saveAddressToProfile) {
+        updateProfile({
+          name: formData.fullName,
+          phone: formData.phone,
+          email: formData.email,
+          address: formData.address,
+          city: formData.city,
+          state: formData.state,
+          pincode: formData.pincode,
+        });
+      }
+
       const orderId = generateOrderId();
       const orderPayload = {
         id: orderId,
+        customerId: customer?.id || null,
         customer: {
           name: formData.fullName,
           phone: formData.phone,
@@ -161,12 +196,58 @@ const Checkout = () => {
           <div className="lg:col-span-7 space-y-8">
             {/* 1. Contact & Shipping Address */}
             <div className="bg-[#F8F8F8] p-6 sm:p-8 rounded-3xl border border-[#E5E5E5] space-y-5">
-              <div className="flex items-center gap-2 pb-3 border-b border-[#E5E5E5]">
-                <Truck className="w-5 h-5 text-[#064C32]" />
-                <h2 className="font-serif font-bold text-lg text-[#111111]">
-                  1. Shipping Information
-                </h2>
+              <div className="flex items-center justify-between pb-3 border-b border-[#E5E5E5]">
+                <div className="flex items-center gap-2">
+                  <Truck className="w-5 h-5 text-[#064C32]" />
+                  <h2 className="font-serif font-bold text-lg text-[#111111]">
+                    1. Shipping Information
+                  </h2>
+                </div>
+                {!isLoggedIn && (
+                  <button
+                    type="button"
+                    onClick={() => openAuthModal('signin')}
+                    className="text-xs font-bold text-[#064C32] hover:underline"
+                  >
+                    Sign In to Autofill →
+                  </button>
+                )}
               </div>
+
+              {/* Login / Prefill Banner */}
+              {isLoggedIn ? (
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 bg-[#064C32]/10 rounded-2xl border border-[#064C32]/20">
+                  <div className="flex items-center gap-2">
+                    <User className="w-4 h-4 text-[#064C32] shrink-0" />
+                    <span className="text-xs font-semibold text-[#064C32]">
+                      Logged in as <strong>{customer.name}</strong> ({customer.phone})
+                    </span>
+                  </div>
+                  <label className="flex items-center gap-1.5 text-[11px] text-[#064C32] font-semibold cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={saveAddressToProfile}
+                      onChange={(e) => setSaveAddressToProfile(e.target.checked)}
+                      className="rounded accent-[#064C32]"
+                    />
+                    <span>Save updates to default address</span>
+                  </label>
+                </div>
+              ) : (
+                <div className="flex items-center justify-between p-3.5 bg-white rounded-2xl border border-[#E5E5E5] text-xs shadow-xs">
+                  <div className="flex items-center gap-2 text-[#666666]">
+                    <User className="w-4 h-4 text-[#064C32]" />
+                    <span>Have a Biya Fashion account?</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => openAuthModal('signin')}
+                    className="font-bold text-[#064C32] hover:underline"
+                  >
+                    Sign In Here
+                  </button>
+                </div>
+              )}
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="sm:col-span-2">

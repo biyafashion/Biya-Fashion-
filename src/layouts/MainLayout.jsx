@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import CartDrawer from '../components/CartDrawer';
 import Toast from '../components/Toast';
+import CustomerAuthModal from '../components/CustomerAuthModal';
 
 const MainLayout = () => {
   const { pathname } = useLocation();
@@ -15,6 +16,7 @@ const MainLayout = () => {
   return (
     <div className="min-h-screen flex flex-col bg-white text-[#111111]">
       <Toast />
+      <CustomerAuthModal />
       <Header />
       <main className="flex-grow">
         <Outlet />
