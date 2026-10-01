@@ -8,6 +8,8 @@ import {
   Send,
   CheckCircle2,
   HelpCircle,
+  Heart,
+  Sparkles,
 } from 'lucide-react';
 import { useToast } from '../context/ToastContext';
 import STORE_CONFIG from '../config/storeConfig';
@@ -68,6 +70,41 @@ const Contact = () => {
           <p className="text-xs sm:text-sm text-[#666666] mt-2 leading-relaxed">
             Have questions about an order, styling advice, or wholesale bulk inquiries? Our dedicated fashion support team is here to assist.
           </p>
+        </div>
+
+        {/* SPECIAL THANKS - Tribute to Beloved Brother Thangapandii */}
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#064C32] via-[#033B27] to-[#012216] text-white p-6 sm:p-10 border-2 border-[#D9A514]/30 shadow-2xl">
+          {/* Subtle Royal Background Accents */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[#D9A514]/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#064C32]/30 rounded-full blur-3xl -ml-16 -mb-16 pointer-events-none" />
+
+          <div className="relative z-10 max-w-3xl mx-auto text-center space-y-4">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#D9A514]/15 border border-[#D9A514]/40 text-[#F3D477] text-xs font-bold uppercase tracking-widest">
+              <Sparkles className="w-3.5 h-3.5 text-[#F3D477]" />
+              <span>SPECIAL THANKS</span>
+              <Sparkles className="w-3.5 h-3.5 text-[#F3D477]" />
+            </div>
+
+            {/* Heartfelt Message */}
+            <blockquote className="font-serif text-base sm:text-xl md:text-2xl font-medium text-white/95 leading-relaxed italic">
+              "A Heartfelt Thank You to My Beloved Brother, <strong className="text-[#F3D477] font-serif not-italic font-bold">Thangapandii</strong>, for Being a Great Inspiration Behind My Business Journey. Your Constant Support, Encouragement, and Belief in Me Mean More Than Words Can Express."
+            </blockquote>
+
+            {/* Signature & Brand Seal */}
+            <div className="pt-2 flex flex-col items-center justify-center gap-1">
+              <div className="flex items-center gap-2">
+                <Heart className="w-4 h-4 text-[#D9A514] fill-[#D9A514]" />
+                <span className="font-serif font-black tracking-widest text-sm text-[#F3D477]">
+                  BIYA FASHION
+                </span>
+                <Heart className="w-4 h-4 text-[#D9A514] fill-[#D9A514]" />
+              </div>
+              <span className="text-[10px] tracking-[0.25em] text-[#E5E5E5]/70 uppercase font-medium">
+                WEAR YOUR STYLE • FOUNDATION OF LOVE & GRATITUDE
+              </span>
+            </div>
+          </div>
         </div>
 
         {/* 2-Column Layout: Direct Details + Contact Form */}
