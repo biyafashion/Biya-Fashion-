@@ -50,6 +50,26 @@ export const fetchOrdersFromBackend = async () => {
 };
 
 /**
+ * Update order status on Backend / Firebase Firestore
+ */
+export const updateOrderStatusOnBackend = async (orderId, newStatus) => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/orders/${orderId}/status`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: newStatus }),
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    console.warn('[API Service] Backend status update failed, using local store:', err.message);
+  }
+  return null;
+};
+
+
+/**
  * Sync customer to Backend / Firebase Firestore
  */
 export const syncCustomerToBackend = async (customerData) => {

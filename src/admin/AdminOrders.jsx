@@ -18,6 +18,8 @@ import {
   downloadOrderShippingLabel,
   exportOrdersAsCSV,
   fetchOrdersFromBackend,
+  updateOrderStatusOnBackend,
+  syncOrderToBackend,
 } from '../services/apiService';
 import { useToast } from '../context/ToastContext';
 
@@ -38,10 +40,20 @@ const AdminOrders = () => {
     // 2. Fetch fresh orders from Firebase Firestore
     try {
       const remote = await fetchOrdersFromBackend();
-      if (remote && Array.isArray(remote) && remote.length > 0) {
+      if (remote && Array.isArray(remote)) {
+        // Auto-sync any local orders to Firebase Firestore if not yet present
+        const remoteIds = new Set(remote.map((r) => String(r.id)));
+        const unSynced = local.filter((l) => !remoteIds.has(String(l.id)));
+        for (const order of unSynced) {
+          await syncOrderToBackend(order);
+        }
+
         const localMap = new Map(local.map((o) => [String(o.id), o]));
         remote.forEach((r) => {
           localMap.set(String(r.id), r);
+        });
+        unSynced.forEach((u) => {
+          localMap.set(String(u.id), u);
         });
         const merged = Array.from(localMap.values()).sort(
           (a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
@@ -58,9 +70,11 @@ const AdminOrders = () => {
     loadOrders();
   }, []);
 
-  const handleStatusChange = (orderId, newStatus) => {
+  const handleStatusChange = async (orderId, newStatus) => {
     const updated = storageService.updateOrder(orderId, { status: newStatus });
     if (updated) {
+      // Sync to Firebase backend
+      await updateOrderStatusOnBackend(orderId, newStatus);
       loadOrders();
       if (selectedOrder && selectedOrder.id === orderId) {
         setSelectedOrder(updated);

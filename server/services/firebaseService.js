@@ -153,12 +153,15 @@ export const getOrdersFromFirebase = async () => {
   // Try fetching from Firebase Firestore
   if (isFirebaseReady() && db) {
     try {
-      const snapshot = await db.collection('orders').orderBy('createdAt', 'desc').get();
+      const snapshot = await db.collection('orders').get();
       if (!snapshot.empty) {
         const firestoreOrders = [];
         snapshot.forEach((doc) => {
           firestoreOrders.push({ id: doc.id, ...doc.data() });
         });
+        firestoreOrders.sort(
+          (a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
+        );
         // Sync local cache
         writeJsonFile(ORDERS_FILE, firestoreOrders);
         return firestoreOrders;
@@ -257,12 +260,15 @@ export const getProductsFromFirebase = async () => {
 
   if (isFirebaseReady() && db) {
     try {
-      const snapshot = await db.collection('products').orderBy('createdAt', 'desc').get();
+      const snapshot = await db.collection('products').get();
       if (!snapshot.empty) {
         const firestoreProducts = [];
         snapshot.forEach((doc) => {
           firestoreProducts.push({ id: doc.id, ...doc.data() });
         });
+        firestoreProducts.sort(
+          (a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
+        );
         writeJsonFile(PRODUCTS_FILE, firestoreProducts);
         return firestoreProducts;
       }
@@ -378,12 +384,15 @@ export const getCustomersFromFirebase = async () => {
 
   if (isFirebaseReady() && db) {
     try {
-      const snapshot = await db.collection('customers').orderBy('createdAt', 'desc').get();
+      const snapshot = await db.collection('customers').get();
       if (!snapshot.empty) {
         const firestoreCustomers = [];
         snapshot.forEach((doc) => {
           firestoreCustomers.push({ id: doc.id, ...doc.data() });
         });
+        firestoreCustomers.sort(
+          (a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
+        );
         writeJsonFile(CUSTOMERS_FILE, firestoreCustomers);
         return firestoreCustomers;
       }

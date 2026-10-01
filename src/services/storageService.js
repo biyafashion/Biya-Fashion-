@@ -255,6 +255,12 @@ export const clearWishlist = () => {
 
 // ==================== ORDERS ====================
 
+export const setOrdersCache = (orders) => {
+  if (Array.isArray(orders)) {
+    safeSet(KEYS.ORDERS, orders);
+  }
+};
+
 export const getOrders = () => {
   initializeStorage();
   return safeGet(KEYS.ORDERS, DEMO_ORDERS);

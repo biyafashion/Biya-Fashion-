@@ -1,7 +1,11 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Search, UserCheck } from 'lucide-react';
 import * as storageService from '../services/storageService';
-import { fetchCustomersFromBackend } from '../services/apiService';
+import {
+  fetchCustomersFromBackend,
+  syncCustomerToBackend,
+  fetchOrdersFromBackend,
+} from '../services/apiService';
 
 /**
  * BIYA FASHION - Customer Directory
@@ -17,9 +21,24 @@ const AdminCustomers = () => {
       // 1. Initial local load
       setCustomers(storageService.getCustomers());
 
-      // 2. Fetch fresh customer records from Firebase Firestore
+      // 2. Auto-sync any existing local customer accounts to Firebase Firestore
+      const localAccounts = storageService.getCustomerAccounts();
+
+      // 3. Fetch fresh customer records from Firebase Firestore
       const remote = await fetchCustomersFromBackend();
-      if (remote && Array.isArray(remote) && remote.length > 0) {
+      if (remote && Array.isArray(remote)) {
+        const remotePhones = new Set(
+          remote.map((r) => (r.phone || '').trim().toLowerCase())
+        );
+
+        // Upload any local accounts not yet in Firebase
+        for (const acc of localAccounts) {
+          const accPhone = (acc.phone || '').trim().toLowerCase();
+          if (accPhone && !remotePhones.has(accPhone)) {
+            await syncCustomerToBackend(acc);
+          }
+        }
+
         const existingAccounts = storageService.getCustomerAccounts();
         const existingPhones = new Set(
           existingAccounts.map((a) => (a.phone || '').trim().toLowerCase())
@@ -37,8 +56,15 @@ const AdminCustomers = () => {
         if (changed) {
           localStorage.setItem('biya_fashion_customer_accounts', JSON.stringify(existingAccounts));
         }
-        setCustomers(storageService.getCustomers());
       }
+
+      // 4. Fetch latest orders from Firebase to aggregate total spend & order count
+      const remoteOrders = await fetchOrdersFromBackend();
+      if (remoteOrders && Array.isArray(remoteOrders) && remoteOrders.length > 0) {
+        storageService.setOrdersCache(remoteOrders);
+      }
+
+      setCustomers(storageService.getCustomers());
     };
     load();
   }, []);

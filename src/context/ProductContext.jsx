@@ -26,11 +26,24 @@ export const ProductProvider = ({ children }) => {
       setProducts(localProds);
       setCategories(cats);
 
-      // 2. Fetch fresh catalog from Backend & Firebase
+      // 2. Fetch fresh catalog from Backend & Firebase with bidirectional auto-sync
       const remoteProds = await fetchProductsFromBackend();
-      if (remoteProds && Array.isArray(remoteProds) && remoteProds.length > 0) {
-        setProducts(remoteProds);
-        storageService.setProductsCache(remoteProds);
+      if (remoteProds && Array.isArray(remoteProds)) {
+        if (remoteProds.length > 0) {
+          const remoteIds = new Set(remoteProds.map((p) => String(p.id)));
+          const unSynced = localProds.filter((p) => !remoteIds.has(String(p.id)));
+          for (const p of unSynced) {
+            await createProductOnBackend(p);
+          }
+          const allMerged = [...remoteProds, ...unSynced];
+          setProducts(allMerged);
+          storageService.setProductsCache(allMerged);
+        } else if (localProds.length > 0) {
+          // If Firebase is empty, automatically upload all local products (e.g. 'test') to Firebase!
+          for (const p of localProds) {
+            await createProductOnBackend(p);
+          }
+        }
       }
     } catch (err) {
       console.warn('Backend products sync skipped, using local store:', err.message);
