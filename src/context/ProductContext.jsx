@@ -107,6 +107,12 @@ export const ProductProvider = ({ children }) => {
   const newArrivals = useMemo(() => products.filter((p) => p.newArrival), [products]);
   const bestSellers = useMemo(() => products.filter((p) => p.bestSeller), [products]);
 
+  const handleClearAllProducts = useCallback(() => {
+    storageService.clearAllProducts();
+    setProducts([]);
+    toast.success('All products cleared from catalog.');
+  }, [toast]);
+
   const value = {
     products,
     categories,
@@ -116,6 +122,7 @@ export const ProductProvider = ({ children }) => {
     updateProduct: handleUpdateProduct,
     deleteProduct: handleDeleteProduct,
     duplicateProduct: handleDuplicateProduct,
+    clearAllProducts: handleClearAllProducts,
     addCategory: handleAddCategory,
     updateCategory: handleUpdateCategory,
     deleteCategory: handleDeleteCategory,

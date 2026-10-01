@@ -53,7 +53,7 @@ const safeSet = (key, value) => {
  * Automatically migrates to updated catalog versions (e.g. T-Shirts & Polo T-Shirts exclusive).
  */
 export const initializeStorage = () => {
-  const CATALOG_VERSION = 'v4_clean_slate_all_cleared';
+  const CATALOG_VERSION = 'v6_absolute_purge_zero_demo';
   const currentVersion = localStorage.getItem('biya_catalog_version');
 
   if (currentVersion !== CATALOG_VERSION) {
@@ -63,24 +63,31 @@ export const initializeStorage = () => {
     safeSet(KEYS.CART, []);
     safeSet(KEYS.WISHLIST, []);
     localStorage.setItem('biya_catalog_version', CATALOG_VERSION);
-  } else {
-    if (!localStorage.getItem(KEYS.PRODUCTS)) {
-      safeSet(KEYS.PRODUCTS, []);
-    }
-    if (!localStorage.getItem(KEYS.CATEGORIES)) {
-      safeSet(KEYS.CATEGORIES, DEMO_CATEGORIES);
-    }
-    if (!localStorage.getItem(KEYS.ORDERS)) {
-      safeSet(KEYS.ORDERS, []);
-    }
-    if (!localStorage.getItem(KEYS.CART)) {
-      safeSet(KEYS.CART, []);
-    }
-    if (!localStorage.getItem(KEYS.WISHLIST)) {
-      safeSet(KEYS.WISHLIST, []);
-    }
   }
 
+  // Double Check: If any demo products linger in browser storage, force-purge them immediately
+  const existingProds = safeGet(KEYS.PRODUCTS, []);
+  const demoIds = ['prod-1', 'prod-2', 'prod-3', 'prod-4', 'prod-5', 'prod-6', 'prod-7', 'prod-8'];
+  if (Array.isArray(existingProds) && existingProds.some((p) => demoIds.includes(String(p?.id)))) {
+    safeSet(KEYS.PRODUCTS, []);
+    safeSet(KEYS.ORDERS, []);
+  }
+
+  if (!localStorage.getItem(KEYS.PRODUCTS)) {
+    safeSet(KEYS.PRODUCTS, []);
+  }
+  if (!localStorage.getItem(KEYS.CATEGORIES)) {
+    safeSet(KEYS.CATEGORIES, DEMO_CATEGORIES);
+  }
+  if (!localStorage.getItem(KEYS.ORDERS)) {
+    safeSet(KEYS.ORDERS, []);
+  }
+  if (!localStorage.getItem(KEYS.CART)) {
+    safeSet(KEYS.CART, []);
+  }
+  if (!localStorage.getItem(KEYS.WISHLIST)) {
+    safeSet(KEYS.WISHLIST, []);
+  }
   if (!localStorage.getItem(KEYS.SETTINGS)) {
     safeSet(KEYS.SETTINGS, DEMO_SETTINGS);
   }
@@ -88,9 +95,38 @@ export const initializeStorage = () => {
 
 // ==================== PRODUCTS ====================
 
+export const clearAllProducts = () => {
+  safeSet(KEYS.PRODUCTS, []);
+  return true;
+};
+
 export const getProducts = () => {
   initializeStorage();
-  return safeGet(KEYS.PRODUCTS, DEMO_PRODUCTS);
+  const prods = safeGet(KEYS.PRODUCTS, []);
+  
+  // Permanent blacklist filter: Never allow demo products to be displayed
+  const demoIds = ['prod-1', 'prod-2', 'prod-3', 'prod-4', 'prod-5', 'prod-6', 'prod-7', 'prod-8'];
+  const demoNames = [
+    'Classic Black T-Shirt',
+    'Premium White T-Shirt',
+    'Oversized Emerald Green T-Shirt',
+    'Luxury Graphic Street T-Shirt',
+    'Classic Navy Pique Polo T-Shirt',
+    'White Gold-Tipped Polo T-Shirt',
+    'Signature Royal Polo T-Shirt',
+    'Forest Green Textured Polo T-Shirt',
+    'Classic Hoodie'
+  ];
+
+  const cleaned = prods.filter(
+    (p) => !demoIds.includes(String(p?.id)) && !demoNames.includes(p?.name)
+  );
+
+  if (cleaned.length !== prods.length) {
+    safeSet(KEYS.PRODUCTS, cleaned);
+  }
+
+  return cleaned;
 };
 
 export const getProductById = (id) => {

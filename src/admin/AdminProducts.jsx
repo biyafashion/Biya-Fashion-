@@ -13,10 +13,11 @@ import { useProducts } from '../context/ProductContext';
 import ConfirmModal from '../components/ConfirmModal';
 
 const AdminProducts = () => {
-  const { products, categories, deleteProduct, duplicateProduct } = useProducts();
+  const { products, categories, deleteProduct, duplicateProduct, clearAllProducts } = useProducts();
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [productToDelete, setProductToDelete] = useState(null);
+  const [isClearAllOpen, setIsClearAllOpen] = useState(false);
   const navigate = useNavigate();
 
   // Filtered products
@@ -56,13 +57,26 @@ const AdminProducts = () => {
           </p>
         </div>
 
-        <Link
-          to="/admin/products/add"
-          className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-[#064C32] hover:bg-[#033B27] text-white text-xs font-bold uppercase tracking-wider shadow-sm transition active:scale-95 self-start sm:self-auto"
-        >
-          <PlusCircle className="w-4 h-4 text-[#F3D477]" />
-          <span>Add New Product</span>
-        </Link>
+        <div className="flex items-center gap-3">
+          {products.length > 0 && (
+            <button
+              type="button"
+              onClick={() => setIsClearAllOpen(true)}
+              className="inline-flex items-center gap-1.5 px-4 py-3 rounded-xl border border-red-200 text-red-600 hover:bg-red-50 text-xs font-bold uppercase tracking-wider transition cursor-pointer"
+            >
+              <Trash2 className="w-4 h-4" />
+              <span>Clear All Products</span>
+            </button>
+          )}
+
+          <Link
+            to="/admin/products/add"
+            className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-[#064C32] hover:bg-[#033B27] text-white text-xs font-bold uppercase tracking-wider shadow-sm transition active:scale-95 self-start sm:self-auto"
+          >
+            <PlusCircle className="w-4 h-4 text-[#F3D477]" />
+            <span>Add New Product</span>
+          </Link>
+        </div>
       </div>
 
       {/* Search & Filter Toolbar */}
@@ -266,6 +280,20 @@ const AdminProducts = () => {
         cancelText="Cancel"
         onConfirm={handleDeleteConfirm}
         onCancel={() => setProductToDelete(null)}
+      />
+
+      {/* Clear All Confirmation Modal */}
+      <ConfirmModal
+        isOpen={isClearAllOpen}
+        title="Clear All Products?"
+        message="Are you sure you want to completely remove all products from your catalog? This cannot be undone."
+        confirmText="Yes, Clear All Products"
+        cancelText="Cancel"
+        onConfirm={() => {
+          clearAllProducts();
+          setIsClearAllOpen(false);
+        }}
+        onCancel={() => setIsClearAllOpen(false)}
       />
     </div>
   );
