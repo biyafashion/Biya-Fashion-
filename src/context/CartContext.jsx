@@ -134,7 +134,7 @@ export const CartProvider = ({ children }) => {
   }, [originalSubtotal, subtotal]);
 
   const freeDeliveryThreshold = settings.freeDeliveryAbove || 999;
-  const standardDeliveryCharge = settings.deliveryCharge || 99;
+  const standardDeliveryCharge = settings.deliveryCharge || 49;
 
   const deliveryFee = useMemo(() => {
     if (cart.length === 0) return 0;

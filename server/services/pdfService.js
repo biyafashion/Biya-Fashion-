@@ -70,7 +70,7 @@ export const generateInvoicePDF = (order, stream) => {
   doc.text('BIYA FASHION', 40, y + 16);
   doc.text('Pandiyan Nagar, Karaiyapatti', 40, y + 29);
   doc.text('Virudhunagar, Tamil Nadu - 626106', 40, y + 42);
-  doc.text('Helpline: +91 96556 25186  |  biyasfashion02@gmail.com', 40, y + 55);
+  doc.text('Helpline: +91 94861 18211  |  biyasfashion02@gmail.com', 40, y + 55);
 
   // Invoice specifics (Right side)
   doc.fillColor(darkText).fontSize(10).font('Helvetica-Bold').text('INVOICE DETAILS:', 360, y);
@@ -209,7 +209,7 @@ export const generateShippingLabelPDF = (order, stream) => {
   doc.fontSize(8.5).font('Helvetica-Bold').text('BIYA FASHION', 12, 98);
   doc.fontSize(7).font('Helvetica').text('Pandiyan Nagar, Karaiyapatti', 12, 109);
   doc.text('Virudhunagar, Tamil Nadu, 626106', 12, 119);
-  doc.text('Tel: +91 96556 25186', 12, 129);
+  doc.text('Tel: +91 94861 18211', 12, 129);
 
   // RIGHT COLUMN: COD Banner, Carrier, Routing, Barcode
   doc.rect(148, 8, 132, 16).fill('#222222');

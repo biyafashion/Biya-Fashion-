@@ -36,13 +36,13 @@ export const DEMO_SETTINGS = {
   tagline: "WEAR YOUR STYLE",
   currency: "₹",
   currencyCode: "INR",
-  whatsappNumber: "919655625186",
-  deliveryCharge: 99,
+  whatsappNumber: "919486118211",
+  deliveryCharge: 49,
   freeDeliveryAbove: 999,
   supportEmail: "biyasfashion02@gmail.com",
-  supportPhone: "+91 96556 25186",
+  supportPhone: "+91 94861 18211",
   address: "Pandiyan Nagar, Karaiyapatti, Virudhunagar - 626106, India",
-  enableCashOnDelivery: true,
+  enableCashOnDelivery: false,
   enableWhatsAppOrder: true,
   maintenanceMode: false
 };

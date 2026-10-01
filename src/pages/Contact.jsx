@@ -52,7 +52,7 @@ const Contact = () => {
     },
     {
       q: 'How do I pay for my order?',
-      a: 'We accept payments via UPI, Google Pay, PhonePe, and Bank Transfer through our official WhatsApp (+91 96556 25186) upon order confirmation.',
+      a: 'We accept payments via UPI, Google Pay, PhonePe, and Bank Transfer through our official WhatsApp (+91 94861 18211) upon order confirmation.',
     },
   ];
 

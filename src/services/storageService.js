@@ -92,6 +92,24 @@ export const initializeStorage = () => {
   }
   if (!localStorage.getItem(KEYS.SETTINGS)) {
     safeSet(KEYS.SETTINGS, DEMO_SETTINGS);
+  } else {
+    const existingSettings = safeGet(KEYS.SETTINGS, {});
+    let settingsUpdated = false;
+    if (existingSettings.deliveryCharge === 99) {
+      existingSettings.deliveryCharge = 49;
+      settingsUpdated = true;
+    }
+    if (existingSettings.whatsappNumber === '919655625186') {
+      existingSettings.whatsappNumber = '919486118211';
+      settingsUpdated = true;
+    }
+    if (existingSettings.supportPhone === '+91 96556 25186') {
+      existingSettings.supportPhone = '+91 94861 18211';
+      settingsUpdated = true;
+    }
+    if (settingsUpdated) {
+      safeSet(KEYS.SETTINGS, existingSettings);
+    }
   }
 };
 

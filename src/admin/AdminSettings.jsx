@@ -124,9 +124,9 @@ const AdminSettings = () => {
               <input
                 type="text"
                 name="whatsappNumber"
-                value={settings.whatsappNumber || '919655625186'}
+                value={settings.whatsappNumber || '919486118211'}
                 onChange={handleInputChange}
-                placeholder="919655625186"
+                placeholder="919486118211"
                 className="w-full px-4 py-2.5 rounded-xl bg-white border border-[#E5E5E5] text-xs font-mono text-[#111111] focus:outline-none focus:border-[#064C32]"
               />
               <span className="text-[10px] text-[#666666] mt-1 block">
@@ -141,7 +141,7 @@ const AdminSettings = () => {
               <input
                 type="text"
                 name="supportPhone"
-                value={settings.supportPhone || '+91 98765 43210'}
+                value={settings.supportPhone || '+91 94861 18211'}
                 onChange={handleInputChange}
                 className="w-full px-4 py-2.5 rounded-xl bg-white border border-[#E5E5E5] text-xs text-[#111111] focus:outline-none focus:border-[#064C32]"
               />
@@ -167,7 +167,7 @@ const AdminSettings = () => {
                 type="number"
                 name="deliveryCharge"
                 min={0}
-                value={settings.deliveryCharge || 99}
+                value={settings.deliveryCharge ?? 49}
                 onChange={handleInputChange}
                 className="w-full px-4 py-2.5 rounded-xl bg-white border border-[#E5E5E5] text-xs text-[#111111] focus:outline-none focus:border-[#064C32]"
               />

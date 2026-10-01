@@ -402,7 +402,7 @@ const Checkout = () => {
                     </span>
                   </div>
                   <p className="text-xs text-[#666666] mt-1.5 leading-relaxed">
-                    Instantly sends your full delivery address and ordered items directly to BIYA FASHION WhatsApp (+91 96556 25186) for immediate dispatch confirmation.
+                    Instantly sends your full delivery address and ordered items directly to BIYA FASHION WhatsApp (+91 94861 18211) for immediate dispatch confirmation.
                   </p>
                   <div className="mt-3 flex items-center gap-2 text-[11px] text-[#064C32] font-semibold">
                     <CheckCircle className="w-3.5 h-3.5 text-[#25D366]" />

@@ -17,6 +17,7 @@ import AdminLayout from './layouts/AdminLayout';
 
 // Loading Component
 import LoadingSpinner from './components/LoadingSpinner';
+import SplashScreen from './components/SplashScreen';
 
 // Customer Pages (Lazy Loaded)
 const Home = lazy(() => import('./pages/Home'));
@@ -66,6 +67,7 @@ function App() {
 
   return (
     <ToastProvider>
+      <SplashScreen />
       <ProductProvider>
         <CartProvider>
           <WishlistProvider>
