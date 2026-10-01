@@ -30,13 +30,13 @@ const About = () => {
               Rooted in Textile Heritage, Crafted for the Modern World
             </h2>
             <p>
-              Born in Surat, the textile heartland of India, BIYA FASHION was established to solve an everyday dilemma: why should comfortable clothing compromise on tailoring and luxury?
+              Rooted in authentic textile craftsmanship, BIYA FASHION was established to solve an everyday dilemma: why should comfortable clothing compromise on tailoring and luxury?
             </p>
             <p>
-              Every garment in our catalog begins at the fiber level. We source long-staple organic cotton, undergo rigorous bio-washing to eliminate pilling, and inspect every seam to guarantee an uncompromised drape.
+              Every garment in our catalog begins at the fiber level. We source premium fabrics, undergo rigorous bio-washing to eliminate pilling, and inspect every seam to guarantee an uncompromised drape.
             </p>
             <p>
-              The <strong>Crown</strong> in our insignia represents our commitment to regal quality; the <strong>Hanger</strong> signifies our dedication to wearable daily utility.
+              The <strong>Crown</strong> in our insignia represents our commitment to regal quality, and the signature <strong>'B'</strong> stands for our unyielding dedication to original style and luxury.
             </p>
 
             <div className="pt-2">

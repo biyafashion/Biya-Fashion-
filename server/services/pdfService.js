@@ -67,10 +67,10 @@ export const generateInvoicePDF = (order, stream) => {
   let y = 110;
   doc.fillColor(darkText).fontSize(10).font('Helvetica-Bold').text('SOLD BY (SELLER):', 40, y);
   doc.fontSize(9).font('Helvetica').fillColor(mutedText);
-  doc.text('BIYA FASHION ATELIER & APPAREL LTD.', 40, y + 16);
-  doc.text('Plot 42, Royal Textile Avenue, Ring Road', 40, y + 29);
-  doc.text('Surat, Gujarat - 395002, India', 40, y + 42);
-  doc.text('GSTIN: 24AAACB1234F1Z5  |  support@biyafashion.com', 40, y + 55);
+  doc.text('BIYA FASHION', 40, y + 16);
+  doc.text('Pandiyan Nagar, Karaiyapatti', 40, y + 29);
+  doc.text('Virudhunagar, Tamil Nadu - 626106', 40, y + 42);
+  doc.text('Helpline: +91 96556 25186  |  biyasfashion02@gmail.com', 40, y + 55);
 
   // Invoice specifics (Right side)
   doc.fillColor(darkText).fontSize(10).font('Helvetica-Bold').text('INVOICE DETAILS:', 360, y);
@@ -251,8 +251,8 @@ export const generateShippingLabelPDF = (order, stream) => {
   y = 322;
   doc.fillColor(darkText).fontSize(8).font('Helvetica-Bold').text('RETURN / SENDER ADDRESS:', 18, y);
   doc.fontSize(7.5).font('Helvetica').fillColor('#444444');
-  doc.text('BIYA FASHION Logistics Center, Plot 42, Ring Road, Surat, Gujarat - 395002', 18, y + 12, { width: 250 });
-  doc.text('Email: care@biyafashion.com | Helpline: +91 98765 43210', 18, y + 23);
+  doc.text('BIYA FASHION, Pandiyan Nagar, Karaiyapatti, Virudhunagar - 626106', 18, y + 12, { width: 250 });
+  doc.text('Email: biyasfashion02@gmail.com | Helpline: +91 96556 25186', 18, y + 23);
 
   // Bottom Meta Summary
   y = 365;

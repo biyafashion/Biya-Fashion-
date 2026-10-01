@@ -379,7 +379,7 @@ const ProductDetails = () => {
                   </div>
                   <div className="p-3.5 bg-[#F8F8F8] rounded-xl border border-[#E5E5E5]">
                     <span className="font-bold text-[#111111] block mb-1">Origin</span>
-                    <span>Crafted in Surat Textile Hub, India</span>
+                    <span>Crafted with Pride in India</span>
                   </div>
                 </div>
               </div>
@@ -440,7 +440,7 @@ const ProductDetails = () => {
             {activeTab === 'shipping' && (
               <div className="space-y-3 text-xs sm:text-sm text-[#666666] leading-relaxed">
                 <p>
-                  <strong>Dispatch:</strong> Orders placed before 3:00 PM are dispatched on the same business day from our Surat fulfillment hub.
+                  <strong>Dispatch:</strong> Orders placed before 3:00 PM are dispatched on the same business day from our fulfillment hub.
                 </p>
                 <p>
                   <strong>Delivery Timeline:</strong> Standard metro deliveries take 2–4 business days. Regional and rest of India takes 4–6 business days.

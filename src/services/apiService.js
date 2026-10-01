@@ -230,9 +230,9 @@ export const printClientInvoice = (order) => {
       <div class="meta-grid">
         <div class="card">
           <strong>Sold By (Seller):</strong><br/>
-          BIYA FASHION Atelier Ltd.<br/>
-          Plot 42, Royal Textile Ring Road, Surat, Gujarat - 395002<br/>
-          GSTIN: 24AAACB1234F1Z5 | care@biyafashion.com
+          BIYA FASHION<br/>
+          Pandiyan Nagar, Karaiyapatti, Virudhunagar - 626106<br/>
+          Helpline: +91 96556 25186 | biyasfashion02@gmail.com
         </div>
         <div class="card">
           <strong>Bill To / Delivery Address:</strong><br/>
@@ -337,8 +337,8 @@ export const printClientShippingLabel = (order) => {
         </div>
 
         <div class="footer">
-          <strong>RETURN / SENDER:</strong> BIYA FASHION Logistics Center, Plot 42, Ring Road, Surat, Gujarat - 395002<br/>
-          Order ID: ${order.id} | Items: ${order.items?.length || 1} pcs | Weight: 0.45 kg
+          <strong>RETURN / SENDER:</strong> BIYA FASHION, Pandiyan Nagar, Karaiyapatti, Virudhunagar - 626106<br/>
+          Helpline: +91 96556 25186 | Order ID: ${order.id} | Items: ${order.items?.length || 1} pcs
         </div>
       </div>
 

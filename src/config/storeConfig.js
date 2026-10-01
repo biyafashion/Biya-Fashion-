@@ -10,18 +10,18 @@ export const STORE_CONFIG = {
   currency: "₹",
   currencyCode: "INR",
   // WhatsApp ordering recipient phone number (with country code, no + or spaces for API links)
-  whatsappNumber: "919876543210",
-  formattedWhatsApp: "+91 98765 43210",
-  supportEmail: "care@biyafashion.com",
-  supportPhone: "+91 98765 43210",
-  address: "Plot 42, Royal Textile Avenue, Ring Road, Surat, Gujarat - 395002, India",
+  whatsappNumber: "919655625186",
+  formattedWhatsApp: "+91 96556 25186",
+  supportEmail: "biyasfashion02@gmail.com",
+  supportPhone: "+91 96556 25186",
+  address: "Pandiyan Nagar, Karaiyapatti, Virudhunagar, Tamil Nadu - 626106, India",
   standardDeliveryCharge: 99,
   freeDeliveryThreshold: 999,
   returnPolicyDays: 7,
   socialLinks: {
-    instagram: "https://instagram.com/biyafashion",
+    instagram: "https://www.instagram.com/biya.fashion_?stkn=cnpybHlmemcyNjRh",
     facebook: "https://facebook.com/biyafashion",
-    whatsapp: "https://wa.me/919876543210",
+    whatsapp: "https://wa.me/919655625186",
     twitter: "https://twitter.com/biyafashion",
   }
 };

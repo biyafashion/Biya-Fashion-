@@ -123,7 +123,7 @@ const Contact = () => {
                 </div>
               </div>
               <p className="text-xs text-gray-200 leading-relaxed">
-                Connect directly with our Surat atelier team on WhatsApp for instant sizing recommendations and live order tracking.
+                Connect directly with our BIYA FASHION team on WhatsApp for instant sizing recommendations and live order tracking.
               </p>
               <button
                 type="button"

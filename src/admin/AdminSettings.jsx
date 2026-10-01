@@ -124,9 +124,9 @@ const AdminSettings = () => {
               <input
                 type="text"
                 name="whatsappNumber"
-                value={settings.whatsappNumber || '919876543210'}
+                value={settings.whatsappNumber || '919655625186'}
                 onChange={handleInputChange}
-                placeholder="919876543210"
+                placeholder="919655625186"
                 className="w-full px-4 py-2.5 rounded-xl bg-white border border-[#E5E5E5] text-xs font-mono text-[#111111] focus:outline-none focus:border-[#064C32]"
               />
               <span className="text-[10px] text-[#666666] mt-1 block">
@@ -209,7 +209,7 @@ const AdminSettings = () => {
               <input
                 type="email"
                 name="supportEmail"
-                value={settings.supportEmail || 'care@biyafashion.com'}
+                value={settings.supportEmail || 'biyasfashion02@gmail.com'}
                 onChange={handleInputChange}
                 className="w-full px-4 py-2.5 rounded-xl bg-white border border-[#E5E5E5] text-xs text-[#111111] focus:outline-none focus:border-[#064C32]"
               />
