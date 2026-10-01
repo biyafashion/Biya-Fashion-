@@ -3,9 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import {
   Truck,
   MessageCircle,
-  Banknote,
   Lock,
-  ArrowRight,
   ShoppingBag,
   User,
   CheckCircle,
@@ -135,7 +133,7 @@ const Checkout = () => {
         subtotal,
         deliveryFee,
         total: grandTotal,
-        paymentMethod: paymentMethod === 'cod' ? 'Cash on Delivery' : 'WhatsApp Order',
+        paymentMethod: 'WhatsApp Order',
         status: 'Confirmed',
         createdAt: new Date().toISOString(),
       };
@@ -381,7 +379,7 @@ const Checkout = () => {
               </div>
             </div>
 
-            {/* 2. Payment Options UI */}
+            {/* 2. Payment Method */}
             <div className="bg-[#F8F8F8] p-6 sm:p-8 rounded-3xl border border-[#E5E5E5] space-y-4">
               <div className="flex items-center gap-2 pb-3 border-b border-[#E5E5E5]">
                 <Lock className="w-5 h-5 text-[#064C32]" />
@@ -390,67 +388,27 @@ const Checkout = () => {
                 </h2>
               </div>
 
-              <div className="space-y-3">
-                {/* Option 1: Send to WhatsApp Order */}
-                <label
-                  className={`flex items-start gap-4 p-4 rounded-2xl border cursor-pointer transition ${
-                    paymentMethod === 'whatsapp'
-                      ? 'border-[#064C32] bg-white ring-2 ring-[#064C32]/20 shadow-sm'
-                      : 'border-[#E5E5E5] bg-white hover:bg-gray-50'
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="whatsapp"
-                    checked={paymentMethod === 'whatsapp'}
-                    onChange={() => setPaymentMethod('whatsapp')}
-                    className="mt-1 accent-[#064C32]"
-                  />
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2">
-                      <MessageCircle className="w-5 h-5 text-[#25D366]" />
-                      <span className="font-bold text-sm text-[#111111]">
-                        Send to WhatsApp (Direct Order)
-                      </span>
-                      <span className="text-[10px] font-bold uppercase tracking-wider bg-[#25D366]/15 text-[#064C32] px-2 py-0.5 rounded-full">
-                        Recommended
-                      </span>
-                    </div>
-                    <p className="text-xs text-[#666666] mt-1 leading-relaxed">
-                      Instantly sends your full delivery address and ordered items directly to BIYA FASHION WhatsApp (+91 96556 25186) for immediate dispatch confirmation.
-                    </p>
+              <div className="p-4 sm:p-5 rounded-2xl border border-[#064C32] bg-white ring-2 ring-[#064C32]/10 shadow-sm flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-[#25D366]/10 flex items-center justify-center shrink-0 mt-0.5">
+                  <MessageCircle className="w-5 h-5 text-[#25D366]" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="font-bold text-sm text-[#111111]">
+                      Direct WhatsApp Order & Payment
+                    </span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider bg-[#25D366]/15 text-[#064C32] px-2 py-0.5 rounded-full">
+                      Recommended
+                    </span>
                   </div>
-                </label>
-
-                {/* Option 2: Cash on Delivery */}
-                <label
-                  className={`flex items-start gap-4 p-4 rounded-2xl border cursor-pointer transition ${
-                    paymentMethod === 'cod'
-                      ? 'border-[#064C32] bg-white ring-2 ring-[#064C32]/20 shadow-sm'
-                      : 'border-[#E5E5E5] bg-white hover:bg-gray-50'
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="cod"
-                    checked={paymentMethod === 'cod'}
-                    onChange={() => setPaymentMethod('cod')}
-                    className="mt-1 accent-[#064C32]"
-                  />
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2">
-                      <Banknote className="w-5 h-5 text-[#064C32]" />
-                      <span className="font-bold text-sm text-[#111111]">
-                        Cash on Delivery (COD)
-                      </span>
-                    </div>
-                    <p className="text-xs text-[#666666] mt-1">
-                      Pay in cash or UPI at your doorstep upon receiving your garments.
-                    </p>
+                  <p className="text-xs text-[#666666] mt-1.5 leading-relaxed">
+                    Instantly sends your full delivery address and ordered items directly to BIYA FASHION WhatsApp (+91 96556 25186) for immediate dispatch confirmation.
+                  </p>
+                  <div className="mt-3 flex items-center gap-2 text-[11px] text-[#064C32] font-semibold">
+                    <CheckCircle className="w-3.5 h-3.5 text-[#25D366]" />
+                    <span>UPI, Google Pay, PhonePe & Bank Transfer accepted</span>
                   </div>
-                </label>
+                </div>
               </div>
             </div>
           </div>
@@ -515,15 +473,10 @@ const Checkout = () => {
                 >
                   {isSubmitting ? (
                     'Processing Order...'
-                  ) : paymentMethod === 'whatsapp' ? (
+                  ) : (
                     <>
                       <MessageCircle className="w-4 h-4 text-[#F3D477]" />
                       <span>ORDER VIA WHATSAPP</span>
-                    </>
-                  ) : (
-                    <>
-                      <span>PLACE ORDER (COD)</span>
-                      <ArrowRight className="w-4 h-4 text-[#D9A514]" />
                     </>
                   )}
                 </button>

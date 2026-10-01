@@ -51,8 +51,8 @@ const Contact = () => {
       a: 'We offer a 7-day hassle-free return window. Garments must be unwashed, unworn, and have all original Biya Fashion tags intact.',
     },
     {
-      q: 'Do you offer Cash on Delivery?',
-      a: 'Yes, Cash on Delivery is available across most serviceable pincodes across India at no additional charge.',
+      q: 'How do I pay for my order?',
+      a: 'We accept payments via UPI, Google Pay, PhonePe, and Bank Transfer through our official WhatsApp (+91 96556 25186) upon order confirmation.',
     },
   ];
 

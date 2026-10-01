@@ -322,7 +322,7 @@ const ProductDetails = () => {
               </div>
               <div className="flex items-center gap-3">
                 <ShieldCheck className="w-4 h-4 text-[#064C32] shrink-0" />
-                <span>Cash on Delivery & WhatsApp Ordering supported</span>
+                <span>Direct WhatsApp Ordering & Fast Dispatch across India</span>
               </div>
               <button
                 type="button"
