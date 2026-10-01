@@ -1,16 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Lock, User, ShieldCheck, ArrowRight, AlertCircle, Info } from 'lucide-react';
+import { Lock, User, ShieldCheck, ArrowRight, AlertCircle } from 'lucide-react';
 import BiyaLogo from '../components/BiyaLogo';
 import { useAuth } from '../context/AuthContext';
-import { ADMIN_CONFIG } from '../config/adminConfig';
 
 /**
  * BIYA FASHION - Admin Login
- * 
- * IMPORTANT:
- * Frontend-only authentication. Hardcoded credentials are NOT secure for production.
- * A real production application requires server-side authentication.
  */
 const AdminLogin = () => {
   const [username, setUsername] = useState('');
@@ -35,11 +30,6 @@ const AdminLogin = () => {
     }
   };
 
-  const handleAutoFill = () => {
-    setUsername(ADMIN_CONFIG.ADMIN_USERNAME);
-    setPassword(ADMIN_CONFIG.ADMIN_PASSWORD);
-  };
-
   return (
     <div className="min-h-screen bg-white flex flex-col justify-center items-center px-4 py-12">
       <div className="max-w-md w-full space-y-8">
@@ -58,33 +48,6 @@ const AdminLogin = () => {
           <p className="text-xs text-[#666666]">
             Enter your credentials to manage products, categories, orders, and settings.
           </p>
-        </div>
-
-        {/* Demo Credentials Quick Box */}
-        <div className="p-4 rounded-2xl bg-[#F8F8F8] border border-[#E5E5E5] space-y-2">
-          <div className="flex items-center justify-between text-xs">
-            <span className="font-bold text-[#111111] flex items-center gap-1">
-              <Info className="w-3.5 h-3.5 text-[#064C32]" />
-              Demo Credentials
-            </span>
-            <button
-              type="button"
-              onClick={handleAutoFill}
-              className="text-[11px] font-bold text-[#064C32] hover:underline"
-            >
-              Autofill Form
-            </button>
-          </div>
-          <div className="text-xs text-[#666666] font-mono grid grid-cols-2 gap-2 pt-1">
-            <div className="bg-white p-2 rounded-lg border border-[#E5E5E5]">
-              <span className="block text-[10px] text-gray-400 uppercase">Username</span>
-              <span className="font-bold text-[#111111]">admin</span>
-            </div>
-            <div className="bg-white p-2 rounded-lg border border-[#E5E5E5]">
-              <span className="block text-[10px] text-gray-400 uppercase">Password</span>
-              <span className="font-bold text-[#111111]">Biya@2026</span>
-            </div>
-          </div>
         </div>
 
         {/* Error Notice */}

@@ -19,22 +19,20 @@ const BiyaLogo = ({ variant = 'default', size = 'normal', showTagline = true, to
 
   const Content = (
     <div className="flex items-center gap-3 group select-none">
-      {/* Official BIYA Royal Crown & 'B' Emblem */}
+      {/* Official BIYA Royal Crown & 'B' Emblem - Round Format */}
       <div
-        className={`relative flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105 ${
-          isLarge ? 'w-13 h-14' : 'w-10 h-11'
+        className={`relative flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105 rounded-full overflow-hidden ${
+          isLarge ? 'w-13 h-13' : 'w-10 h-10'
         } ${
           isLight
-            ? 'bg-white rounded-xl p-1 shadow-md border border-[#D9A514]/40 ring-1 ring-white/20'
-            : 'rounded-lg p-0.5'
+            ? 'bg-white p-0.5 shadow-md border-2 border-[#D9A514]/60 ring-2 ring-white/20'
+            : 'bg-white p-0.5 shadow-sm border border-[#D9A514]/40'
         }`}
       >
         <img
-          src="/logo.jpg"
+          src="/logo-round.png"
           alt="BIYA FASHION Crown & B Emblem"
-          className={`w-full h-full object-contain ${
-            isLight ? 'rounded-lg' : 'mix-blend-multiply'
-          }`}
+          className="w-full h-full object-contain rounded-full"
         />
       </div>
 
