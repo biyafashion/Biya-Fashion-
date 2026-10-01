@@ -22,6 +22,7 @@ import * as storageService from '../services/storageService';
 import {
   downloadOrderInvoice,
   downloadOrderShippingLabel,
+  fetchOrdersFromBackend,
 } from '../services/apiService';
 import STORE_CONFIG from '../config/storeConfig';
 
@@ -36,8 +37,31 @@ const MyOrders = () => {
     pincode: customer?.pincode || '',
   });
 
-  // Fetch all orders matching customer or local storage
-  const allOrders = storageService.getOrders();
+  // State for all orders synced from Firebase
+  const [allOrders, setAllOrders] = useState(() => storageService.getOrders());
+
+  useEffect(() => {
+    const load = async () => {
+      const local = storageService.getOrders();
+      setAllOrders(local);
+
+      try {
+        const remote = await fetchOrdersFromBackend();
+        if (remote && Array.isArray(remote) && remote.length > 0) {
+          const localMap = new Map(local.map((o) => [String(o.id), o]));
+          remote.forEach((r) => localMap.set(String(r.id), r));
+          const merged = Array.from(localMap.values()).sort(
+            (a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
+          );
+          setAllOrders(merged);
+          localStorage.setItem('biya_fashion_orders', JSON.stringify(merged));
+        }
+      } catch (err) {
+        console.warn('Orders sync skipped:', err.message);
+      }
+    };
+    load();
+  }, []);
 
   const customerOrders = useMemo(() => {
     if (customer) {

@@ -1,19 +1,47 @@
-import React, { useState, useMemo } from 'react';
-import { Search } from 'lucide-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { Search, UserCheck } from 'lucide-react';
 import * as storageService from '../services/storageService';
+import { fetchCustomersFromBackend } from '../services/apiService';
 
 /**
  * BIYA FASHION - Customer Directory
  * 
- * NOTE:
- * Frontend-only application. Customer information is derived dynamically from
- * customer delivery information stored within orders in the browser's localStorage.
- * In a full production architecture, customer accounts and order histories would be
- * indexed in a dedicated backend database (e.g. PostgreSQL, MongoDB).
+ * Aggregates customer profiles from Firebase Firestore and local store orders.
  */
 const AdminCustomers = () => {
   const [search, setSearch] = useState('');
-  const customers = useMemo(() => storageService.getCustomers(), []);
+  const [customers, setCustomers] = useState(() => storageService.getCustomers());
+
+  useEffect(() => {
+    const load = async () => {
+      // 1. Initial local load
+      setCustomers(storageService.getCustomers());
+
+      // 2. Fetch fresh customer records from Firebase Firestore
+      const remote = await fetchCustomersFromBackend();
+      if (remote && Array.isArray(remote) && remote.length > 0) {
+        const existingAccounts = storageService.getCustomerAccounts();
+        const existingPhones = new Set(
+          existingAccounts.map((a) => (a.phone || '').trim().toLowerCase())
+        );
+
+        let changed = false;
+        remote.forEach((r) => {
+          const rPhone = (r.phone || '').trim().toLowerCase();
+          if (rPhone && !existingPhones.has(rPhone)) {
+            existingAccounts.push(r);
+            changed = true;
+          }
+        });
+
+        if (changed) {
+          localStorage.setItem('biya_fashion_customer_accounts', JSON.stringify(existingAccounts));
+        }
+        setCustomers(storageService.getCustomers());
+      }
+    };
+    load();
+  }, []);
 
   const filteredCustomers = useMemo(() => {
     if (!search.trim()) return customers;
@@ -109,21 +137,28 @@ const AdminCustomers = () => {
                     </td>
                     <td className="p-4 text-[#666666] font-medium">{cust.phone}</td>
                     <td className="p-4 text-[#666666]">{cust.email}</td>
-                    <td className="p-4 text-[#666666]">{cust.city}, {cust.state}</td>
+                    <td className="p-4 text-[#666666]">
+                      <div className="font-medium text-[#111111]">{cust.city || 'N/A'}, {cust.state || ''}</div>
+                      {cust.address && <div className="text-[10px] text-gray-400 truncate max-w-[180px]">{cust.address}</div>}
+                    </td>
                     <td className="p-4 text-center">
                       <span className="inline-block bg-[#064C32]/10 text-[#064C32] px-2.5 py-0.5 rounded-full font-bold">
                         {cust.ordersCount}
                       </span>
                     </td>
                     <td className="p-4 text-right font-extrabold text-[#064C32]">
-                      ₹{cust.totalSpent.toLocaleString('en-IN')}
+                      ₹{(cust.totalSpent || 0).toLocaleString('en-IN')}
                     </td>
                     <td className="p-4 text-[#666666]">
-                      {new Date(cust.lastOrderDate).toLocaleDateString('en-IN', {
-                        day: 'numeric',
-                        month: 'short',
-                        year: 'numeric',
-                      })}
+                      {cust.lastOrderDate ? (
+                        new Date(cust.lastOrderDate).toLocaleDateString('en-IN', {
+                          day: 'numeric',
+                          month: 'short',
+                          year: 'numeric',
+                        })
+                      ) : (
+                        <span className="text-gray-400 italic">No orders yet</span>
+                      )}
                     </td>
                   </tr>
                 ))

@@ -13,6 +13,7 @@ if (!fs.existsSync(DATA_DIR)) {
 
 const ORDERS_FILE = path.join(DATA_DIR, 'orders.json');
 const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
+const CUSTOMERS_FILE = path.join(DATA_DIR, 'customers.json');
 
 // Helper to safely read JSON file
 const readJsonFile = (filePath, fallback = []) => {
@@ -337,4 +338,61 @@ export const deleteProductFromFirebase = async (productId) => {
   writeJsonFile(PRODUCTS_FILE, updated);
   return true;
 };
+
+// ==================== CUSTOMER SERVICES ====================
+
+export const saveCustomerToFirebase = async (customerData) => {
+  const db = getFirestoreDb();
+  const id = customerData.id || `cust-${Date.now()}`;
+  const timestamp = new Date().toISOString();
+
+  const customerToSave = {
+    ...customerData,
+    id,
+    createdAt: customerData.createdAt || timestamp,
+    updatedAt: timestamp,
+  };
+
+  if (isFirebaseReady() && db) {
+    try {
+      await db.collection('customers').doc(id).set(customerToSave);
+      console.log(`[Firebase] Customer ${id} (${customerToSave.name}) saved to Firestore.`);
+    } catch (err) {
+      console.warn(`[Firebase] Error saving customer to Firestore:`, err.message);
+    }
+  }
+
+  // Update local file cache
+  const customers = readJsonFile(CUSTOMERS_FILE, []);
+  const filtered = customers.filter(
+    (c) => String(c.id) !== String(id) && (customerToSave.phone && c.phone !== customerToSave.phone)
+  );
+  const updated = [customerToSave, ...filtered];
+  writeJsonFile(CUSTOMERS_FILE, updated);
+
+  return customerToSave;
+};
+
+export const getCustomersFromFirebase = async () => {
+  const db = getFirestoreDb();
+
+  if (isFirebaseReady() && db) {
+    try {
+      const snapshot = await db.collection('customers').orderBy('createdAt', 'desc').get();
+      if (!snapshot.empty) {
+        const firestoreCustomers = [];
+        snapshot.forEach((doc) => {
+          firestoreCustomers.push({ id: doc.id, ...doc.data() });
+        });
+        writeJsonFile(CUSTOMERS_FILE, firestoreCustomers);
+        return firestoreCustomers;
+      }
+    } catch (err) {
+      console.warn('[Firebase] Error reading customers from Firestore:', err.message);
+    }
+  }
+
+  return readJsonFile(CUSTOMERS_FILE, []);
+};
+
 

@@ -32,6 +32,61 @@ export const syncOrderToBackend = async (orderPayload) => {
 };
 
 /**
+ * Fetch all orders from Backend / Firebase Firestore
+ */
+export const fetchOrdersFromBackend = async () => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/orders`);
+    if (res.ok) {
+      const data = await res.json();
+      if (data && Array.isArray(data.orders)) {
+        return data.orders;
+      }
+    }
+  } catch (err) {
+    console.warn('[API Service] Backend orders fetch unreachable, using local store:', err.message);
+  }
+  return null;
+};
+
+/**
+ * Sync customer to Backend / Firebase Firestore
+ */
+export const syncCustomerToBackend = async (customerData) => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/customers`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(customerData),
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    console.warn('[API Service] Customer backend sync skipped:', err.message);
+  }
+  return null;
+};
+
+/**
+ * Fetch all customers from Backend / Firebase Firestore
+ */
+export const fetchCustomersFromBackend = async () => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/customers`);
+    if (res.ok) {
+      const data = await res.json();
+      if (data && Array.isArray(data.customers)) {
+        return data.customers;
+      }
+    }
+  } catch (err) {
+    console.warn('[API Service] Backend customers fetch unreachable, using local store:', err.message);
+  }
+  return null;
+};
+
+/**
  * Fetch all products from Backend / Firebase Firestore
  */
 export const fetchProductsFromBackend = async () => {

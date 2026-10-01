@@ -17,6 +17,7 @@ import {
   downloadOrderInvoice,
   downloadOrderShippingLabel,
   exportOrdersAsCSV,
+  fetchOrdersFromBackend,
 } from '../services/apiService';
 import { useToast } from '../context/ToastContext';
 
@@ -29,8 +30,28 @@ const AdminOrders = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const { toast } = useToast();
 
-  const loadOrders = () => {
-    setOrders(storageService.getOrders());
+  const loadOrders = async () => {
+    // 1. Instant local load
+    const local = storageService.getOrders();
+    setOrders(local);
+
+    // 2. Fetch fresh orders from Firebase Firestore
+    try {
+      const remote = await fetchOrdersFromBackend();
+      if (remote && Array.isArray(remote) && remote.length > 0) {
+        const localMap = new Map(local.map((o) => [String(o.id), o]));
+        remote.forEach((r) => {
+          localMap.set(String(r.id), r);
+        });
+        const merged = Array.from(localMap.values()).sort(
+          (a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
+        );
+        setOrders(merged);
+        localStorage.setItem('biya_fashion_orders', JSON.stringify(merged));
+      }
+    } catch (err) {
+      console.warn('Orders sync skipped:', err.message);
+    }
   };
 
   useEffect(() => {

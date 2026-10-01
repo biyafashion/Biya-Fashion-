@@ -14,7 +14,7 @@ import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
 import { useCustomerAuth } from '../context/CustomerAuthContext';
 import * as storageService from '../services/storageService';
-import { syncOrderToBackend } from '../services/apiService';
+import { syncOrderToBackend, syncCustomerToBackend } from '../services/apiService';
 import STORE_CONFIG from '../config/storeConfig';
 
 const Checkout = () => {
@@ -143,10 +143,21 @@ const Checkout = () => {
       // Save locally so the customer can view their receipt & label
       storageService.createOrder(orderPayload);
 
-      // Save to Firebase DB ONLY for Cash on Delivery / standard orders
-      // For "Send to WhatsApp", order goes directly to WhatsApp without saving to DB
-      if (paymentMethod !== 'whatsapp') {
-        syncOrderToBackend(orderPayload);
+      // Save order to Firebase Firestore backend
+      syncOrderToBackend(orderPayload);
+
+      // Save customer record to Firebase Firestore
+      if (orderPayload.customer) {
+        syncCustomerToBackend({
+          id: orderPayload.customerId || `cust-${Date.now()}`,
+          name: orderPayload.customer.name,
+          phone: orderPayload.customer.phone,
+          email: orderPayload.customer.email,
+          address: orderPayload.customer.address,
+          city: orderPayload.customer.city,
+          state: orderPayload.customer.state,
+          pincode: orderPayload.customer.pincode,
+        });
       }
 
       clearCart();

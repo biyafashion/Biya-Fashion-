@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import * as storageService from '../services/storageService';
+import { syncCustomerToBackend } from '../services/apiService';
 import { useToast } from './ToastContext';
 
 const CustomerAuthContext = createContext(null);
@@ -39,6 +40,8 @@ export const CustomerAuthProvider = ({ children }) => {
       if (res.success) {
         setCustomer(res.customer);
         setIsAuthModalOpen(false);
+        // Sync to backend as well
+        syncCustomerToBackend(res.customer);
         toast.success(`Welcome back, ${res.customer.name}!`);
         return { success: true };
       } else {
@@ -55,6 +58,8 @@ export const CustomerAuthProvider = ({ children }) => {
       if (res.success) {
         setCustomer(res.customer);
         setIsAuthModalOpen(false);
+        // Persist to Firebase Firestore
+        syncCustomerToBackend(res.customer);
         toast.success(`Account created successfully! Welcome, ${res.customer.name}.`);
         return { success: true };
       } else {
@@ -76,6 +81,8 @@ export const CustomerAuthProvider = ({ children }) => {
       const updated = storageService.updateCustomerProfile(updates);
       if (updated) {
         setCustomer(updated);
+        // Persist updated address to Firebase Firestore
+        syncCustomerToBackend(updated);
         toast.success('Delivery address & profile updated.');
         return { success: true, customer: updated };
       }
