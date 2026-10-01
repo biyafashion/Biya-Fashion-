@@ -218,3 +218,123 @@ export const updateOrderStatusInFirebase = async (orderId, newStatus) => {
   writeJsonFile(ORDERS_FILE, updatedList);
   return updatedOrder;
 };
+
+// ==================== PRODUCT SERVICES ====================
+
+export const saveProductToFirebase = async (productData) => {
+  const db = getFirestoreDb();
+  const id = productData.id || `prod-${Date.now()}`;
+  const timestamp = new Date().toISOString();
+
+  const productToSave = {
+    ...productData,
+    id,
+    createdAt: productData.createdAt || timestamp,
+    updatedAt: timestamp,
+  };
+
+  if (isFirebaseReady() && db) {
+    try {
+      await db.collection('products').doc(id).set(productToSave);
+      console.log(`[Firebase] Product ${id} (${productToSave.name}) saved to Firestore.`);
+    } catch (err) {
+      console.warn(`[Firebase] Error saving product to Firestore:`, err.message);
+    }
+  }
+
+  // Update local file cache
+  const products = readJsonFile(PRODUCTS_FILE, []);
+  const filtered = products.filter((p) => String(p.id) !== String(id));
+  const updated = [productToSave, ...filtered];
+  writeJsonFile(PRODUCTS_FILE, updated);
+
+  return productToSave;
+};
+
+export const getProductsFromFirebase = async () => {
+  const db = getFirestoreDb();
+
+  if (isFirebaseReady() && db) {
+    try {
+      const snapshot = await db.collection('products').orderBy('createdAt', 'desc').get();
+      if (!snapshot.empty) {
+        const firestoreProducts = [];
+        snapshot.forEach((doc) => {
+          firestoreProducts.push({ id: doc.id, ...doc.data() });
+        });
+        writeJsonFile(PRODUCTS_FILE, firestoreProducts);
+        return firestoreProducts;
+      }
+    } catch (err) {
+      console.warn('[Firebase] Error reading products from Firestore:', err.message);
+    }
+  }
+
+  return readJsonFile(PRODUCTS_FILE, []);
+};
+
+export const getProductByIdFromFirebase = async (productId) => {
+  const db = getFirestoreDb();
+
+  if (isFirebaseReady() && db) {
+    try {
+      const doc = await db.collection('products').doc(productId).get();
+      if (doc.exists) {
+        return { id: doc.id, ...doc.data() };
+      }
+    } catch (err) {
+      console.warn(`[Firebase] Error fetching product ${productId} from Firestore:`, err.message);
+    }
+  }
+
+  const products = readJsonFile(PRODUCTS_FILE, []);
+  return products.find((p) => String(p.id) === String(productId)) || null;
+};
+
+export const updateProductInFirebase = async (productId, updatedFields) => {
+  const db = getFirestoreDb();
+  let updatedProduct = null;
+
+  if (isFirebaseReady() && db) {
+    try {
+      await db.collection('products').doc(productId).update({
+        ...updatedFields,
+        updatedAt: new Date().toISOString(),
+      });
+      console.log(`[Firebase] Product ${productId} updated in Firestore.`);
+    } catch (err) {
+      console.warn(`[Firebase] Error updating product in Firestore:`, err.message);
+    }
+  }
+
+  const products = readJsonFile(PRODUCTS_FILE, []);
+  const updatedList = products.map((p) => {
+    if (String(p.id) === String(productId)) {
+      updatedProduct = { ...p, ...updatedFields, updatedAt: new Date().toISOString() };
+      return updatedProduct;
+    }
+    return p;
+  });
+
+  writeJsonFile(PRODUCTS_FILE, updatedList);
+  return updatedProduct;
+};
+
+export const deleteProductFromFirebase = async (productId) => {
+  const db = getFirestoreDb();
+
+  if (isFirebaseReady() && db) {
+    try {
+      await db.collection('products').doc(productId).delete();
+      console.log(`[Firebase] Product ${productId} deleted from Firestore.`);
+    } catch (err) {
+      console.warn(`[Firebase] Error deleting product from Firestore:`, err.message);
+    }
+  }
+
+  const products = readJsonFile(PRODUCTS_FILE, []);
+  const updated = products.filter((p) => String(p.id) !== String(productId));
+  writeJsonFile(PRODUCTS_FILE, updated);
+  return true;
+};
+

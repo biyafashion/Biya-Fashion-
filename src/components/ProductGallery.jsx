@@ -46,6 +46,11 @@ const ProductGallery = ({ images = [], productName = 'Product Image' }) => {
               <img
                 src={img}
                 alt={`${productName} thumbnail ${idx + 1}`}
+                referrerPolicy="no-referrer"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=300';
+                }}
                 className="w-full h-full object-cover object-center"
               />
             </button>
@@ -64,6 +69,11 @@ const ProductGallery = ({ images = [], productName = 'Product Image' }) => {
           <img
             src={currentImg}
             alt={productName}
+            referrerPolicy="no-referrer"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800';
+            }}
             className={`w-full h-full object-cover object-center transition-transform duration-200 ${
               isZoomed ? 'scale-150' : 'scale-100'
             }`}

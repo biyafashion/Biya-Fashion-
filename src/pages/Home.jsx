@@ -21,7 +21,8 @@ import { useProducts } from '../context/ProductContext';
 import STORE_CONFIG from '../config/storeConfig';
 
 const Home = () => {
-  const { categories, newArrivals } = useProducts();
+  const { products, categories, newArrivals } = useProducts();
+  const showcaseProducts = newArrivals && newArrivals.length > 0 ? newArrivals : products;
 
   const reviews = [
     {
@@ -271,9 +272,9 @@ const Home = () => {
             </Link>
           </div>
 
-          {newArrivals.length > 0 ? (
+          {showcaseProducts.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-              {newArrivals.slice(0, 4).map((product, pIdx) => (
+              {showcaseProducts.slice(0, 8).map((product, pIdx) => (
                 <div key={product.id} data-aos="fade-up" data-aos-delay={pIdx * 100}>
                   <ProductCard product={product} />
                 </div>

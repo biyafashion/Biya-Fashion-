@@ -37,6 +37,11 @@ const ProductCard = ({ product }) => {
             src={primaryImage}
             alt={product.name}
             loading="lazy"
+            referrerPolicy="no-referrer"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=600';
+            }}
             className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
           />
           {/* Subtle Hover Secondary Image Crossfade if available */}
@@ -45,6 +50,11 @@ const ProductCard = ({ product }) => {
               src={secondaryImage}
               alt={`${product.name} alternate view`}
               loading="lazy"
+              referrerPolicy="no-referrer"
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = primaryImage;
+              }}
               className="absolute inset-0 w-full h-full object-cover object-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out"
             />
           )}

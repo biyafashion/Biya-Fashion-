@@ -83,16 +83,21 @@ export const normalizeGoogleDriveUrl = (url) => {
   // Pattern 1: /file/d/FILE_ID
   const matchFileD = trimmed.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/i);
   if (matchFileD && matchFileD[1]) {
-    return `https://lh3.googleusercontent.com/d/${matchFileD[1]}`;
+    return `https://drive.google.com/thumbnail?id=${matchFileD[1]}&sz=w1200`;
   }
 
   // Pattern 2: id=FILE_ID
   const matchId = trimmed.match(/[?&]id=([a-zA-Z0-9_-]+)/i);
-  if (matchId && matchId[1] && trimmed.includes('drive.google.com')) {
-    return `https://lh3.googleusercontent.com/d/${matchId[1]}`;
+  if (matchId && matchId[1] && (trimmed.includes('drive.google.com') || trimmed.includes('googleusercontent.com'))) {
+    return `https://drive.google.com/thumbnail?id=${matchId[1]}&sz=w1200`;
   }
 
-  // Pattern 3: already direct lh3.googleusercontent.com link
+  // Pattern 3: lh3.googleusercontent.com/d/FILE_ID
+  const matchLh3 = trimmed.match(/lh3\.googleusercontent\.com\/d\/([a-zA-Z0-9_-]+)/i);
+  if (matchLh3 && matchLh3[1]) {
+    return `https://drive.google.com/thumbnail?id=${matchLh3[1]}&sz=w1200`;
+  }
+
   return trimmed;
 };
 

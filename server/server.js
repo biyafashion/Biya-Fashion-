@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import orderRoutes from './routes/orderRoutes.js';
+import productRoutes from './routes/productRoutes.js';
 import { isFirebaseReady } from './config/firebase.js';
 
 dotenv.config();
@@ -32,6 +33,7 @@ app.get('/api/health', (req, res) => {
 
 // Mount Routes
 app.use('/api/orders', orderRoutes);
+app.use('/api/products', productRoutes);
 
 // 404 Handler
 app.use((req, res) => {

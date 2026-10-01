@@ -102,6 +102,12 @@ export const clearAllProducts = () => {
   return true;
 };
 
+export const setProductsCache = (products) => {
+  if (Array.isArray(products)) {
+    safeSet(KEYS.PRODUCTS, products);
+  }
+};
+
 export const getProducts = () => {
   initializeStorage();
   const prods = safeGet(KEYS.PRODUCTS, []);

@@ -1,5 +1,11 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import * as storageService from '../services/storageService';
+import {
+  fetchProductsFromBackend,
+  createProductOnBackend,
+  updateProductOnBackend,
+  deleteProductOnBackend,
+} from '../services/apiService';
 import { useToast } from './ToastContext';
 
 const ProductContext = createContext(null);
@@ -10,21 +16,28 @@ export const ProductProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
-  // Load initial products and categories from storage service
-  const loadData = useCallback(() => {
+  // Load products from storage service and sync with Backend / Firebase Firestore
+  const loadData = useCallback(async () => {
     try {
       setLoading(true);
-      const prods = storageService.getProducts();
+      // 1. Instant load from local storage
+      const localProds = storageService.getProducts();
       const cats = storageService.getCategories();
-      setProducts(prods);
+      setProducts(localProds);
       setCategories(cats);
+
+      // 2. Fetch fresh catalog from Backend & Firebase
+      const remoteProds = await fetchProductsFromBackend();
+      if (remoteProds && Array.isArray(remoteProds) && remoteProds.length > 0) {
+        setProducts(remoteProds);
+        storageService.setProductsCache(remoteProds);
+      }
     } catch (err) {
-      console.error('Failed to load products/categories:', err);
-      toast.error('Failed to load product data.');
+      console.warn('Backend products sync skipped, using local store:', err.message);
     } finally {
       setLoading(false);
     }
-  }, [toast]);
+  }, []);
 
   useEffect(() => {
     loadData();
@@ -33,7 +46,9 @@ export const ProductProvider = ({ children }) => {
   // Product CRUD
   const handleAddProduct = useCallback((productData) => {
     const created = storageService.addProduct(productData);
-    setProducts((prev) => [created, ...prev]);
+    setProducts((prev) => [created, ...prev.filter((p) => String(p.id) !== String(created.id))]);
+    // Save to Firebase backend
+    createProductOnBackend(created);
     toast.success(`"${created.name}" added successfully.`);
     return created;
   }, [toast]);
@@ -42,6 +57,7 @@ export const ProductProvider = ({ children }) => {
     const updated = storageService.updateProduct(id, updatedFields);
     if (updated) {
       setProducts((prev) => prev.map((p) => (String(p.id) === String(id) ? updated : p)));
+      updateProductOnBackend(id, updatedFields);
       toast.success(`"${updated.name}" updated successfully.`);
     }
     return updated;
@@ -52,6 +68,7 @@ export const ProductProvider = ({ children }) => {
     const success = storageService.deleteProduct(id);
     if (success) {
       setProducts((prev) => prev.filter((p) => String(p.id) !== String(id)));
+      deleteProductOnBackend(id);
       toast.success(`"${prod?.name || 'Product'}" deleted successfully.`);
     }
     return success;
