@@ -5,6 +5,7 @@ import Footer from '../components/Footer';
 import CartDrawer from '../components/CartDrawer';
 import Toast from '../components/Toast';
 import CustomerAuthModal from '../components/CustomerAuthModal';
+import BiyaChatBot from '../components/BiyaChatBot';
 
 const MainLayout = () => {
   const { pathname } = useLocation();
@@ -22,6 +23,7 @@ const MainLayout = () => {
         <Outlet />
       </main>
       <CartDrawer />
+      <BiyaChatBot />
       <Footer />
     </div>
   );
