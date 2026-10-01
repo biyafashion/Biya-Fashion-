@@ -8,8 +8,16 @@ import {
   MapPin,
   Phone,
   Mail,
+  FileText,
+  Printer,
+  FileSpreadsheet,
 } from 'lucide-react';
 import * as storageService from '../services/storageService';
+import {
+  downloadOrderInvoice,
+  downloadOrderShippingLabel,
+  exportOrdersAsCSV,
+} from '../services/apiService';
 import { useToast } from '../context/ToastContext';
 
 const STATUSES = ['Pending', 'Confirmed', 'Packed', 'Shipped', 'Delivered', 'Cancelled'];
@@ -37,6 +45,36 @@ const AdminOrders = () => {
         setSelectedOrder(updated);
       }
       toast.success(`Order ${orderId} marked as ${newStatus}.`);
+    }
+  };
+
+  const handleExportCSV = async () => {
+    toast.info('Exporting orders CSV...');
+    const result = await exportOrdersAsCSV(orders);
+    if (result.success) {
+      toast.success('Orders CSV exported successfully!');
+    } else {
+      toast.error('Failed to export orders CSV.');
+    }
+  };
+
+  const handleDownloadInvoice = async (order) => {
+    toast.info(`Preparing Tax Invoice for ${order.id}...`);
+    const result = await downloadOrderInvoice(order);
+    if (result.success) {
+      toast.success(result.mode === 'print' ? 'Invoice opened for printing/PDF.' : 'Tax invoice PDF downloaded!');
+    } else {
+      toast.error('Could not download invoice.');
+    }
+  };
+
+  const handleDownloadShippingLabel = async (order) => {
+    toast.info(`Preparing Shipping Label for ${order.id}...`);
+    const result = await downloadOrderShippingLabel(order);
+    if (result.success) {
+      toast.success(result.mode === 'print' ? 'Shipping label opened for printing.' : 'Shipping label PDF downloaded!');
+    } else {
+      toast.error('Could not download shipping label.');
     }
   };
 
@@ -87,8 +125,20 @@ const AdminOrders = () => {
           </p>
         </div>
 
-        <div className="text-xs font-bold text-[#064C32] bg-[#064C32]/10 px-3.5 py-2 rounded-xl">
-          Total Orders: {orders.length}
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={handleExportCSV}
+            className="flex items-center gap-2 text-xs font-bold bg-[#064C32] hover:bg-[#033B27] text-white px-3.5 py-2 rounded-xl shadow-sm transition"
+            title="Download complete orders list as CSV"
+          >
+            <FileSpreadsheet className="w-4 h-4 text-[#F3D477]" />
+            <span>Export CSV</span>
+          </button>
+
+          <div className="text-xs font-bold text-[#064C32] bg-[#064C32]/10 px-3.5 py-2 rounded-xl">
+            Total Orders: {orders.length}
+          </div>
         </div>
       </div>
 
@@ -136,7 +186,7 @@ const AdminOrders = () => {
                 <th className="p-4">Total</th>
                 <th className="p-4">Payment</th>
                 <th className="p-4">Status</th>
-                <th className="p-4 text-right">View</th>
+                <th className="p-4 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#E5E5E5]">
@@ -181,14 +231,32 @@ const AdminOrders = () => {
                       </select>
                     </td>
                     <td className="p-4 text-right">
-                      <button
-                        type="button"
-                        onClick={() => setSelectedOrder(ord)}
-                        className="p-1.5 rounded-lg text-gray-500 hover:text-[#064C32] hover:bg-gray-100 transition"
-                        title="View Order Details"
-                      >
-                        <Eye className="w-4 h-4" />
-                      </button>
+                      <div className="flex items-center justify-end gap-1.5">
+                        <button
+                          type="button"
+                          onClick={() => handleDownloadInvoice(ord)}
+                          className="p-1.5 rounded-lg text-[#064C32] bg-[#064C32]/5 hover:bg-[#064C32]/15 transition"
+                          title="Download Tax Invoice (PDF)"
+                        >
+                          <FileText className="w-4 h-4" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDownloadShippingLabel(ord)}
+                          className="p-1.5 rounded-lg text-[#064C32] bg-[#064C32]/5 hover:bg-[#064C32]/15 transition"
+                          title="Download Shipping Label (PDF)"
+                        >
+                          <Printer className="w-4 h-4" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setSelectedOrder(ord)}
+                          className="p-1.5 rounded-lg text-gray-500 hover:text-[#064C32] hover:bg-gray-100 transition"
+                          title="View Order Details"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -318,11 +386,36 @@ const AdminOrders = () => {
               </div>
             </div>
 
+            {/* Document Generation & Downloads */}
+            <div className="mt-6 pt-4 border-t border-[#E5E5E5] space-y-2">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#666666] block">
+                Official Documents & Dispatch
+              </span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleDownloadInvoice(selectedOrder)}
+                  className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-white border border-[#E5E5E5] hover:border-[#064C32] hover:bg-[#064C32]/5 text-xs font-bold text-[#111111] transition shadow-sm"
+                >
+                  <FileText className="w-4 h-4 text-[#064C32]" />
+                  <span>Download Tax Invoice (PDF)</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleDownloadShippingLabel(selectedOrder)}
+                  className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-white border border-[#E5E5E5] hover:border-[#064C32] hover:bg-[#064C32]/5 text-xs font-bold text-[#111111] transition shadow-sm"
+                >
+                  <Printer className="w-4 h-4 text-[#064C32]" />
+                  <span>Print Shipping Label (PDF)</span>
+                </button>
+              </div>
+            </div>
+
             <div className="mt-6 flex justify-end">
               <button
                 type="button"
                 onClick={() => setSelectedOrder(null)}
-                className="px-6 py-2.5 bg-[#064C32] text-white text-xs font-bold uppercase tracking-wider rounded-xl"
+                className="px-6 py-2.5 bg-[#064C32] hover:bg-[#033B27] text-white text-xs font-bold uppercase tracking-wider rounded-xl transition"
               >
                 Close
               </button>

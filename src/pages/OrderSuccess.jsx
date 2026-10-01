@@ -1,22 +1,42 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import {
   CheckCircle2,
   MessageCircle,
   ArrowRight,
   MapPin,
+  FileText,
+  Printer,
+  Download,
 } from 'lucide-react';
 import * as storageService from '../services/storageService';
+import {
+  downloadOrderInvoice,
+  downloadOrderShippingLabel,
+} from '../services/apiService';
 import STORE_CONFIG from '../config/storeConfig';
 
 const OrderSuccess = () => {
   const [searchParams] = useSearchParams();
   const orderId = searchParams.get('id');
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const order = useMemo(() => {
     if (!orderId) return null;
     return storageService.getOrderById(orderId);
   }, [orderId]);
+
+  const handleDownloadInvoice = async () => {
+    if (!order) return;
+    setIsDownloading(true);
+    await downloadOrderInvoice(order);
+    setIsDownloading(false);
+  };
+
+  const handleDownloadLabel = async () => {
+    if (!order) return;
+    await downloadOrderShippingLabel(order);
+  };
 
   const handleWhatsAppShare = () => {
     if (!order) return;
@@ -137,6 +157,33 @@ const OrderSuccess = () => {
               <div className="flex justify-between text-base font-bold text-[#111111] pt-2 border-t border-[#E5E5E5]">
                 <span>Grand Total</span>
                 <span className="text-[#064C32]">₹{order.total?.toLocaleString('en-IN')}</span>
+              </div>
+            </div>
+
+            {/* Document Download Buttons */}
+            <div className="pt-4 border-t border-[#E5E5E5] space-y-2">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#666666] block">
+                Official Order Documents
+              </span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  onClick={handleDownloadInvoice}
+                  disabled={isDownloading}
+                  className="py-3 px-4 rounded-xl bg-white border border-[#E5E5E5] hover:border-[#064C32] hover:bg-[#064C32]/5 text-[#111111] text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm transition"
+                >
+                  <FileText className="w-4 h-4 text-[#064C32]" />
+                  <span>{isDownloading ? 'Generating...' : 'Download Tax Invoice (PDF)'}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleDownloadLabel}
+                  className="py-3 px-4 rounded-xl bg-white border border-[#E5E5E5] hover:border-[#064C32] hover:bg-[#064C32]/5 text-[#111111] text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm transition"
+                >
+                  <Printer className="w-4 h-4 text-[#064C32]" />
+                  <span>Print Shipping Label</span>
+                </button>
               </div>
             </div>
 

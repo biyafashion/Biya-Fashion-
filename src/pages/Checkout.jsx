@@ -11,6 +11,7 @@ import {
 import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
 import * as storageService from '../services/storageService';
+import { syncOrderToBackend } from '../services/apiService';
 import STORE_CONFIG from '../config/storeConfig';
 
 const Checkout = () => {
@@ -106,6 +107,10 @@ const Checkout = () => {
 
       // Save to localStorage
       storageService.createOrder(orderPayload);
+
+      // Async sync to Express & Firebase backend (does not block UI)
+      syncOrderToBackend(orderPayload);
+
       clearCart();
       toast.success(`Order ${orderId} placed successfully!`);
 

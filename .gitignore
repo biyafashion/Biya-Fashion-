@@ -17,8 +17,14 @@ dist-ssr
 !.vscode/extensions.json
 .idea
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
 *.sw?
+
+# Environment & Credentials
+.env
+.env.*
+server/.env
+server/.env.*
+serviceAccountKey.json
+server/config/serviceAccountKey.json
+server/data/*.json
+!server/data/.gitkeep
