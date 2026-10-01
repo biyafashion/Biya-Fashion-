@@ -3,6 +3,8 @@ import {
   getOrdersFromFirebase,
   getOrderByIdFromFirebase,
   updateOrderStatusInFirebase,
+  updateOrderInFirebase,
+  deleteOrderFromFirebase,
 } from '../services/firebaseService.js';
 import { generateInvoicePDF, generateShippingLabelPDF } from '../services/pdfService.js';
 
@@ -71,6 +73,34 @@ export const updateOrderStatus = async (req, res) => {
     res.status(500).json({ error: 'Failed to update order status.' });
   }
 };
+
+// PUT /api/orders/:id
+export const updateOrder = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updated = await updateOrderInFirebase(id, req.body);
+    if (!updated) {
+      return res.status(404).json({ error: 'Order not found.' });
+    }
+    res.json({ success: true, order: updated });
+  } catch (error) {
+    console.error('Error updating order:', error);
+    res.status(500).json({ error: 'Failed to update order.' });
+  }
+};
+
+// DELETE /api/orders/:id
+export const deleteOrder = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await deleteOrderFromFirebase(id);
+    res.json({ success: true, message: `Order ${id} deleted successfully.` });
+  } catch (error) {
+    console.error('Error deleting order:', error);
+    res.status(500).json({ error: 'Failed to delete order.' });
+  }
+};
+
 
 // GET /api/orders/export/csv
 export const exportOrdersCSV = async (req, res) => {

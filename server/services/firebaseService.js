@@ -223,6 +223,54 @@ export const updateOrderStatusInFirebase = async (orderId, newStatus) => {
   return updatedOrder;
 };
 
+export const updateOrderInFirebase = async (orderId, updatedFields) => {
+  const db = getFirestoreDb();
+  let updatedOrder = null;
+
+  if (isFirebaseReady() && db) {
+    try {
+      await db.collection('orders').doc(orderId).update({
+        ...updatedFields,
+        updatedAt: new Date().toISOString(),
+      });
+      console.log(`[Firebase] Order ${orderId} updated in Firestore.`);
+    } catch (err) {
+      console.warn(`[Firebase] Error updating order in Firestore:`, err.message);
+    }
+  }
+
+  const orders = readJsonFile(ORDERS_FILE, initialOrders);
+  const updatedList = orders.map((o) => {
+    if (String(o.id) === String(orderId)) {
+      updatedOrder = { ...o, ...updatedFields, updatedAt: new Date().toISOString() };
+      return updatedOrder;
+    }
+    return o;
+  });
+
+  writeJsonFile(ORDERS_FILE, updatedList);
+  return updatedOrder;
+};
+
+export const deleteOrderFromFirebase = async (orderId) => {
+  const db = getFirestoreDb();
+
+  if (isFirebaseReady() && db) {
+    try {
+      await db.collection('orders').doc(orderId).delete();
+      console.log(`[Firebase] Order ${orderId} deleted from Firestore.`);
+    } catch (err) {
+      console.warn(`[Firebase] Error deleting order from Firestore:`, err.message);
+    }
+  }
+
+  const orders = readJsonFile(ORDERS_FILE, initialOrders);
+  const filtered = orders.filter((o) => String(o.id) !== String(orderId));
+  writeJsonFile(ORDERS_FILE, filtered);
+  return true;
+};
+
+
 // ==================== PRODUCT SERVICES ====================
 
 export const saveProductToFirebase = async (productData) => {
@@ -402,6 +450,53 @@ export const getCustomersFromFirebase = async () => {
   }
 
   return readJsonFile(CUSTOMERS_FILE, []);
+};
+
+export const updateCustomerInFirebase = async (customerId, updatedFields) => {
+  const db = getFirestoreDb();
+  let updatedCust = null;
+
+  if (isFirebaseReady() && db) {
+    try {
+      await db.collection('customers').doc(customerId).update({
+        ...updatedFields,
+        updatedAt: new Date().toISOString(),
+      });
+      console.log(`[Firebase] Customer ${customerId} updated in Firestore.`);
+    } catch (err) {
+      console.warn(`[Firebase] Error updating customer in Firestore:`, err.message);
+    }
+  }
+
+  const customers = readJsonFile(CUSTOMERS_FILE, []);
+  const updatedList = customers.map((c) => {
+    if (String(c.id) === String(customerId)) {
+      updatedCust = { ...c, ...updatedFields, updatedAt: new Date().toISOString() };
+      return updatedCust;
+    }
+    return c;
+  });
+
+  writeJsonFile(CUSTOMERS_FILE, updatedList);
+  return updatedCust;
+};
+
+export const deleteCustomerFromFirebase = async (customerId) => {
+  const db = getFirestoreDb();
+
+  if (isFirebaseReady() && db) {
+    try {
+      await db.collection('customers').doc(customerId).delete();
+      console.log(`[Firebase] Customer ${customerId} deleted from Firestore.`);
+    } catch (err) {
+      console.warn(`[Firebase] Error deleting customer from Firestore:`, err.message);
+    }
+  }
+
+  const customers = readJsonFile(CUSTOMERS_FILE, []);
+  const filtered = customers.filter((c) => String(c.id) !== String(customerId));
+  writeJsonFile(CUSTOMERS_FILE, filtered);
+  return true;
 };
 
 

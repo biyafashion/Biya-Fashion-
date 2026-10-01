@@ -299,6 +299,13 @@ export const updateOrder = (id, updatedFields) => {
   return updatedOrder;
 };
 
+export const deleteOrder = (id) => {
+  const orders = getOrders();
+  const filtered = orders.filter((o) => String(o.id) !== String(id));
+  safeSet(KEYS.ORDERS, filtered);
+  return true;
+};
+
 export const getOrderById = (id) => {
   const orders = getOrders();
   return orders.find((o) => String(o.id) === String(id)) || null;
@@ -490,6 +497,27 @@ export const logoutCustomer = () => {
   } catch {
     return false;
   }
+};
+
+export const updateCustomer = (id, updates) => {
+  const accounts = getCustomerAccounts();
+  let updatedCust = null;
+  const updatedAccounts = accounts.map((acc) => {
+    if (String(acc.id) === String(id) || (acc.phone && updates.phone && acc.phone === updates.phone)) {
+      updatedCust = { ...acc, ...updates };
+      return updatedCust;
+    }
+    return acc;
+  });
+  safeSet(KEYS.CUSTOMER_ACCOUNTS, updatedAccounts);
+  return updatedCust;
+};
+
+export const deleteCustomer = (id) => {
+  const accounts = getCustomerAccounts();
+  const filtered = accounts.filter((acc) => String(acc.id) !== String(id));
+  safeSet(KEYS.CUSTOMER_ACCOUNTS, filtered);
+  return true;
 };
 
 export const getCustomerOrders = (customer) => {

@@ -13,23 +13,30 @@ import {
   Minus,
   Plus,
   Ruler,
+  Edit2,
+  Trash2,
+  Shield,
 } from 'lucide-react';
 import ProductGallery from '../components/ProductGallery';
 import ProductCard from '../components/ProductCard';
 import EmptyState from '../components/EmptyState';
+import ConfirmModal from '../components/ConfirmModal';
 import { useProducts } from '../context/ProductContext';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
+import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import STORE_CONFIG from '../config/storeConfig';
 
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { products } = useProducts();
+  const { products, deleteProduct } = useProducts();
   const { addToCart, openCart } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
+  const { isAuthenticated } = useAuth();
   const { toast } = useToast();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const product = useMemo(() => {
     return products.find((p) => String(p.id) === String(id));
@@ -107,9 +114,47 @@ const ProductDetails = () => {
     setTimeout(() => setIsCopied(false), 2000);
   };
 
+  const handleDeleteProduct = () => {
+    if (product) {
+      deleteProduct(product.id);
+      setShowDeleteModal(false);
+      navigate('/shop');
+    }
+  };
+
   return (
     <div className="bg-white min-h-screen py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Admin Quick Action Bar */}
+        {isAuthenticated && (
+          <div className="mb-6 p-4 rounded-2xl bg-[#064C32]/5 border border-[#064C32]/20 flex items-center justify-between flex-wrap gap-3 shadow-sm">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span className="text-xs font-bold text-[#064C32] uppercase tracking-wider">
+                👑 Admin Controls Active (Storefront Management)
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => navigate(`/admin/products/edit/${product.id}`)}
+                className="px-3.5 py-1.5 rounded-xl bg-white border border-[#E5E5E5] hover:border-[#064C32] text-xs font-bold text-[#111111] transition flex items-center gap-1.5 shadow-sm"
+              >
+                <Edit2 className="w-3.5 h-3.5 text-[#064C32]" />
+                <span>Edit Product</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowDeleteModal(true)}
+                className="px-3.5 py-1.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-sm"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>Delete Product</span>
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Breadcrumb Navigation */}
         <nav className="flex items-center gap-2 text-xs text-[#666666] mb-8 uppercase tracking-wider">
           <Link to="/" className="hover:text-[#064C32]">Home</Link>
@@ -486,6 +531,18 @@ const ProductDetails = () => {
           </div>
         )}
       </div>
+
+      {/* Delete Confirmation Modal */}
+      <ConfirmModal
+        isOpen={showDeleteModal}
+        title="Delete Product"
+        message={`Are you sure you want to delete "${product?.name}"? It will be permanently deleted from your catalog and Firebase Firestore.`}
+        confirmText="Delete Product"
+        cancelText="Cancel"
+        isDestructive={true}
+        onConfirm={handleDeleteProduct}
+        onCancel={() => setShowDeleteModal(false)}
+      />
     </div>
   );
 };

@@ -65,6 +65,41 @@ export const updateOrderStatusOnBackend = async (orderId, newStatus) => {
   } catch (err) {
     console.warn('[API Service] Backend status update failed, using local store:', err.message);
   }
+};
+
+/**
+ * Update order on Backend / Firebase Firestore
+ */
+export const updateOrderOnBackend = async (orderId, updatedFields) => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/orders/${orderId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedFields),
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    console.warn('[API Service] Backend order update failed:', err.message);
+  }
+  return null;
+};
+
+/**
+ * Delete order from Backend / Firebase Firestore
+ */
+export const deleteOrderOnBackend = async (orderId) => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/orders/${orderId}`, {
+      method: 'DELETE',
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    console.warn('[API Service] Backend order delete failed:', err.message);
+  }
   return null;
 };
 
@@ -102,6 +137,42 @@ export const fetchCustomersFromBackend = async () => {
     }
   } catch (err) {
     console.warn('[API Service] Backend customers fetch unreachable, using local store:', err.message);
+  }
+  return null;
+};
+
+/**
+ * Update customer on Backend / Firebase Firestore
+ */
+export const updateCustomerOnBackend = async (customerId, updatedFields) => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/customers/${customerId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedFields),
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    console.warn('[API Service] Backend customer update failed:', err.message);
+  }
+  return null;
+};
+
+/**
+ * Delete customer from Backend / Firebase Firestore
+ */
+export const deleteCustomerOnBackend = async (customerId) => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/customers/${customerId}`, {
+      method: 'DELETE',
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    console.warn('[API Service] Backend customer delete failed:', err.message);
   }
   return null;
 };

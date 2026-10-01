@@ -11,6 +11,9 @@ import {
   FileText,
   Printer,
   FileSpreadsheet,
+  Edit2,
+  Trash2,
+  Save,
 } from 'lucide-react';
 import * as storageService from '../services/storageService';
 import {
@@ -20,8 +23,11 @@ import {
   fetchOrdersFromBackend,
   updateOrderStatusOnBackend,
   syncOrderToBackend,
+  updateOrderOnBackend,
+  deleteOrderOnBackend,
 } from '../services/apiService';
 import { useToast } from '../context/ToastContext';
+import ConfirmModal from '../components/ConfirmModal';
 
 const STATUSES = ['Pending', 'Confirmed', 'Packed', 'Shipped', 'Delivered', 'Cancelled'];
 
@@ -30,6 +36,10 @@ const AdminOrders = () => {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [editingOrder, setEditingOrder] = useState(null);
+  const [editOrderData, setEditOrderData] = useState({});
+  const [orderToDelete, setOrderToDelete] = useState(null);
+  const [isSavingOrder, setIsSavingOrder] = useState(false);
   const { toast } = useToast();
 
   const loadOrders = async () => {
@@ -80,6 +90,74 @@ const AdminOrders = () => {
         setSelectedOrder(updated);
       }
       toast.success(`Order ${orderId} marked as ${newStatus}.`);
+    }
+  };
+
+  const handleOpenEditOrder = (order) => {
+    setEditingOrder(order);
+    setEditOrderData({
+      status: order.status || 'Pending',
+      customerName: order.customer?.name || '',
+      customerPhone: order.customer?.phone || '',
+      customerEmail: order.customer?.email || '',
+      address: order.customer?.address || '',
+      city: order.customer?.city || '',
+      state: order.customer?.state || 'Tamil Nadu',
+      pincode: order.customer?.pincode || '',
+      notes: order.customer?.notes || '',
+    });
+  };
+
+  const handleSaveOrderEdit = async (e) => {
+    e.preventDefault();
+    if (!editingOrder) return;
+    setIsSavingOrder(true);
+    try {
+      const updatedPayload = {
+        ...editingOrder,
+        status: editOrderData.status,
+        customer: {
+          ...editingOrder.customer,
+          name: editOrderData.customerName,
+          phone: editOrderData.customerPhone,
+          email: editOrderData.customerEmail,
+          address: editOrderData.address,
+          city: editOrderData.city,
+          state: editOrderData.state,
+          pincode: editOrderData.pincode,
+          notes: editOrderData.notes,
+        },
+      };
+      storageService.updateOrder(editingOrder.id, updatedPayload);
+      await updateOrderOnBackend(editingOrder.id, updatedPayload);
+      await loadOrders();
+      if (selectedOrder && selectedOrder.id === editingOrder.id) {
+        setSelectedOrder(updatedPayload);
+      }
+      toast.success(`Order ${editingOrder.id} updated successfully.`);
+      setEditingOrder(null);
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to update order.');
+    } finally {
+      setIsSavingOrder(false);
+    }
+  };
+
+  const handleConfirmDeleteOrder = async () => {
+    if (!orderToDelete) return;
+    try {
+      storageService.deleteOrder(orderToDelete.id);
+      await deleteOrderOnBackend(orderToDelete.id);
+      await loadOrders();
+      if (selectedOrder && selectedOrder.id === orderToDelete.id) {
+        setSelectedOrder(null);
+      }
+      toast.success(`Order ${orderToDelete.id} deleted successfully.`);
+      setOrderToDelete(null);
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to delete order.');
     }
   };
 
@@ -291,6 +369,22 @@ const AdminOrders = () => {
                         >
                           <Eye className="w-4 h-4" />
                         </button>
+                        <button
+                          type="button"
+                          onClick={() => handleOpenEditOrder(ord)}
+                          className="p-1.5 rounded-lg text-gray-500 hover:text-[#064C32] hover:bg-gray-100 transition"
+                          title="Edit Order"
+                        >
+                          <Edit2 className="w-4 h-4" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setOrderToDelete(ord)}
+                          className="p-1.5 rounded-lg text-gray-500 hover:text-red-600 hover:bg-red-50 transition"
+                          title="Delete Order"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -446,11 +540,29 @@ const AdminOrders = () => {
               </div>
             </div>
 
-            <div className="mt-6 flex justify-end">
+            <div className="mt-6 flex items-center justify-between border-t border-[#E5E5E5] pt-4 flex-wrap gap-3">
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleOpenEditOrder(selectedOrder)}
+                  className="px-3.5 py-2 border border-[#E5E5E5] hover:border-[#064C32] hover:bg-[#064C32]/5 text-xs font-bold text-[#111111] rounded-xl transition flex items-center gap-1.5 shadow-sm"
+                >
+                  <Edit2 className="w-3.5 h-3.5 text-[#064C32]" />
+                  <span>Edit Order</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setOrderToDelete(selectedOrder)}
+                  className="px-3.5 py-2 border border-red-200 hover:bg-red-50 text-xs font-bold text-red-600 rounded-xl transition flex items-center gap-1.5 shadow-sm"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  <span>Delete Order</span>
+                </button>
+              </div>
               <button
                 type="button"
                 onClick={() => setSelectedOrder(null)}
-                className="px-6 py-2.5 bg-[#064C32] hover:bg-[#033B27] text-white text-xs font-bold uppercase tracking-wider rounded-xl transition"
+                className="px-6 py-2 bg-[#064C32] hover:bg-[#033B27] text-white text-xs font-bold uppercase tracking-wider rounded-xl transition shadow-sm"
               >
                 Close
               </button>
@@ -458,6 +570,178 @@ const AdminOrders = () => {
           </div>
         </div>
       )}
+
+      {/* Edit Order Modal */}
+      {editingOrder && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fadeIn">
+          <div
+            className="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border border-[#E5E5E5] relative max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setEditingOrder(null)}
+              className="absolute top-5 right-5 p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="flex items-center gap-2 pb-4 mb-6 border-b border-[#E5E5E5]">
+              <Edit2 className="w-5 h-5 text-[#064C32]" />
+              <h2 className="font-serif font-bold text-xl text-[#111111]">
+                Edit Order: {editingOrder.id}
+              </h2>
+            </div>
+
+            <form onSubmit={handleSaveOrderEdit} className="space-y-4 text-xs">
+              <div>
+                <label className="block font-bold text-[#111111] uppercase tracking-wider mb-1">
+                  Order Status
+                </label>
+                <select
+                  value={editOrderData.status}
+                  onChange={(e) => setEditOrderData({ ...editOrderData, status: e.target.value })}
+                  className="w-full px-3 py-2 bg-[#F8F8F8] border border-[#E5E5E5] rounded-xl text-xs text-[#111111] focus:outline-none focus:border-[#064C32] font-bold"
+                >
+                  {STATUSES.map((st) => (
+                    <option key={st} value={st}>{st}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-[#111111] uppercase tracking-wider mb-1">
+                    Customer Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={editOrderData.customerName}
+                    onChange={(e) => setEditOrderData({ ...editOrderData, customerName: e.target.value })}
+                    className="w-full px-3 py-2 bg-[#F8F8F8] border border-[#E5E5E5] rounded-xl text-xs text-[#111111] focus:outline-none focus:border-[#064C32]"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold text-[#111111] uppercase tracking-wider mb-1">
+                    Customer Mobile *
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    value={editOrderData.customerPhone}
+                    onChange={(e) => setEditOrderData({ ...editOrderData, customerPhone: e.target.value })}
+                    className="w-full px-3 py-2 bg-[#F8F8F8] border border-[#E5E5E5] rounded-xl text-xs text-[#111111] focus:outline-none focus:border-[#064C32]"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-bold text-[#111111] uppercase tracking-wider mb-1">
+                  Customer Email
+                </label>
+                <input
+                  type="email"
+                  value={editOrderData.customerEmail}
+                  onChange={(e) => setEditOrderData({ ...editOrderData, customerEmail: e.target.value })}
+                  className="w-full px-3 py-2 bg-[#F8F8F8] border border-[#E5E5E5] rounded-xl text-xs text-[#111111] focus:outline-none focus:border-[#064C32]"
+                />
+              </div>
+
+              <div>
+                <label className="block font-bold text-[#111111] uppercase tracking-wider mb-1">
+                  Delivery Address *
+                </label>
+                <textarea
+                  rows={2}
+                  required
+                  value={editOrderData.address}
+                  onChange={(e) => setEditOrderData({ ...editOrderData, address: e.target.value })}
+                  className="w-full px-3 py-2 bg-[#F8F8F8] border border-[#E5E5E5] rounded-xl text-xs text-[#111111] focus:outline-none focus:border-[#064C32]"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label className="block font-bold text-[#111111] uppercase tracking-wider mb-1">
+                    City
+                  </label>
+                  <input
+                    type="text"
+                    value={editOrderData.city}
+                    onChange={(e) => setEditOrderData({ ...editOrderData, city: e.target.value })}
+                    className="w-full px-3 py-2 bg-[#F8F8F8] border border-[#E5E5E5] rounded-xl text-xs text-[#111111] focus:outline-none focus:border-[#064C32]"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold text-[#111111] uppercase tracking-wider mb-1">
+                    State
+                  </label>
+                  <input
+                    type="text"
+                    value={editOrderData.state}
+                    onChange={(e) => setEditOrderData({ ...editOrderData, state: e.target.value })}
+                    className="w-full px-3 py-2 bg-[#F8F8F8] border border-[#E5E5E5] rounded-xl text-xs text-[#111111] focus:outline-none focus:border-[#064C32]"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold text-[#111111] uppercase tracking-wider mb-1">
+                    Pincode
+                  </label>
+                  <input
+                    type="text"
+                    value={editOrderData.pincode}
+                    onChange={(e) => setEditOrderData({ ...editOrderData, pincode: e.target.value })}
+                    className="w-full px-3 py-2 bg-[#F8F8F8] border border-[#E5E5E5] rounded-xl text-xs text-[#111111] focus:outline-none focus:border-[#064C32]"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-bold text-[#111111] uppercase tracking-wider mb-1">
+                  Delivery Notes / Landmark
+                </label>
+                <input
+                  type="text"
+                  value={editOrderData.notes}
+                  onChange={(e) => setEditOrderData({ ...editOrderData, notes: e.target.value })}
+                  placeholder="Optional delivery instructions"
+                  className="w-full px-3 py-2 bg-[#F8F8F8] border border-[#E5E5E5] rounded-xl text-xs text-[#111111] focus:outline-none focus:border-[#064C32]"
+                />
+              </div>
+
+              <div className="mt-6 flex items-center justify-end gap-3 pt-4 border-t border-[#E5E5E5]">
+                <button
+                  type="button"
+                  onClick={() => setEditingOrder(null)}
+                  className="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-gray-700 hover:bg-gray-100 rounded-xl transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSavingOrder}
+                  className="px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white bg-[#064C32] hover:bg-[#033B27] rounded-xl shadow transition active:scale-95 flex items-center gap-1.5"
+                >
+                  <Save className="w-3.5 h-3.5" />
+                  <span>{isSavingOrder ? 'Saving...' : 'Save Order Changes'}</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Order Confirm Modal */}
+      <ConfirmModal
+        isOpen={Boolean(orderToDelete)}
+        title="Delete Order"
+        message={`Are you sure you want to delete order "${orderToDelete?.id}" for ${orderToDelete?.customer?.name || 'customer'}? This will remove the order permanently from both local database and Firebase Firestore.`}
+        confirmText="Delete Order"
+        cancelText="Cancel"
+        isDestructive={true}
+        onConfirm={handleConfirmDeleteOrder}
+        onCancel={() => setOrderToDelete(null)}
+      />
     </div>
   );
 };

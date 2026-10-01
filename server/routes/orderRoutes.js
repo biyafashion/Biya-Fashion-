@@ -4,6 +4,8 @@ import {
   getAllOrders,
   getOrderById,
   updateOrderStatus,
+  updateOrder,
+  deleteOrder,
   exportOrdersCSV,
   downloadInvoice,
   downloadShippingLabel,
@@ -20,6 +22,8 @@ router.get('/export/csv', exportOrdersCSV);
 
 // Single Order
 router.get('/:id', getOrderById);
+router.put('/:id', updateOrder);
+router.delete('/:id', deleteOrder);
 router.put('/:id/status', updateOrderStatus);
 
 // Document Downloads

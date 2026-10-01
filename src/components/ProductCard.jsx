@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Star, ShoppingBag, Check } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Star, ShoppingBag, Check, Edit2, Trash2 } from 'lucide-react';
 import WishlistButton from './WishlistButton';
+import ConfirmModal from './ConfirmModal';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
+import { useProducts } from '../context/ProductContext';
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
+  const { isAuthenticated } = useAuth();
+  const { deleteProduct } = useProducts();
+  const navigate = useNavigate();
   const [isAdded, setIsAdded] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   if (!product) return null;
 
@@ -79,8 +86,36 @@ const ProductCard = ({ product }) => {
           )}
         </div>
 
-        {/* Wishlist Button */}
-        <div className="absolute top-3 right-3 z-10">
+        {/* Action Controls & Wishlist */}
+        <div className="absolute top-3 right-3 z-20 flex items-center gap-1.5">
+          {isAuthenticated && (
+            <div className="flex items-center gap-0.5 bg-white/95 backdrop-blur-md p-1 rounded-xl shadow-md border border-amber-300">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  navigate(`/admin/products/edit/${product.id}`);
+                }}
+                className="p-1 rounded-lg text-gray-700 hover:text-[#064C32] hover:bg-gray-100 transition"
+                title="Edit Product"
+              >
+                <Edit2 className="w-3.5 h-3.5 text-[#064C32]" />
+              </button>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowDeleteModal(true);
+                }}
+                className="p-1 rounded-lg text-gray-700 hover:text-red-600 hover:bg-red-50 transition"
+                title="Delete Product"
+              >
+                <Trash2 className="w-3.5 h-3.5 text-red-600" />
+              </button>
+            </div>
+          )}
           <WishlistButton product={product} />
         </div>
 
@@ -162,6 +197,21 @@ const ProductCard = ({ product }) => {
           </button>
         </div>
       </div>
+
+      {/* Admin Quick Delete Modal */}
+      <ConfirmModal
+        isOpen={showDeleteModal}
+        title="Delete Product"
+        message={`Are you sure you want to delete "${product?.name}"? It will be removed permanently from your store catalog and Firebase Firestore.`}
+        confirmText="Delete Product"
+        cancelText="Cancel"
+        isDestructive={true}
+        onConfirm={() => {
+          deleteProduct(product.id);
+          setShowDeleteModal(false);
+        }}
+        onCancel={() => setShowDeleteModal(false)}
+      />
     </div>
   );
 };
