@@ -10,6 +10,7 @@ import {
   ChevronRight,
   ShieldCheck,
   PhoneCall,
+  PlusCircle,
 } from 'lucide-react';
 import BiyaLogo from './BiyaLogo';
 import SearchBar from './SearchBar';
@@ -320,14 +321,24 @@ const Header = () => {
             </div>
 
             {/* Mobile Footer Area */}
-            <div className="p-5 border-t border-[#E5E5E5] bg-[#F8F8F8] space-y-3">
+            <div className="p-5 border-t border-[#E5E5E5] bg-[#F8F8F8] space-y-2.5">
+              {isAuthenticated && (
+                <Link
+                  to="/admin/products/add"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#064C32] hover:bg-[#033B27] text-white text-xs font-bold uppercase tracking-wider shadow-xs transition"
+                >
+                  <PlusCircle className="w-4 h-4 text-[#F3D477]" />
+                  <span>+ Add New Product</span>
+                </Link>
+              )}
               <Link
                 to={isAuthenticated ? '/admin' : '/admin/login'}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-[#E5E5E5] bg-white text-xs font-bold uppercase tracking-wider text-[#111111] hover:text-[#064C32] shadow-xs"
+                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-[#E5E5E5] bg-white text-xs font-bold uppercase tracking-wider text-[#111111] hover:text-[#064C32] shadow-xs transition"
               >
                 <ShieldCheck className="w-4 h-4 text-[#D9A514]" />
-                <span>{isAuthenticated ? 'Admin Dashboard' : 'Admin Login'}</span>
+                <span>{isAuthenticated ? 'Admin Dashboard' : 'Admin Login (Merchant)'}</span>
               </Link>
               <div className="text-center text-[10px] text-[#666666]">
                 © 2026 BIYA FASHION • WEAR YOUR STYLE

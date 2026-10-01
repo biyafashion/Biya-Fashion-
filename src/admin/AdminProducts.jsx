@@ -113,8 +113,79 @@ const AdminProducts = () => {
         </div>
       </div>
 
-      {/* Products Table */}
-      <div className="bg-white rounded-2xl border border-[#E5E5E5] shadow-sm overflow-hidden">
+      {/* Mobile Products Card View (sm:hidden) */}
+      <div className="sm:hidden space-y-3">
+        {filteredProducts.length === 0 ? (
+          <div className="bg-white p-8 rounded-2xl border border-[#E5E5E5] text-center text-gray-500 text-xs">
+            No products found matching your search.
+          </div>
+        ) : (
+          filteredProducts.map((prod) => (
+            <div key={prod.id} className="bg-white p-4 rounded-2xl border border-[#E5E5E5] shadow-xs space-y-3">
+              <div className="flex items-start gap-3">
+                <img
+                  src={prod.images?.[0] || 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=80'}
+                  alt={prod.name}
+                  className="w-16 h-20 object-cover rounded-xl border border-[#E5E5E5] bg-gray-50 shrink-0"
+                />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-mono text-gray-500 font-bold">{prod.sku || 'NO SKU'}</span>
+                    <span
+                      className={`px-2 py-0.5 rounded-full text-[9px] font-bold ${
+                        prod.stock > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                      }`}
+                    >
+                      {prod.stock > 0 ? `${prod.stock} in stock` : 'Out of stock'}
+                    </span>
+                  </div>
+                  <h3 className="font-bold text-[#111111] text-xs truncate mt-0.5">{prod.name}</h3>
+                  <div className="text-[11px] text-[#064C32] font-semibold">{prod.category}</div>
+                  <div className="font-bold text-sm text-[#111111] mt-1">
+                    ₹{prod.discountPrice || prod.price}
+                    {prod.discountPrice && (
+                      <span className="text-[10px] text-gray-400 line-through ml-1.5 font-normal">
+                        ₹{prod.price}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Buttons for Mobile */}
+              <div className="grid grid-cols-3 gap-2 pt-2 border-t border-[#F0F0F0]">
+                <button
+                  type="button"
+                  onClick={() => navigate(`/admin/products/edit/${prod.id}`)}
+                  className="py-2 px-2 bg-[#064C32]/10 hover:bg-[#064C32]/20 text-[#064C32] font-bold rounded-xl text-xs flex items-center justify-center gap-1 transition"
+                >
+                  <Edit2 className="w-3.5 h-3.5" />
+                  <span>Edit</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => duplicateProduct(prod.id)}
+                  className="py-2 px-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl text-xs flex items-center justify-center gap-1 transition"
+                >
+                  <Copy className="w-3.5 h-3.5" />
+                  <span>Copy</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setProductToDelete(prod)}
+                  className="py-2 px-2 bg-red-50 hover:bg-red-100 text-red-600 font-bold rounded-xl text-xs flex items-center justify-center gap-1 transition"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  <span>Delete</span>
+                </button>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Desktop Products Table */}
+      <div className="hidden sm:block bg-white rounded-2xl border border-[#E5E5E5] shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead className="bg-[#F8F8F8] text-[#111111] uppercase tracking-wider font-bold border-b border-[#E5E5E5]">

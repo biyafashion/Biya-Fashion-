@@ -10,7 +10,15 @@
  * - Seamless client-side printable fallback if backend is offline
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? 'https://biya-fashion.onrender.com' : 'http://localhost:5000');
+const getApiBaseUrl = () => {
+  if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL;
+  if (typeof window !== 'undefined' && window.location.hostname && window.location.hostname !== 'localhost' && !import.meta.env.PROD) {
+    return `http://${window.location.hostname}:5000`;
+  }
+  return import.meta.env.PROD ? 'https://biya-fashion.onrender.com' : 'http://localhost:5000';
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 /**
  * Synchronize order to Express & Firebase backend

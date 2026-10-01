@@ -49,7 +49,7 @@ app.use((err, req, res, next) => {
 });
 
 // Start Server
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`===============================================`);
   console.log(`👑 BIYA FASHION Express Backend Running!`);
   console.log(`📡 URL: http://localhost:${PORT}`);
