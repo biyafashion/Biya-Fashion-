@@ -195,7 +195,11 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-[#064C32] flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400 gap-4">
-          <p>© 2026 Biya Fashion. All Rights Reserved. Wear Your Style.</p>
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-center sm:text-left">
+            <p>© 2026 Biya Fashion. All Rights Reserved. Wear Your Style.</p>
+            <span className="hidden sm:inline text-gray-600">•</span>
+            <p className="text-[#D9A514] font-medium tracking-wide">Developed by Praveen Sethuvel K</p>
+          </div>
           <div className="flex items-center space-x-6 text-[11px]">
             <Link to="/about" className="hover:text-white transition">
               Privacy Policy
