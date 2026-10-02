@@ -5,6 +5,10 @@ import {
   createProductOnBackend,
   updateProductOnBackend,
   deleteProductOnBackend,
+  fetchCategoriesFromBackend,
+  createCategoryOnBackend,
+  updateCategoryOnBackend,
+  deleteCategoryOnBackend,
 } from '../services/apiService';
 import { useToast } from './ToastContext';
 
@@ -16,15 +20,15 @@ export const ProductProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
-  // Load products from storage service and sync with Backend / Firebase Firestore
+  // Load products and categories from storage service and sync with Backend / Firebase Firestore
   const loadData = useCallback(async () => {
     try {
       setLoading(true);
       // 1. Instant load from local storage
       const localProds = storageService.getProducts();
-      const cats = storageService.getCategories();
+      const localCats = storageService.getCategories();
       setProducts(localProds);
-      setCategories(cats);
+      setCategories(localCats);
 
       // 2. Fetch fresh catalog from Backend & Firebase (Remote is source of truth)
       const remoteProds = await fetchProductsFromBackend();
@@ -32,8 +36,15 @@ export const ProductProvider = ({ children }) => {
         setProducts(remoteProds);
         storageService.setProductsCache(remoteProds);
       }
+
+      // 3. Fetch fresh categories from Backend & Firebase
+      const remoteCats = await fetchCategoriesFromBackend();
+      if (remoteCats && Array.isArray(remoteCats) && remoteCats.length > 0) {
+        setCategories(remoteCats);
+        storageService.setCategoriesCache(remoteCats);
+      }
     } catch (err) {
-      console.warn('Backend products sync skipped, using local store:', err.message);
+      console.warn('Backend products/categories sync skipped, using local store:', err.message);
     } finally {
       setLoading(false);
     }
@@ -106,30 +117,46 @@ export const ProductProvider = ({ children }) => {
   }, [products, toast]);
 
   // Category CRUD
-  const handleAddCategory = useCallback((categoryData) => {
+  const handleAddCategory = useCallback(async (categoryData) => {
     const created = storageService.addCategory(categoryData);
     setCategories((prev) => [...prev, created]);
+    try {
+      await createCategoryOnBackend(created);
+    } catch (err) {
+      console.warn('Backend category create skipped:', err.message);
+    }
     toast.success(`Category "${created.name}" added successfully.`);
     return created;
   }, [toast]);
 
-  const handleUpdateCategory = useCallback((id, updatedFields) => {
+  const handleUpdateCategory = useCallback(async (id, updatedFields) => {
     const updated = storageService.updateCategory(id, updatedFields);
     if (updated) {
       setCategories((prev) => prev.map((c) => (String(c.id) === String(id) ? updated : c)));
+      try {
+        await updateCategoryOnBackend(id, updatedFields);
+      } catch (err) {
+        console.warn('Backend category update skipped:', err.message);
+      }
       toast.success(`Category "${updated.name}" updated successfully.`);
     }
     return updated;
   }, [toast]);
 
-  const handleDeleteCategory = useCallback((id) => {
+  const handleDeleteCategory = useCallback(async (id) => {
     const cat = categories.find((c) => String(c.id) === String(id));
-    const success = storageService.deleteCategory(id);
-    if (success) {
-      setCategories((prev) => prev.filter((c) => String(c.id) !== String(id)));
-      toast.success(`Category "${cat?.name || 'Category'}" deleted successfully.`);
+    // 1. Immediately remove from local memory state
+    setCategories((prev) => prev.filter((c) => String(c.id) !== String(id)));
+    // 2. Remove from local storage
+    storageService.deleteCategory(id);
+    // 3. Permanent hard delete from Firebase Firestore & backend JSON
+    try {
+      await deleteCategoryOnBackend(id);
+    } catch (err) {
+      console.warn('Backend category delete skipped:', err.message);
     }
-    return success;
+    toast.success(`Category "${cat?.name || 'Category'}" deleted permanently.`);
+    return true;
   }, [categories, toast]);
 
   // Filtered views

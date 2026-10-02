@@ -44,21 +44,21 @@ const AdminCategories = () => {
     setIsModalOpen(true);
   };
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
     if (!formData.name.trim()) return;
 
     if (editingCategory) {
-      updateCategory(editingCategory.id, formData);
+      await updateCategory(editingCategory.id, formData);
     } else {
-      addCategory(formData);
+      await addCategory(formData);
     }
     setIsModalOpen(false);
   };
 
-  const handleDeleteConfirm = () => {
+  const handleDeleteConfirm = async () => {
     if (categoryToDelete) {
-      deleteCategory(categoryToDelete.id);
+      await deleteCategory(categoryToDelete.id);
       setCategoryToDelete(null);
     }
   };

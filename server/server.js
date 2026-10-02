@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import orderRoutes from './routes/orderRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import customerRoutes from './routes/customerRoutes.js';
+import categoryRoutes from './routes/categoryRoutes.js';
 import { isFirebaseReady } from './config/firebase.js';
 
 dotenv.config();
@@ -36,6 +37,7 @@ app.get('/api/health', (req, res) => {
 app.use('/api/orders', orderRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/customers', customerRoutes);
+app.use('/api/categories', categoryRoutes);
 
 // 404 Handler
 app.use((req, res) => {

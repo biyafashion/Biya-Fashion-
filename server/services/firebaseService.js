@@ -14,6 +14,7 @@ if (!fs.existsSync(DATA_DIR)) {
 const ORDERS_FILE = path.join(DATA_DIR, 'orders.json');
 const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
 const CUSTOMERS_FILE = path.join(DATA_DIR, 'customers.json');
+const CATEGORIES_FILE = path.join(DATA_DIR, 'categories.json');
 
 // Helper to safely read JSON file
 const readJsonFile = (filePath, fallback = []) => {
@@ -154,25 +155,23 @@ export const getOrdersFromFirebase = async () => {
   if (isFirebaseReady() && db) {
     try {
       const snapshot = await db.collection('orders').get();
-      if (!snapshot.empty) {
-        const firestoreOrders = [];
-        snapshot.forEach((doc) => {
-          firestoreOrders.push({ id: doc.id, ...doc.data() });
-        });
-        firestoreOrders.sort(
-          (a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
-        );
-        // Sync local cache
-        writeJsonFile(ORDERS_FILE, firestoreOrders);
-        return firestoreOrders;
-      }
+      const firestoreOrders = [];
+      snapshot.forEach((doc) => {
+        firestoreOrders.push({ id: doc.id, ...doc.data() });
+      });
+      firestoreOrders.sort(
+        (a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
+      );
+      // Sync local cache
+      writeJsonFile(ORDERS_FILE, firestoreOrders);
+      return firestoreOrders;
     } catch (err) {
       console.warn('[Firebase] Firestore read warning, falling back to local store:', err.message);
     }
   }
 
   // Fallback to local store
-  return readJsonFile(ORDERS_FILE, initialOrders);
+  return readJsonFile(ORDERS_FILE, []);
 };
 
 export const getOrderByIdFromFirebase = async (orderId) => {
@@ -258,13 +257,17 @@ export const deleteOrderFromFirebase = async (orderId) => {
   if (isFirebaseReady() && db) {
     try {
       await db.collection('orders').doc(orderId).delete();
+      const querySnap = await db.collection('orders').where('id', '==', orderId).get();
+      const batch = db.batch();
+      querySnap.forEach((doc) => batch.delete(doc.ref));
+      await batch.commit();
       console.log(`[Firebase] Order ${orderId} deleted from Firestore.`);
     } catch (err) {
       console.warn(`[Firebase] Error deleting order from Firestore:`, err.message);
     }
   }
 
-  const orders = readJsonFile(ORDERS_FILE, initialOrders);
+  const orders = readJsonFile(ORDERS_FILE, []);
   const filtered = orders.filter((o) => String(o.id) !== String(orderId));
   writeJsonFile(ORDERS_FILE, filtered);
   return true;
@@ -379,6 +382,10 @@ export const deleteProductFromFirebase = async (productId) => {
   if (isFirebaseReady() && db) {
     try {
       await db.collection('products').doc(productId).delete();
+      const querySnap = await db.collection('products').where('id', '==', productId).get();
+      const batch = db.batch();
+      querySnap.forEach((doc) => batch.delete(doc.ref));
+      await batch.commit();
       console.log(`[Firebase] Product ${productId} deleted from Firestore.`);
     } catch (err) {
       console.warn(`[Firebase] Error deleting product from Firestore:`, err.message);
@@ -431,17 +438,15 @@ export const getCustomersFromFirebase = async () => {
   if (isFirebaseReady() && db) {
     try {
       const snapshot = await db.collection('customers').get();
-      if (!snapshot.empty) {
-        const firestoreCustomers = [];
-        snapshot.forEach((doc) => {
-          firestoreCustomers.push({ id: doc.id, ...doc.data() });
-        });
-        firestoreCustomers.sort(
-          (a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
-        );
-        writeJsonFile(CUSTOMERS_FILE, firestoreCustomers);
-        return firestoreCustomers;
-      }
+      const firestoreCustomers = [];
+      snapshot.forEach((doc) => {
+        firestoreCustomers.push({ id: doc.id, ...doc.data() });
+      });
+      firestoreCustomers.sort(
+        (a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
+      );
+      writeJsonFile(CUSTOMERS_FILE, firestoreCustomers);
+      return firestoreCustomers;
     } catch (err) {
       console.warn('[Firebase] Error reading customers from Firestore:', err.message);
     }
@@ -485,6 +490,10 @@ export const deleteCustomerFromFirebase = async (customerId) => {
   if (isFirebaseReady() && db) {
     try {
       await db.collection('customers').doc(customerId).delete();
+      const querySnap = await db.collection('customers').where('id', '==', customerId).get();
+      const batch = db.batch();
+      querySnap.forEach((doc) => batch.delete(doc.ref));
+      await batch.commit();
       console.log(`[Firebase] Customer ${customerId} deleted from Firestore.`);
     } catch (err) {
       console.warn(`[Firebase] Error deleting customer from Firestore:`, err.message);
@@ -494,6 +503,111 @@ export const deleteCustomerFromFirebase = async (customerId) => {
   const customers = readJsonFile(CUSTOMERS_FILE, []);
   const filtered = customers.filter((c) => String(c.id) !== String(customerId));
   writeJsonFile(CUSTOMERS_FILE, filtered);
+  return true;
+};
+
+// ==================== CATEGORY SERVICES ====================
+
+export const saveCategoryToFirebase = async (categoryData) => {
+  const db = getFirestoreDb();
+  const id = categoryData.id || `cat-${Date.now()}`;
+  const timestamp = new Date().toISOString();
+
+  const categoryToSave = {
+    ...categoryData,
+    id,
+    createdAt: categoryData.createdAt || timestamp,
+    updatedAt: timestamp,
+  };
+
+  if (isFirebaseReady() && db) {
+    try {
+      await db.collection('categories').doc(id).set(categoryToSave);
+      console.log(`[Firebase] Category ${id} (${categoryToSave.name}) saved to Firestore.`);
+    } catch (err) {
+      console.warn(`[Firebase] Error saving category to Firestore:`, err.message);
+    }
+  }
+
+  const categories = readJsonFile(CATEGORIES_FILE, []);
+  const filtered = categories.filter((c) => String(c.id) !== String(id));
+  const updated = [categoryToSave, ...filtered];
+  writeJsonFile(CATEGORIES_FILE, updated);
+
+  return categoryToSave;
+};
+
+export const getCategoriesFromFirebase = async () => {
+  const db = getFirestoreDb();
+
+  if (isFirebaseReady() && db) {
+    try {
+      const snapshot = await db.collection('categories').get();
+      const firestoreCategories = [];
+      snapshot.forEach((doc) => {
+        firestoreCategories.push({ id: doc.id, ...doc.data() });
+      });
+      firestoreCategories.sort(
+        (a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
+      );
+      writeJsonFile(CATEGORIES_FILE, firestoreCategories);
+      return firestoreCategories;
+    } catch (err) {
+      console.warn('[Firebase] Error reading categories from Firestore:', err.message);
+    }
+  }
+
+  return readJsonFile(CATEGORIES_FILE, []);
+};
+
+export const updateCategoryInFirebase = async (categoryId, updatedFields) => {
+  const db = getFirestoreDb();
+  let updatedCat = null;
+
+  if (isFirebaseReady() && db) {
+    try {
+      await db.collection('categories').doc(categoryId).update({
+        ...updatedFields,
+        updatedAt: new Date().toISOString(),
+      });
+      console.log(`[Firebase] Category ${categoryId} updated in Firestore.`);
+    } catch (err) {
+      console.warn(`[Firebase] Error updating category in Firestore:`, err.message);
+    }
+  }
+
+  const categories = readJsonFile(CATEGORIES_FILE, []);
+  const updatedList = categories.map((c) => {
+    if (String(c.id) === String(categoryId)) {
+      updatedCat = { ...c, ...updatedFields, updatedAt: new Date().toISOString() };
+      return updatedCat;
+    }
+    return c;
+  });
+
+  writeJsonFile(CATEGORIES_FILE, updatedList);
+  return updatedCat;
+};
+
+export const deleteCategoryFromFirebase = async (categoryId) => {
+  const db = getFirestoreDb();
+
+  if (isFirebaseReady() && db) {
+    try {
+      await db.collection('categories').doc(categoryId).delete();
+      const querySnap = await db.collection('categories').where('id', '==', categoryId).get();
+      const batch = db.batch();
+      querySnap.forEach((doc) => batch.delete(doc.ref));
+      await batch.commit();
+      console.log(`[Firebase] Category ${categoryId} deleted from Firestore.`);
+    } catch (err) {
+      console.warn(`[Firebase] Error deleting category from Firestore:`, err.message);
+    }
+  }
+
+  const categories = readJsonFile(CATEGORIES_FILE, []);
+  const filtered = categories.filter((c) => String(c.id) !== String(categoryId));
+  writeJsonFile(CATEGORIES_FILE, filtered);
   return true;
 };
 

@@ -37,9 +37,9 @@ const AdminProducts = () => {
     });
   }, [products, selectedCategory, search]);
 
-  const handleDeleteConfirm = () => {
+  const handleDeleteConfirm = async () => {
     if (productToDelete) {
-      deleteProduct(productToDelete.id);
+      await deleteProduct(productToDelete.id);
       setProductToDelete(null);
     }
   };

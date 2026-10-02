@@ -29,50 +29,27 @@ const AdminCustomers = () => {
     // 1. Initial local load
     setCustomers(storageService.getCustomers());
 
-    // 2. Auto-sync any existing local customer accounts to Firebase Firestore
-    const localAccounts = storageService.getCustomerAccounts();
-
-      // 3. Fetch fresh customer records from Firebase Firestore
+    // 2. Fetch fresh customer records from Firebase Firestore
+    try {
       const remote = await fetchCustomersFromBackend();
       if (remote && Array.isArray(remote)) {
-        const remotePhones = new Set(
-          remote.map((r) => (r.phone || '').trim().toLowerCase())
-        );
-
-        // Upload any local accounts not yet in Firebase
-        for (const acc of localAccounts) {
-          const accPhone = (acc.phone || '').trim().toLowerCase();
-          if (accPhone && !remotePhones.has(accPhone)) {
-            await syncCustomerToBackend(acc);
-          }
-        }
-
-        const existingAccounts = storageService.getCustomerAccounts();
-        const existingPhones = new Set(
-          existingAccounts.map((a) => (a.phone || '').trim().toLowerCase())
-        );
-
-        let changed = false;
-        remote.forEach((r) => {
-          const rPhone = (r.phone || '').trim().toLowerCase();
-          if (rPhone && !existingPhones.has(rPhone)) {
-            existingAccounts.push(r);
-            changed = true;
-          }
-        });
-
-        if (changed) {
-          localStorage.setItem('biya_fashion_customer_accounts', JSON.stringify(existingAccounts));
-        }
+        localStorage.setItem('biya_fashion_customer_accounts', JSON.stringify(remote));
       }
+    } catch (err) {
+      console.warn('Customer backend fetch skipped:', err.message);
+    }
 
-      // 4. Fetch latest orders from Firebase to aggregate total spend & order count
+    // 3. Fetch latest orders from Firebase to aggregate total spend & order count
+    try {
       const remoteOrders = await fetchOrdersFromBackend();
-      if (remoteOrders && Array.isArray(remoteOrders) && remoteOrders.length > 0) {
+      if (remoteOrders && Array.isArray(remoteOrders)) {
         storageService.setOrdersCache(remoteOrders);
       }
+    } catch (err) {
+      console.warn('Orders fetch skipped:', err.message);
+    }
 
-      setCustomers(storageService.getCustomers());
+    setCustomers(storageService.getCustomers());
   };
 
   useEffect(() => {
@@ -113,12 +90,15 @@ const AdminCustomers = () => {
 
   const handleConfirmDelete = async () => {
     if (!customerToDelete) return;
+    const deletingId = customerToDelete.id;
     try {
-      storageService.deleteCustomer(customerToDelete.id);
-      await deleteCustomerOnBackend(customerToDelete.id);
-      // Refresh list
-      setCustomers(storageService.getCustomers());
-      toast.success(`Customer "${customerToDelete.name}" deleted.`);
+      // 1. Remove from local memory state immediately
+      setCustomers((prev) => prev.filter((c) => String(c.id) !== String(deletingId)));
+      // 2. Remove from local storage
+      storageService.deleteCustomer(deletingId);
+      // 3. Permanent hard delete from Firebase Firestore & backend JSON
+      await deleteCustomerOnBackend(deletingId);
+      toast.success(`Customer "${customerToDelete.name}" permanently deleted.`);
       setCustomerToDelete(null);
     } catch (err) {
       console.error(err);

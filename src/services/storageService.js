@@ -213,6 +213,12 @@ export const deleteProduct = (id) => {
 
 // ==================== CATEGORIES ====================
 
+export const setCategoriesCache = (categories) => {
+  if (Array.isArray(categories)) {
+    safeSet(KEYS.CATEGORIES, categories);
+  }
+};
+
 export const getCategories = () => {
   initializeStorage();
   return safeGet(KEYS.CATEGORIES, DEMO_CATEGORIES);

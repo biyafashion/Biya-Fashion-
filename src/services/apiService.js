@@ -259,6 +259,80 @@ export const deleteProductOnBackend = async (id) => {
 };
 
 /**
+ * Fetch all categories from Backend / Firebase Firestore
+ */
+export const fetchCategoriesFromBackend = async () => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/categories`);
+    if (res.ok) {
+      const data = await res.json();
+      if (data && Array.isArray(data.categories)) {
+        return data.categories;
+      }
+    }
+  } catch (err) {
+    console.warn('[API Service] Backend categories fetch unreachable, using local store:', err.message);
+  }
+  return null;
+};
+
+/**
+ * Create category on Backend / Firebase Firestore
+ */
+export const createCategoryOnBackend = async (categoryData) => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/categories`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(categoryData),
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    console.warn('[API Service] Backend category create failed, using local store:', err.message);
+  }
+  return null;
+};
+
+/**
+ * Update category on Backend / Firebase Firestore
+ */
+export const updateCategoryOnBackend = async (id, updatedFields) => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/categories/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedFields),
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    console.warn('[API Service] Backend category update failed, using local store:', err.message);
+  }
+  return null;
+};
+
+/**
+ * Delete category on Backend / Firebase Firestore
+ */
+export const deleteCategoryOnBackend = async (id) => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/categories/${id}`, {
+      method: 'DELETE',
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    console.warn('[API Service] Backend category delete failed, using local store:', err.message);
+  }
+  return null;
+};
+
+
+/**
  * Download Tax Invoice PDF
  */
 export const downloadOrderInvoice = async (order) => {

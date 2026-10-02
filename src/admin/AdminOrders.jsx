@@ -47,32 +47,15 @@ const AdminOrders = () => {
     const local = storageService.getOrders();
     setOrders(local);
 
-    // 2. Fetch fresh orders from Firebase Firestore
+    // 2. Fetch fresh orders from Firebase Firestore (Remote is single source of truth)
     try {
       const remote = await fetchOrdersFromBackend();
       if (remote && Array.isArray(remote)) {
-        // Auto-sync any local orders to Firebase Firestore if not yet present
-        const remoteIds = new Set(remote.map((r) => String(r.id)));
-        const unSynced = local.filter((l) => !remoteIds.has(String(l.id)));
-        for (const order of unSynced) {
-          await syncOrderToBackend(order);
-        }
-
-        const localMap = new Map(local.map((o) => [String(o.id), o]));
-        remote.forEach((r) => {
-          localMap.set(String(r.id), r);
-        });
-        unSynced.forEach((u) => {
-          localMap.set(String(u.id), u);
-        });
-        const merged = Array.from(localMap.values()).sort(
-          (a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
-        );
-        setOrders(merged);
-        localStorage.setItem('biya_fashion_orders', JSON.stringify(merged));
+        setOrders(remote);
+        storageService.setOrdersCache(remote);
       }
     } catch (err) {
-      console.warn('Orders sync skipped:', err.message);
+      console.warn('Orders sync skipped, using local store:', err.message);
     }
   };
 
@@ -146,14 +129,18 @@ const AdminOrders = () => {
 
   const handleConfirmDeleteOrder = async () => {
     if (!orderToDelete) return;
+    const deletingId = orderToDelete.id;
     try {
-      storageService.deleteOrder(orderToDelete.id);
-      await deleteOrderOnBackend(orderToDelete.id);
-      await loadOrders();
-      if (selectedOrder && selectedOrder.id === orderToDelete.id) {
+      // 1. Instantly remove from local memory state
+      setOrders((prev) => prev.filter((o) => String(o.id) !== String(deletingId)));
+      // 2. Remove from local storage cache
+      storageService.deleteOrder(deletingId);
+      // 3. Permanent hard delete from Firebase Firestore & backend JSON
+      await deleteOrderOnBackend(deletingId);
+      if (selectedOrder && selectedOrder.id === deletingId) {
         setSelectedOrder(null);
       }
-      toast.success(`Order ${orderToDelete.id} deleted successfully.`);
+      toast.success(`Order ${deletingId} deleted permanently.`);
       setOrderToDelete(null);
     } catch (err) {
       console.error(err);
