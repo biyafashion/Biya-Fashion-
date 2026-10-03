@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ArrowRight,
+  ChevronLeft,
+  ChevronRight,
   Sparkles,
   ShieldCheck,
   HeartHandshake,
   TrendingUp,
   Tag,
-  Star,
-  CheckCircle2,
   Mail,
   Shirt,
   Heart,
   Crown,
   Quote,
+  Truck,
+  RotateCcw,
 } from 'lucide-react';
 import { InstagramIcon } from '../components/SocialIcons';
 import ProductCard from '../components/ProductCard';
@@ -24,38 +26,66 @@ const Home = () => {
   const { products, categories, newArrivals } = useProducts();
   const showcaseProducts = newArrivals && newArrivals.length > 0 ? newArrivals : products;
 
-  const reviews = [
+  const heroBanners = [
     {
-      name: 'Aditya Kashyap',
-      rating: 5,
-      date: '2 days ago',
-      title: 'Remarkable fabric & fit',
-      comment:
-        'The Heavyweight Green T-Shirt is phenomenal. The 240 GSM cotton feels heavy yet super soft and breathable. Easily rivals international luxury brands.',
-      verified: true,
-      product: 'Oversized Green T-Shirt',
+      id: 1,
+      image: '/banners/hero-banner-1.jpg',
+      title: 'Trendy Outfits For A Better You - BIYA FASHION',
+      link: '/shop',
     },
     {
-      name: 'Sneha Kulkarni',
-      rating: 5,
-      date: '1 week ago',
-      title: 'Pristine white perfection',
-      comment:
-        'Finding a non-see-through white tee is rare. Biya Fashion nailed the thickness, neckline, and tailoring. Washed it 3 times already—no shrinkage!',
-      verified: true,
-      product: 'Premium White T-Shirt',
-    },
-    {
-      name: 'Vikramaditya Rao',
-      rating: 5,
-      date: '2 weeks ago',
-      title: 'Unmatched comfort for casual wear',
-      comment:
-        'Ordered both the Classic Black T-Shirt and the Hoodie. The gold accents and subtle branding give a distinct luxury vibe. Delivery was fast too!',
-      verified: true,
-      product: 'Classic Hoodie',
+      id: 2,
+      image: '/banners/hero-banner-2.jpg',
+      title: 'Modern Looks For A Better You - BIYA FASHION',
+      link: '/shop',
     },
   ];
+
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+
+  // Auto-play carousel every 5 seconds unless hovered/interacting
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroBanners.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [isPaused, heroBanners.length]);
+
+  const handlePrev = (e) => {
+    e?.preventDefault?.();
+    e?.stopPropagation?.();
+    setCurrentSlide((prev) => (prev === 0 ? heroBanners.length - 1 : prev - 1));
+  };
+
+  const handleNext = (e) => {
+    e?.preventDefault?.();
+    e?.stopPropagation?.();
+    setCurrentSlide((prev) => (prev + 1) % heroBanners.length);
+  };
+
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    const distance = touchStartX.current - touchEndX.current;
+    if (distance > 45) {
+      handleNext();
+    } else if (distance < -45) {
+      handlePrev();
+    }
+    touchStartX.current = 0;
+    touchEndX.current = 0;
+  };
 
   const instagramPosts = [
     {
@@ -86,102 +116,116 @@ const Home = () => {
 
   return (
     <div className="bg-white">
-      {/* 1. HERO SECTION (White Background, Clean Editorial Design) */}
-      <section className="relative overflow-hidden bg-white border-b border-[#E5E5E5] pt-8 pb-16 lg:py-24">
-        {/* Subtle decorative gold-green glow background element */}
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#064C32]/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-10 w-80 h-80 bg-[#D9A514]/5 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-            {/* Left Hero Text Content */}
-            <div className="lg:col-span-6 space-y-6 text-left" data-aos="fade-right" data-aos-duration="900">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#064C32]/5 border border-[#064C32]/20">
-                <Sparkles className="w-4 h-4 text-[#D9A514]" />
-                <span className="text-xs font-bold uppercase tracking-widest text-[#064C32]">
-                  New Season Collection 2026
-                </span>
-              </div>
-
-              <div className="space-y-2">
-                <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#111111] leading-[1.1] tracking-tight">
-                  BIYA <span className="text-[#064C32]">FASHION</span>
-                </h1>
-                <p className="font-serif italic text-2xl sm:text-3xl text-[#D9A514] font-medium tracking-wide">
-                  WEAR YOUR STYLE
-                </p>
-              </div>
-
-              <p className="text-base sm:text-lg text-[#666666] leading-relaxed max-w-xl font-normal">
-                Premium Fashion. Everyday Comfort. Crafted from pure combed cotton, tailored silhouettes, and understated luxury detailing designed to endure.
-              </p>
-
-              {/* Call to Actions */}
-              <div className="pt-2 flex flex-col sm:flex-row gap-4 sm:items-center">
-                <Link
-                  to="/shop"
-                  className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-[#064C32] hover:bg-[#033B27] text-white text-xs sm:text-sm font-bold uppercase tracking-widest shadow-xl shadow-[#064C32]/20 hover:shadow-2xl transition-all duration-300 active:scale-95 group"
-                >
-                  <span>SHOP NOW</span>
-                  <ArrowRight className="w-4 h-4 text-[#F3D477] transform group-hover:translate-x-1 transition-transform" />
-                </Link>
-
-                <Link
-                  to="/categories"
-                  className="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-white hover:bg-[#F8F8F8] text-[#064C32] border-2 border-[#064C32] text-xs sm:text-sm font-bold uppercase tracking-widest transition-all duration-300 active:scale-95"
-                >
-                  <span>EXPLORE COLLECTION</span>
-                </Link>
-              </div>
-
-              {/* Quick Trust Highlights */}
-              <div className="pt-6 border-t border-[#E5E5E5] grid grid-cols-3 gap-4">
-                <div>
-                  <p className="font-serif font-black text-xl sm:text-2xl text-[#064C32]">100%</p>
-                  <p className="text-xs text-[#666666] uppercase tracking-wider font-semibold">Combed Cotton</p>
+      {/* 1. HERO BANNER CAROUSEL */}
+      <section className="relative bg-white pt-2 sm:pt-4 pb-8 sm:pb-12 border-b border-[#E5E5E5]">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+          <div
+            className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-gray-200 bg-neutral-900 group"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
+            {/* Carousel Slides Container */}
+            <div
+              className="flex transition-transform duration-700 ease-in-out w-full"
+              style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+            >
+              {heroBanners.map((banner, index) => (
+                <div key={banner.id} className="min-w-full w-full flex-shrink-0 relative">
+                  <Link
+                    to={banner.link}
+                    className="block relative w-full aspect-[16/9] overflow-hidden cursor-pointer"
+                  >
+                    <img
+                      src={banner.image}
+                      alt={banner.title}
+                      className="w-full h-full object-cover object-center transform transition-transform duration-700 group-hover:scale-[1.01]"
+                      loading={index === 0 ? 'eager' : 'lazy'}
+                    />
+                  </Link>
                 </div>
-                <div>
-                  <p className="font-serif font-black text-xl sm:text-2xl text-[#064C32]">₹0</p>
-                  <p className="text-xs text-[#666666] uppercase tracking-wider font-semibold">Free Delivery Above ₹999</p>
-                </div>
-                <div>
-                  <p className="font-serif font-black text-xl sm:text-2xl text-[#064C32]">4.9★</p>
-                  <p className="text-xs text-[#666666] uppercase tracking-wider font-semibold">Customer Loved</p>
-                </div>
+              ))}
+            </div>
+
+            {/* Left Chevron Button */}
+            <button
+              onClick={handlePrev}
+              type="button"
+              aria-label="Previous Slide"
+              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-black/40 hover:bg-[#064C32] text-white flex items-center justify-center backdrop-blur-md border border-white/20 shadow-lg transition-all duration-200 opacity-90 sm:opacity-0 group-hover:opacity-100 hover:scale-110 active:scale-95 z-20 cursor-pointer"
+            >
+              <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+            </button>
+
+            {/* Right Chevron Button */}
+            <button
+              onClick={handleNext}
+              type="button"
+              aria-label="Next Slide"
+              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-black/40 hover:bg-[#064C32] text-white flex items-center justify-center backdrop-blur-md border border-white/20 shadow-lg transition-all duration-200 opacity-90 sm:opacity-0 group-hover:opacity-100 hover:scale-110 active:scale-95 z-20 cursor-pointer"
+            >
+              <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+            </button>
+
+            {/* Dots Pagination */}
+            <div className="absolute bottom-3 sm:bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-2 sm:gap-2.5 z-20 bg-black/40 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20">
+              {heroBanners.map((_, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  onClick={() => setCurrentSlide(index)}
+                  aria-label={`Go to slide ${index + 1}`}
+                  className={`transition-all duration-300 rounded-full cursor-pointer ${
+                    currentSlide === index
+                      ? 'w-7 sm:w-8 h-2 sm:h-2.5 bg-[#D9A514] shadow-md'
+                      : 'w-2 sm:w-2.5 h-2 sm:h-2.5 bg-white/60 hover:bg-white'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Quick Trust Highlights Below Carousel */}
+          <div className="mt-6 sm:mt-8 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+            <div className="flex items-center gap-3 p-3.5 sm:p-4 rounded-2xl bg-[#F8F8F8] border border-[#E5E5E5] hover:border-[#064C32]/30 transition-all">
+              <div className="w-10 h-10 rounded-xl bg-[#064C32]/10 text-[#064C32] flex items-center justify-center shrink-0">
+                <Shirt className="w-5 h-5 text-[#064C32]" />
+              </div>
+              <div className="text-left">
+                <p className="font-serif font-bold text-xs sm:text-sm text-[#111111]">100% Combed Cotton</p>
+                <p className="text-[11px] text-[#666666]">240 GSM Bio-Washed</p>
               </div>
             </div>
 
-            {/* Right Hero Image Editorial Layout */}
-            <div className="lg:col-span-6 relative" data-aos="fade-left" data-aos-duration="900" data-aos-delay="150">
-              <div className="relative mx-auto max-w-md lg:max-w-none">
-                {/* Main Hero Photo */}
-                <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-[#F8F8F8] relative">
-                  <img
-                    src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1200&q=85"
-                    alt="Biya Fashion Model - Wear Your Style"
-                    className="w-full h-full object-cover object-top"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                </div>
+            <div className="flex items-center gap-3 p-3.5 sm:p-4 rounded-2xl bg-[#F8F8F8] border border-[#E5E5E5] hover:border-[#064C32]/30 transition-all">
+              <div className="w-10 h-10 rounded-xl bg-[#064C32]/10 text-[#064C32] flex items-center justify-center shrink-0">
+                <Truck className="w-5 h-5 text-[#064C32]" />
+              </div>
+              <div className="text-left">
+                <p className="font-serif font-bold text-xs sm:text-sm text-[#111111]">Free Express Delivery</p>
+                <p className="text-[11px] text-[#666666]">On Orders Above ₹999</p>
+              </div>
+            </div>
 
-                {/* Floating Floating Luxury Badge 1: 100% Combed Cotton */}
-                <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-xl border border-[#E5E5E5] flex items-center gap-3 backdrop-blur-md animate-bounce-slow">
-                  <div className="w-12 h-12 rounded-xl bg-[#064C32] text-[#F3D477] flex items-center justify-center shrink-0">
-                    <Shirt className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-[#111111]">Artisan Tailored</p>
-                    <p className="text-[11px] text-[#666666]">Original Textile Heritage</p>
-                  </div>
-                </div>
+            <div className="flex items-center gap-3 p-3.5 sm:p-4 rounded-2xl bg-[#F8F8F8] border border-[#E5E5E5] hover:border-[#064C32]/30 transition-all">
+              <div className="w-10 h-10 rounded-xl bg-[#064C32]/10 text-[#064C32] flex items-center justify-center shrink-0">
+                <RotateCcw className="w-5 h-5 text-[#064C32]" />
+              </div>
+              <div className="text-left">
+                <p className="font-serif font-bold text-xs sm:text-sm text-[#111111]">7 Days Easy Return</p>
+                <p className="text-[11px] text-[#666666]">Hassle-Free Exchange</p>
+              </div>
+            </div>
 
-                {/* Floating Luxury Badge 2: Crown Emblem */}
-                <div className="absolute -top-4 -right-4 bg-white/95 p-3.5 rounded-2xl shadow-xl border border-[#D9A514]/40 flex items-center gap-2.5">
-                  <div className="w-3 h-3 rounded-full bg-[#D9A514] animate-ping" />
-                  <span className="text-xs font-bold tracking-wider text-[#064C32] uppercase">
-                    Authentic Biya Label
-                  </span>
-                </div>
+            <div className="flex items-center gap-3 p-3.5 sm:p-4 rounded-2xl bg-[#F8F8F8] border border-[#E5E5E5] hover:border-[#064C32]/30 transition-all">
+              <div className="w-10 h-10 rounded-xl bg-[#064C32]/10 text-[#064C32] flex items-center justify-center shrink-0">
+                <ShieldCheck className="w-5 h-5 text-[#064C32]" />
+              </div>
+              <div className="text-left">
+                <p className="font-serif font-bold text-xs sm:text-sm text-[#111111]">100% Authentic Label</p>
+                <p className="text-[11px] text-[#666666]">Direct From BIYA Loom</p>
               </div>
             </div>
           </div>
@@ -467,65 +511,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 8. CUSTOMER REVIEWS */}
-      <section className="py-16 sm:py-20 bg-[#F8F8F8] border-t border-b border-[#E5E5E5]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-12" data-aos="fade-up">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#064C32]">
-              Real Feedback
-            </span>
-            <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-[#111111] mt-1">
-              What Our Customers Say
-            </h2>
-            <div className="flex items-center justify-center gap-1.5 mt-3 text-amber-500">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 fill-current" />
-              ))}
-              <span className="ml-2 text-xs font-bold text-gray-700">4.9 / 5 Overall Satisfaction</span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {reviews.map((rev, idx) => (
-              <div
-                key={idx}
-                className="bg-white p-6 rounded-2xl border border-[#E5E5E5] shadow-xs flex flex-col justify-between"
-                data-aos="fade-up"
-                data-aos-delay={idx * 150}
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex text-amber-500">
-                      {[...Array(rev.rating)].map((_, i) => (
-                        <Star key={i} className="w-4 h-4 fill-current" />
-                      ))}
-                    </div>
-                    <span className="text-[11px] text-gray-400">{rev.date}</span>
-                  </div>
-                  <h4 className="font-serif font-bold text-base text-[#111111] mb-2">
-                    "{rev.title}"
-                  </h4>
-                  <p className="text-xs text-[#666666] leading-relaxed">
-                    {rev.comment}
-                  </p>
-                </div>
-
-                <div className="mt-6 pt-4 border-t border-[#E5E5E5] flex items-center justify-between">
-                  <div>
-                    <p className="text-xs font-bold text-[#111111]">{rev.name}</p>
-                    <p className="text-[10px] text-[#666666] mt-0.5">{rev.product}</p>
-                  </div>
-                  {rev.verified && (
-                    <span className="flex items-center gap-1 text-[10px] font-bold text-[#064C32] bg-[#064C32]/10 px-2 py-0.5 rounded-full">
-                      <CheckCircle2 className="w-3 h-3 text-[#064C32]" /> Verified Buyer
-                    </span>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* 9. INSTAGRAM / SOCIAL SECTION */}
       <section className="py-16 sm:py-20 bg-white">
