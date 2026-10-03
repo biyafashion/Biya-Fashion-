@@ -13,7 +13,7 @@ export const STORE_CONFIG = {
   whatsappNumber: "919486118211",
   formattedWhatsApp: "+91 94861 18211",
   supportEmail: "biyasfashion02@gmail.com",
-  supportPhone: "+91 94861 18211",
+  supportPhone: "+91 96556 25186",
   address: "Pandiyan Nagar, Karaiyapatti, Virudhunagar, Tamil Nadu - 626106, India",
   standardDeliveryCharge: 49,
   freeDeliveryThreshold: 999,

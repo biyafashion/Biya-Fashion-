@@ -40,7 +40,7 @@ export const DEMO_SETTINGS = {
   deliveryCharge: 49,
   freeDeliveryAbove: 999,
   supportEmail: "biyasfashion02@gmail.com",
-  supportPhone: "+91 94861 18211",
+  supportPhone: "+91 96556 25186",
   address: "Pandiyan Nagar, Karaiyapatti, Virudhunagar - 626106, India",
   enableCashOnDelivery: false,
   enableWhatsAppOrder: true,

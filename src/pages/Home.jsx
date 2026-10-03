@@ -117,10 +117,10 @@ const Home = () => {
   return (
     <div className="bg-white">
       {/* 1. HERO BANNER CAROUSEL */}
-      <section className="relative bg-white pt-2 sm:pt-4 pb-8 sm:pb-12 border-b border-[#E5E5E5]">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+      <section className="relative bg-white pt-2 sm:pt-4 pb-6 sm:pb-12 border-b border-[#E5E5E5]">
+        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
           <div
-            className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-gray-200 bg-neutral-900 group"
+            className="relative rounded-xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl border border-gray-200 bg-neutral-900 group"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
             onTouchStart={handleTouchStart}
@@ -136,12 +136,12 @@ const Home = () => {
                 <div key={banner.id} className="min-w-full w-full flex-shrink-0 relative">
                   <Link
                     to={banner.link}
-                    className="block relative w-full aspect-[16/9] overflow-hidden cursor-pointer"
+                    className="block relative w-full aspect-[16/9] sm:aspect-[16/9] overflow-hidden cursor-pointer"
                   >
                     <img
                       src={banner.image}
                       alt={banner.title}
-                      className="w-full h-full object-cover object-center transform transition-transform duration-700 group-hover:scale-[1.01]"
+                      className="w-full h-full object-cover object-top sm:object-center transform transition-transform duration-700 group-hover:scale-[1.01]"
                       loading={index === 0 ? 'eager' : 'lazy'}
                     />
                   </Link>
@@ -154,9 +154,9 @@ const Home = () => {
               onClick={handlePrev}
               type="button"
               aria-label="Previous Slide"
-              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-black/40 hover:bg-[#064C32] text-white flex items-center justify-center backdrop-blur-md border border-white/20 shadow-lg transition-all duration-200 opacity-90 sm:opacity-0 group-hover:opacity-100 hover:scale-110 active:scale-95 z-20 cursor-pointer"
+              className="absolute left-1.5 sm:left-4 top-1/2 -translate-y-1/2 w-7 h-7 sm:w-11 sm:h-11 rounded-full bg-black/40 hover:bg-[#064C32] text-white flex items-center justify-center backdrop-blur-md border border-white/20 shadow-lg transition-all duration-200 opacity-60 hover:opacity-100 sm:opacity-0 group-hover:opacity-100 hover:scale-110 active:scale-95 z-20 cursor-pointer"
             >
-              <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+              <ChevronLeft className="w-4 h-4 sm:w-6 sm:h-6" />
             </button>
 
             {/* Right Chevron Button */}
@@ -164,13 +164,13 @@ const Home = () => {
               onClick={handleNext}
               type="button"
               aria-label="Next Slide"
-              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-black/40 hover:bg-[#064C32] text-white flex items-center justify-center backdrop-blur-md border border-white/20 shadow-lg transition-all duration-200 opacity-90 sm:opacity-0 group-hover:opacity-100 hover:scale-110 active:scale-95 z-20 cursor-pointer"
+              className="absolute right-1.5 sm:right-4 top-1/2 -translate-y-1/2 w-7 h-7 sm:w-11 sm:h-11 rounded-full bg-black/40 hover:bg-[#064C32] text-white flex items-center justify-center backdrop-blur-md border border-white/20 shadow-lg transition-all duration-200 opacity-60 hover:opacity-100 sm:opacity-0 group-hover:opacity-100 hover:scale-110 active:scale-95 z-20 cursor-pointer"
             >
-              <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+              <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6" />
             </button>
 
             {/* Dots Pagination */}
-            <div className="absolute bottom-3 sm:bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-2 sm:gap-2.5 z-20 bg-black/40 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20">
+            <div className="absolute bottom-2 sm:bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 sm:gap-2.5 z-20 bg-black/40 backdrop-blur-md px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full border border-white/20">
               {heroBanners.map((_, index) => (
                 <button
                   key={index}
@@ -179,8 +179,8 @@ const Home = () => {
                   aria-label={`Go to slide ${index + 1}`}
                   className={`transition-all duration-300 rounded-full cursor-pointer ${
                     currentSlide === index
-                      ? 'w-7 sm:w-8 h-2 sm:h-2.5 bg-[#D9A514] shadow-md'
-                      : 'w-2 sm:w-2.5 h-2 sm:h-2.5 bg-white/60 hover:bg-white'
+                      ? 'w-5 sm:w-8 h-1.5 sm:h-2.5 bg-[#D9A514] shadow-md'
+                      : 'w-1.5 sm:w-2.5 h-1.5 sm:h-2.5 bg-white/60 hover:bg-white'
                   }`}
                 />
               ))}
@@ -188,44 +188,44 @@ const Home = () => {
           </div>
 
           {/* Quick Trust Highlights Below Carousel */}
-          <div className="mt-6 sm:mt-8 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-            <div className="flex items-center gap-3 p-3.5 sm:p-4 rounded-2xl bg-[#F8F8F8] border border-[#E5E5E5] hover:border-[#064C32]/30 transition-all">
-              <div className="w-10 h-10 rounded-xl bg-[#064C32]/10 text-[#064C32] flex items-center justify-center shrink-0">
-                <Shirt className="w-5 h-5 text-[#064C32]" />
+          <div className="mt-4 sm:mt-8 grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
+            <div className="flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[#F8F8F8] border border-[#E5E5E5] hover:border-[#064C32]/30 transition-all">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[#064C32]/10 text-[#064C32] flex items-center justify-center shrink-0">
+                <Shirt className="w-4 h-4 sm:w-5 sm:h-5 text-[#064C32]" />
               </div>
-              <div className="text-left">
-                <p className="font-serif font-bold text-xs sm:text-sm text-[#111111]">100% Combed Cotton</p>
-                <p className="text-[11px] text-[#666666]">240 GSM Bio-Washed</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3 p-3.5 sm:p-4 rounded-2xl bg-[#F8F8F8] border border-[#E5E5E5] hover:border-[#064C32]/30 transition-all">
-              <div className="w-10 h-10 rounded-xl bg-[#064C32]/10 text-[#064C32] flex items-center justify-center shrink-0">
-                <Truck className="w-5 h-5 text-[#064C32]" />
-              </div>
-              <div className="text-left">
-                <p className="font-serif font-bold text-xs sm:text-sm text-[#111111]">Free Express Delivery</p>
-                <p className="text-[11px] text-[#666666]">On Orders Above ₹999</p>
+              <div className="text-left min-w-0">
+                <p className="font-serif font-bold text-[11px] sm:text-sm text-[#111111] truncate">100% Combed Cotton</p>
+                <p className="text-[9px] sm:text-[11px] text-[#666666] truncate">240 GSM Bio-Washed</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 p-3.5 sm:p-4 rounded-2xl bg-[#F8F8F8] border border-[#E5E5E5] hover:border-[#064C32]/30 transition-all">
-              <div className="w-10 h-10 rounded-xl bg-[#064C32]/10 text-[#064C32] flex items-center justify-center shrink-0">
-                <RotateCcw className="w-5 h-5 text-[#064C32]" />
+            <div className="flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[#F8F8F8] border border-[#E5E5E5] hover:border-[#064C32]/30 transition-all">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[#064C32]/10 text-[#064C32] flex items-center justify-center shrink-0">
+                <Truck className="w-4 h-4 sm:w-5 sm:h-5 text-[#064C32]" />
               </div>
-              <div className="text-left">
-                <p className="font-serif font-bold text-xs sm:text-sm text-[#111111]">7 Days Easy Return</p>
-                <p className="text-[11px] text-[#666666]">Hassle-Free Exchange</p>
+              <div className="text-left min-w-0">
+                <p className="font-serif font-bold text-[11px] sm:text-sm text-[#111111] truncate">Free Delivery</p>
+                <p className="text-[9px] sm:text-[11px] text-[#666666] truncate">Above ₹999</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 p-3.5 sm:p-4 rounded-2xl bg-[#F8F8F8] border border-[#E5E5E5] hover:border-[#064C32]/30 transition-all">
-              <div className="w-10 h-10 rounded-xl bg-[#064C32]/10 text-[#064C32] flex items-center justify-center shrink-0">
-                <ShieldCheck className="w-5 h-5 text-[#064C32]" />
+            <div className="flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[#F8F8F8] border border-[#E5E5E5] hover:border-[#064C32]/30 transition-all">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[#064C32]/10 text-[#064C32] flex items-center justify-center shrink-0">
+                <RotateCcw className="w-4 h-4 sm:w-5 sm:h-5 text-[#064C32]" />
               </div>
-              <div className="text-left">
-                <p className="font-serif font-bold text-xs sm:text-sm text-[#111111]">100% Authentic Label</p>
-                <p className="text-[11px] text-[#666666]">Direct From BIYA Loom</p>
+              <div className="text-left min-w-0">
+                <p className="font-serif font-bold text-[11px] sm:text-sm text-[#111111] truncate">7 Days Easy Return</p>
+                <p className="text-[9px] sm:text-[11px] text-[#666666] truncate">Doorstep Exchange</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[#F8F8F8] border border-[#E5E5E5] hover:border-[#064C32]/30 transition-all">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[#064C32]/10 text-[#064C32] flex items-center justify-center shrink-0">
+                <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5 text-[#064C32]" />
+              </div>
+              <div className="text-left min-w-0">
+                <p className="font-serif font-bold text-[11px] sm:text-sm text-[#111111] truncate">100% Authentic</p>
+                <p className="text-[9px] sm:text-[11px] text-[#666666] truncate">Direct BIYA Loom</p>
               </div>
             </div>
           </div>

@@ -141,7 +141,7 @@ const AdminSettings = () => {
               <input
                 type="text"
                 name="supportPhone"
-                value={settings.supportPhone || '+91 94861 18211'}
+                value={settings.supportPhone || '+91 96556 25186'}
                 onChange={handleInputChange}
                 className="w-full px-4 py-2.5 rounded-xl bg-white border border-[#E5E5E5] text-xs text-[#111111] focus:outline-none focus:border-[#064C32]"
               />

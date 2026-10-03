@@ -22,6 +22,7 @@ import { useCart } from '../context/CartContext';
 import * as storageService from '../services/storageService';
 import { fetchOrdersFromBackend } from '../services/apiService';
 import crownBLogo from '../assets/crown-b-logo.png';
+import chatbotAvatar from '../assets/chatbot-avatar.png';
 
 /**
  * BIYA FASHION - Live Database & Account Action Assistant
@@ -405,38 +406,43 @@ const BiyaChatBot = () => {
   };
 
   return (
-    <div className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-50 select-none">
+    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 select-none">
       {/* Floating Trigger Button */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="group relative flex items-center gap-2.5 px-4 py-3 bg-[#064C32] hover:bg-[#033B27] text-white rounded-full shadow-2xl border-2 border-[#D9A514] transition-all duration-300 hover:scale-105 active:scale-95"
+          className="group relative flex items-center gap-2 sm:gap-2.5 pl-2 pr-3.5 sm:pl-2.5 sm:pr-4 py-1.5 sm:py-2 bg-[#064C32] hover:bg-[#033B27] text-white rounded-full shadow-2xl border-2 border-[#D9A514] transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
           aria-label="Open Store Assistant"
         >
           {/* Animated pulse ring */}
           <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D9A514] opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-[#D9A514]"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-[#25D366] border-2 border-white"></span>
           </span>
 
-          <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center p-0.5 overflow-hidden">
-            <img src={crownBLogo} alt="BIYA" className="w-full h-full object-contain" />
+          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/20 p-0.5 flex items-center justify-center overflow-hidden border border-[#D9A514]/40 shadow-inner group-hover:scale-110 transition-transform">
+            <img src={chatbotAvatar} alt="Biya Bot" className="w-full h-full object-contain" />
           </div>
 
-          <span className="font-serif font-bold text-xs tracking-wider uppercase">
-            Chat Bot
-          </span>
+          <div className="text-left">
+            <span className="block font-serif font-black text-xs sm:text-sm tracking-wide text-white">
+              Chat Bot
+            </span>
+            <span className="block text-[9px] text-[#F3D477] font-semibold uppercase tracking-wider">
+              Online Help
+            </span>
+          </div>
         </button>
       )}
 
       {/* Main Chat Assistant Modal */}
       {isOpen && (
-        <div className="w-[340px] sm:w-[390px] h-[540px] max-h-[85vh] bg-white rounded-3xl shadow-2xl border border-[#E5E5E5] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+        <div className="w-[calc(100vw-24px)] sm:w-[390px] max-w-[390px] h-[520px] sm:h-[550px] max-h-[85vh] bg-white rounded-3xl shadow-2xl border border-[#E5E5E5] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
           {/* Header */}
-          <div className="bg-[#033B27] px-4 py-3.5 flex items-center justify-between border-b-2 border-[#D9A514]">
+          <div className="bg-[#033B27] px-4 py-3 flex items-center justify-between border-b-2 border-[#D9A514]">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-white p-1 flex items-center justify-center border border-[#D9A514] shadow-sm">
-                <img src={crownBLogo} alt="Logo" className="w-full h-full object-contain" />
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white p-1 flex items-center justify-center border-2 border-[#D9A514] shadow-sm shrink-0">
+                <img src={chatbotAvatar} alt="Biya Bot" className="w-full h-full object-contain" />
               </div>
               <div>
                 <h3 className="font-serif font-black text-xs sm:text-sm text-white tracking-wider flex items-center gap-1.5">
@@ -445,7 +451,7 @@ const BiyaChatBot = () => {
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#25D366] animate-pulse"></span>
                   <span className="text-[10px] text-[#D9A514] font-semibold tracking-wide">
-                    Chat Bot
+                    Live Assistant • Online
                   </span>
                 </div>
               </div>
@@ -470,22 +476,30 @@ const BiyaChatBot = () => {
           </div>
 
           {/* Messages Area */}
-          <div className="flex-1 p-4 overflow-y-auto space-y-3.5 bg-[#FAF9F6]">
+          <div className="flex-1 p-3.5 sm:p-4 overflow-y-auto space-y-3.5 bg-[#FAF9F6]">
             {messages.map((msg) => (
               <div
                 key={msg.id}
-                className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}
+                className={`flex gap-2 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
               >
-                {/* Standard Message Bubble */}
+                {msg.sender === 'bot' && (
+                  <div className="w-6 h-6 rounded-full bg-white border border-[#D9A514]/40 p-0.5 shrink-0 self-start mt-0.5 shadow-xs">
+                    <img src={chatbotAvatar} alt="Bot" className="w-full h-full object-contain" />
+                  </div>
+                )}
                 <div
-                  className={`max-w-[85%] px-3.5 py-2.5 rounded-2xl text-xs leading-relaxed ${
-                    msg.sender === 'user'
-                      ? 'bg-[#064C32] text-white rounded-br-none shadow-sm'
-                      : 'bg-white text-[#111111] border border-[#E5E5E5] rounded-bl-none shadow-sm'
-                  }`}
+                  className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'} max-w-[85%]`}
                 >
-                  {msg.text}
-                </div>
+                  {/* Standard Message Bubble */}
+                  <div
+                    className={`px-3.5 py-2.5 rounded-2xl text-xs leading-relaxed ${
+                      msg.sender === 'user'
+                        ? 'bg-[#064C32] text-white rounded-br-none shadow-sm'
+                        : 'bg-white text-[#111111] border border-[#E5E5E5] rounded-tl-none shadow-sm'
+                    }`}
+                  >
+                    {msg.text}
+                  </div>
 
                 {/* Database Quick Actions Chips */}
                 {msg.type === 'actions' && (
@@ -710,6 +724,7 @@ const BiyaChatBot = () => {
                     </button>
                   </div>
                 )}
+                </div>
               </div>
             ))}
 

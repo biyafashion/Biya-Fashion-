@@ -533,7 +533,7 @@ export const printClientInvoice = (order) => {
           <strong>Sold By (Seller):</strong><br/>
           BIYA FASHION<br/>
           Pandiyan Nagar, Karaiyapatti, Virudhunagar - 626106<br/>
-          Helpline: +91 94861 18211 | biyasfashion02@gmail.com
+          Helpline: +91 96556 25186 | biyasfashion02@gmail.com
         </div>
         <div class="card">
           <strong>Bill To / Delivery Address:</strong><br/>
@@ -687,7 +687,7 @@ export const printClientShippingLabel = (order) => {
                 <strong>BIYA FASHION</strong><br/>
                 Pandiyan Nagar, Karaiyapatti<br/>
                 Virudhunagar, Tamil Nadu, 626106<br/>
-                Tel: +91 94861 18211
+                Tel: +91 96556 25186
               </div>
             </div>
 

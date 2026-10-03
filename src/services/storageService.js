@@ -108,12 +108,12 @@ export const initializeStorage = () => {
       existingSettings.deliveryCharge = 49;
       settingsUpdated = true;
     }
-    if (existingSettings.whatsappNumber === '919655625186') {
+    if (existingSettings.whatsappNumber !== '919486118211') {
       existingSettings.whatsappNumber = '919486118211';
       settingsUpdated = true;
     }
-    if (existingSettings.supportPhone === '+91 96556 25186') {
-      existingSettings.supportPhone = '+91 94861 18211';
+    if (existingSettings.supportPhone !== '+91 96556 25186') {
+      existingSettings.supportPhone = '+91 96556 25186';
       settingsUpdated = true;
     }
     if (settingsUpdated) {
