@@ -408,35 +408,28 @@ const BiyaChatBot = () => {
 
   return (
     <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 select-none">
-      {/* Floating Trigger Button */}
+      {/* Floating Trigger Button: Pure Lottie Mascot Character */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="group relative flex items-center gap-2 sm:gap-2.5 pl-2 pr-3.5 sm:pl-2.5 sm:pr-4 py-1.5 sm:py-2 bg-[#064C32] hover:bg-[#033B27] text-white rounded-full shadow-2xl border-2 border-[#D9A514] transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+          className="group relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center transition-transform duration-300 hover:scale-110 active:scale-95 cursor-pointer drop-shadow-2xl focus:outline-none"
           aria-label="Open Store Assistant"
+          title="Chat with Biya Assistant"
         >
-          {/* Animated pulse ring */}
-          <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5">
+          {/* Subtle online pulse badge */}
+          <span className="absolute top-1 right-1 sm:top-1.5 sm:right-1.5 flex h-3.5 w-3.5 z-10 pointer-events-none">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-[#25D366] border-2 border-white"></span>
+            <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-[#25D366] border-2 border-white shadow-xs"></span>
           </span>
 
-          <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white/20 p-0.5 flex items-center justify-center overflow-hidden border border-[#D9A514]/40 shadow-inner group-hover:scale-110 transition-transform">
+          {/* Lottie Animation Character */}
+          <div className="w-full h-full filter drop-shadow-lg">
             <DotLottieReact
               src="https://lottie.host/4a25f606-d3a9-42f8-8b76-f27894d114ec/Qj3IyODnAn.lottie"
               loop
               autoplay
               className="w-full h-full"
             />
-          </div>
-
-          <div className="text-left">
-            <span className="block font-serif font-black text-xs sm:text-sm tracking-wide text-white">
-              Chat Bot
-            </span>
-            <span className="block text-[9px] text-[#F3D477] font-semibold uppercase tracking-wider">
-              Online Help
-            </span>
           </div>
         </button>
       )}
