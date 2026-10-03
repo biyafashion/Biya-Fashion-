@@ -771,12 +771,12 @@ Answer the customer warmly, concisely, and accurately in ${lang === 'ta' ? 'Tami
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="group relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center transition-transform duration-300 hover:scale-110 active:scale-95 cursor-pointer drop-shadow-2xl focus:outline-none"
+          className="group relative w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center transition-transform duration-300 hover:scale-110 active:scale-95 cursor-pointer drop-shadow-2xl focus:outline-none"
           aria-label="Open Store Assistant"
           title="Chat with Biya Assistant"
         >
           {/* Subtle online pulse badge */}
-          <span className="absolute top-1 right-1 sm:top-1.5 sm:right-1.5 flex h-3.5 w-3.5 z-10 pointer-events-none">
+          <span className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 flex h-3.5 w-3.5 z-10 pointer-events-none">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-75"></span>
             <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-[#25D366] border-2 border-white shadow-xs"></span>
           </span>
@@ -795,11 +795,11 @@ Answer the customer warmly, concisely, and accurately in ${lang === 'ta' ? 'Tami
 
       {/* Main Chat Assistant Modal */}
       {isOpen && (
-        <div className="w-[calc(100vw-24px)] sm:w-[390px] max-w-[390px] h-[520px] sm:h-[550px] max-h-[85vh] bg-white rounded-3xl shadow-2xl border border-[#E5E5E5] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+        <div className="w-[calc(100vw-24px)] sm:w-[410px] max-w-[420px] h-[540px] sm:h-[580px] max-h-[85vh] bg-white rounded-3xl shadow-2xl border border-[#E5E5E5] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
           {/* Header */}
           <div className="bg-[#033B27] px-4 py-3 flex items-center justify-between border-b-2 border-[#D9A514]">
             <div className="flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded-full bg-white p-0.5 flex items-center justify-center border-2 border-[#D9A514] shadow-sm shrink-0 overflow-hidden">
+              <div className="w-11 h-11 rounded-full bg-white p-0.5 flex items-center justify-center border-2 border-[#D9A514] shadow-sm shrink-0 overflow-hidden">
                 <DotLottieReact
                   src={LOTTIE_URL}
                   loop
@@ -856,7 +856,7 @@ Answer the customer warmly, concisely, and accurately in ${lang === 'ta' ? 'Tami
                 className={`flex gap-2 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 {msg.sender === 'bot' && (
-                  <div className="w-7 h-7 rounded-full bg-white border border-[#D9A514]/40 p-0.5 shrink-0 self-start mt-0.5 shadow-xs overflow-hidden">
+                  <div className="w-8 h-8 rounded-full bg-white border border-[#D9A514]/40 p-0.5 shrink-0 self-start mt-0.5 shadow-xs overflow-hidden">
                     <DotLottieReact
                       src={LOTTIE_URL}
                       loop
