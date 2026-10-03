@@ -23,6 +23,7 @@ import * as storageService from '../services/storageService';
 import { fetchOrdersFromBackend } from '../services/apiService';
 import crownBLogo from '../assets/crown-b-logo.png';
 import chatbotAvatar from '../assets/chatbot-avatar.png';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 /**
  * BIYA FASHION - Live Database & Account Action Assistant
@@ -420,8 +421,13 @@ const BiyaChatBot = () => {
             <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-[#25D366] border-2 border-white"></span>
           </span>
 
-          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/20 p-0.5 flex items-center justify-center overflow-hidden border border-[#D9A514]/40 shadow-inner group-hover:scale-110 transition-transform">
-            <img src={chatbotAvatar} alt="Biya Bot" className="w-full h-full object-contain" />
+          <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white/20 p-0.5 flex items-center justify-center overflow-hidden border border-[#D9A514]/40 shadow-inner group-hover:scale-110 transition-transform">
+            <DotLottieReact
+              src="https://lottie.host/4a25f606-d3a9-42f8-8b76-f27894d114ec/Qj3IyODnAn.lottie"
+              loop
+              autoplay
+              className="w-full h-full"
+            />
           </div>
 
           <div className="text-left">
@@ -441,8 +447,13 @@ const BiyaChatBot = () => {
           {/* Header */}
           <div className="bg-[#033B27] px-4 py-3 flex items-center justify-between border-b-2 border-[#D9A514]">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white p-1 flex items-center justify-center border-2 border-[#D9A514] shadow-sm shrink-0">
-                <img src={chatbotAvatar} alt="Biya Bot" className="w-full h-full object-contain" />
+              <div className="w-10 h-10 rounded-full bg-white p-0.5 flex items-center justify-center border-2 border-[#D9A514] shadow-sm shrink-0 overflow-hidden">
+                <DotLottieReact
+                  src="https://lottie.host/4a25f606-d3a9-42f8-8b76-f27894d114ec/Qj3IyODnAn.lottie"
+                  loop
+                  autoplay
+                  className="w-full h-full"
+                />
               </div>
               <div>
                 <h3 className="font-serif font-black text-xs sm:text-sm text-white tracking-wider flex items-center gap-1.5">
@@ -483,8 +494,13 @@ const BiyaChatBot = () => {
                 className={`flex gap-2 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 {msg.sender === 'bot' && (
-                  <div className="w-6 h-6 rounded-full bg-white border border-[#D9A514]/40 p-0.5 shrink-0 self-start mt-0.5 shadow-xs">
-                    <img src={chatbotAvatar} alt="Bot" className="w-full h-full object-contain" />
+                  <div className="w-7 h-7 rounded-full bg-white border border-[#D9A514]/40 p-0.5 shrink-0 self-start mt-0.5 shadow-xs overflow-hidden">
+                    <DotLottieReact
+                      src="https://lottie.host/4a25f606-d3a9-42f8-8b76-f27894d114ec/Qj3IyODnAn.lottie"
+                      loop
+                      autoplay
+                      className="w-full h-full"
+                    />
                   </div>
                 )}
                 <div

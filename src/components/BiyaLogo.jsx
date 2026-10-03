@@ -18,11 +18,11 @@ const BiyaLogo = ({ variant = 'default', size = 'normal', showTagline = true, to
   const taglineColor = isLight ? '#E5E5E5' : '#666666';
 
   const Content = (
-    <div className="flex items-center gap-3 group select-none">
+    <div className="flex items-center gap-2 sm:gap-3 group select-none">
       {/* Official BIYA Royal Crown & 'B' Emblem */}
       <div
         className={`relative flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105 rounded-full overflow-hidden bg-white border-2 border-[#D9A514] shadow-sm ${
-          isLarge ? 'w-16 h-16 p-1.5' : 'w-12 h-12 p-1'
+          isLarge ? 'w-16 h-16 p-1.5' : 'w-9 h-9 sm:w-12 sm:h-12 p-0.5 sm:p-1'
         } ${
           isLight ? 'shadow-md ring-2 ring-[#D9A514]/30' : ''
         }`}
@@ -39,10 +39,10 @@ const BiyaLogo = ({ variant = 'default', size = 'normal', showTagline = true, to
 
       {/* Brand Typography */}
       <div className="flex flex-col">
-        <div className="flex items-center gap-1.5 leading-none">
+        <div className="flex items-center gap-1 sm:gap-1.5 leading-none">
           <span
             className={`font-serif font-black tracking-wider transition-colors duration-200 ${
-              isLarge ? 'text-2xl sm:text-3xl' : 'text-xl sm:text-2xl'
+              isLarge ? 'text-2xl sm:text-3xl' : 'text-base sm:text-2xl'
             }`}
             style={{ color: primaryTextColor }}
           >
@@ -50,7 +50,7 @@ const BiyaLogo = ({ variant = 'default', size = 'normal', showTagline = true, to
           </span>
           <span
             className={`font-serif font-semibold tracking-widest ${
-              isLarge ? 'text-2xl sm:text-3xl' : 'text-xl sm:text-2xl'
+              isLarge ? 'text-2xl sm:text-3xl' : 'text-base sm:text-2xl'
             }`}
             style={{ color: secondaryTextColor }}
           >
@@ -60,8 +60,8 @@ const BiyaLogo = ({ variant = 'default', size = 'normal', showTagline = true, to
 
         {showTagline && (
           <span
-            className={`font-sans tracking-[0.22em] uppercase font-semibold mt-1 transition-colors duration-200 ${
-              isLarge ? 'text-xs' : 'text-[10px]'
+            className={`font-sans tracking-[0.2em] sm:tracking-[0.22em] uppercase font-semibold mt-0.5 sm:mt-1 transition-colors duration-200 ${
+              isLarge ? 'text-xs' : 'text-[8px] sm:text-[10px]'
             }`}
             style={{ color: taglineColor }}
           >

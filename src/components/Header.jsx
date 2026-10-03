@@ -73,8 +73,8 @@ const Header = () => {
 
       {/* Main Sticky Header */}
       <header className="sticky top-0 z-40 bg-white border-b border-[#E5E5E5] shadow-xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
+        <div className="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16 sm:h-20">
             {/* Left: Brand Logo */}
             <div className="flex-shrink-0">
               <BiyaLogo />
@@ -109,12 +109,12 @@ const Header = () => {
             </nav>
 
             {/* Right: Actions */}
-            <div className="flex items-center space-x-2 sm:space-x-4">
+            <div className="flex items-center gap-1 sm:gap-3">
               {/* Search Button */}
               <button
                 type="button"
                 onClick={() => setIsSearchOpen(true)}
-                className="p-2.5 text-[#111111] hover:text-[#064C32] hover:bg-gray-100 rounded-full transition"
+                className="p-1.5 sm:p-2.5 text-[#111111] hover:text-[#064C32] hover:bg-gray-100 rounded-full transition"
                 aria-label="Open search"
               >
                 <Search className="w-5 h-5" />
@@ -123,12 +123,12 @@ const Header = () => {
               {/* Wishlist Link */}
               <Link
                 to="/wishlist"
-                className="relative p-2.5 text-[#111111] hover:text-[#064C32] hover:bg-gray-100 rounded-full transition"
+                className="relative p-1.5 sm:p-2.5 text-[#111111] hover:text-[#064C32] hover:bg-gray-100 rounded-full transition"
                 aria-label="Wishlist"
               >
                 <Heart className="w-5 h-5" />
                 {wishlistCount > 0 && (
-                  <span className="absolute top-1 right-1 w-4 h-4 bg-[#D9A514] text-[#111111] font-extrabold text-[10px] rounded-full flex items-center justify-center shadow-xs">
+                  <span className="absolute top-0.5 right-0.5 sm:top-1 sm:right-1 w-4 h-4 bg-[#D9A514] text-[#111111] font-extrabold text-[10px] rounded-full flex items-center justify-center shadow-xs">
                     {wishlistCount}
                   </span>
                 )}
@@ -138,12 +138,12 @@ const Header = () => {
               <button
                 type="button"
                 onClick={openCart}
-                className="relative p-2.5 text-[#111111] hover:text-[#064C32] hover:bg-gray-100 rounded-full transition"
+                className="relative p-1.5 sm:p-2.5 text-[#111111] hover:text-[#064C32] hover:bg-gray-100 rounded-full transition"
                 aria-label="Shopping bag"
               >
                 <ShoppingBag className="w-5 h-5" />
                 {cartCount > 0 && (
-                  <span className="absolute top-1 right-1 w-4 h-4 bg-[#064C32] text-white font-bold text-[10px] rounded-full flex items-center justify-center shadow-xs animate-pulse">
+                  <span className="absolute top-0.5 right-0.5 sm:top-1 sm:right-1 w-4 h-4 bg-[#064C32] text-white font-bold text-[10px] rounded-full flex items-center justify-center shadow-xs animate-pulse">
                     {cartCount}
                   </span>
                 )}
@@ -204,10 +204,10 @@ const Header = () => {
               <button
                 type="button"
                 onClick={() => setIsMobileMenuOpen(true)}
-                className="lg:hidden p-2 text-[#111111] hover:text-[#064C32] rounded-lg transition"
+                className="lg:hidden p-1.5 sm:p-2 text-[#111111] hover:text-[#064C32] rounded-lg transition shrink-0"
                 aria-label="Open menu"
               >
-                <Menu className="w-6 h-6" />
+                <Menu className="w-5 h-5 sm:w-6 sm:h-6" />
               </button>
             </div>
           </div>
